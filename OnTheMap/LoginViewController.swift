@@ -41,6 +41,7 @@ class LoginViewController: UIViewController {
             performUIUpdatesOnMain {
                 if success {
                     //self.completeLogin()
+                    self.displayError("Login was successful!")
                 } else {
                     self.displayError(errorString)
                 }
