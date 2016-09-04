@@ -17,6 +17,9 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var debugTextLabel: UILabel!
     @IBOutlet weak var loginButton: BorderedButton!
 
+    @IBOutlet weak var usernameTextField: UITextField!
+    @IBOutlet weak var passwordTextField: UITextField!
+    
     var session: NSURLSession!
     
     // MARK: Life Cycle
@@ -34,10 +37,10 @@ class LoginViewController: UIViewController {
     // MARK: Actions
     
     @IBAction func loginPressed(sender: AnyObject) {
-        TMDBClient.sharedInstance().authenticateWithViewController(self) { (success, errorString) in
+        UdacityClient.sharedInstance().authenticateWithViewController(usernameTextField.text!, password: passwordTextField.text!, hostViewController: self) { (success, errorString) in
             performUIUpdatesOnMain {
                 if success {
-                    self.completeLogin()
+                    //self.completeLogin()
                 } else {
                     self.displayError(errorString)
                 }
