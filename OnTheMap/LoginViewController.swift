@@ -16,6 +16,7 @@ class LoginViewController: UIViewController {
     
     @IBOutlet weak var debugTextLabel: UILabel!
     @IBOutlet weak var loginButton: BorderedButton!
+    @IBOutlet weak var parseTestButton: BorderedButton!
 
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
@@ -40,13 +41,27 @@ class LoginViewController: UIViewController {
         UdacityClient.sharedInstance().authenticateWithViewController(usernameTextField.text!, password: passwordTextField.text!, hostViewController: self) { (success, errorString) in
             performUIUpdatesOnMain {
                 if success {
-                    //self.completeLogin()
+                    self.completeLogin()
                     self.displayError("Login was successful!")
                 } else {
                     self.displayError(errorString)
                 }
             }
         }
+    }
+    @IBAction func parseTestMessage(sender: AnyObject) {
+        let request = NSMutableURLRequest(URL: NSURL(string: "https://parse.udacity.com/parse/classes/StudentLocation")!)
+        request.addValue(Secrets.ParseAPIKey, forHTTPHeaderField: "X-Parse-Application-Id")
+        request.addValue(Secrets.ParseRESTAPIKey, forHTTPHeaderField: "X-Parse-REST-API-Key")
+        let session = NSURLSession.sharedSession()
+        let task = session.dataTaskWithRequest(request) { data, response, error in
+            if error != nil { // Handle error...
+                print("Parse test failed")
+                return
+            }
+            print(NSString(data: data!, encoding: NSUTF8StringEncoding))
+        }
+        task.resume()
     }
     
     // MARK: Login

@@ -11,18 +11,8 @@
 		A9855BB21BEC3EDB00000031 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A9855BB01BEC3EDB00000031 /* Main.storyboard */; };
 		A9855BB41BEC3EDB00000031 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A9855BB31BEC3EDB00000031 /* Assets.xcassets */; };
 		A9855BC21BEC40C400000031 /* BorderedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9855BC01BEC40C400000031 /* BorderedButton.swift */; };
-		A9855BC51BEC411E00000031 /* TMDBConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9855BC41BEC411E00000031 /* TMDBConstants.swift */; };
-		A9855BC71BEC414700000031 /* TMDBClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9855BC61BEC414700000031 /* TMDBClient.swift */; };
-		A9855BC91BEC415F00000031 /* TMDBConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9855BC81BEC415F00000031 /* TMDBConfig.swift */; };
-		A9855BCD1BEC41A800000031 /* TMDBAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9855BCA1BEC41A800000031 /* TMDBAuthViewController.swift */; };
-		A9855BCE1BEC41A800000031 /* TMDBConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9855BCB1BEC41A800000031 /* TMDBConvenience.swift */; };
-		A9855BCF1BEC41A800000031 /* TMDBMovie.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9855BCC1BEC41A800000031 /* TMDBMovie.swift */; };
 		A9855BD11BEC41F500000031 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9855BD01BEC41F500000031 /* LoginViewController.swift */; };
 		A9855BD61BEC42A200000031 /* GCDBlackBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9855BD51BEC42A200000031 /* GCDBlackBox.swift */; };
-		A9855BDD1BEC4DEB00000031 /* FavoritesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9855BD91BEC4DEB00000031 /* FavoritesViewController.swift */; };
-		A9855BDE1BEC4DEB00000031 /* MovieDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9855BDA1BEC4DEB00000031 /* MovieDetailViewController.swift */; };
-		A9855BDF1BEC4DEB00000031 /* MoviePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9855BDB1BEC4DEB00000031 /* MoviePickerViewController.swift */; };
-		A9855BE01BEC4DEB00000031 /* WatchlistViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9855BDC1BEC4DEB00000031 /* WatchlistViewController.swift */; };
 		A9FA13591D1AB76500B5F46E /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9FA13571D1AB76500B5F46E /* LaunchScreen.xib */; };
 		F68CAF0A1D7C668600907849 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = F68CAF091D7C668600907849 /* .gitignore */; };
 		F68CAF0C1D7C669E00907849 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68CAF0B1D7C669E00907849 /* Secrets.swift */; };
@@ -36,6 +26,8 @@
 		F68CAF1F1D7C6C1100907849 /* ParseConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68CAF1A1D7C6C1100907849 /* ParseConfig.swift */; };
 		F68CAF201D7C6C1100907849 /* ParseConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68CAF1B1D7C6C1100907849 /* ParseConstants.swift */; };
 		F68CAF211D7C6C1100907849 /* ParseConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68CAF1C1D7C6C1100907849 /* ParseConvenience.swift */; };
+		F6FFC3011D7E0B92009AC3A3 /* on the map assets in Resources */ = {isa = PBXBuildFile; fileRef = F6FFC3001D7E0B92009AC3A3 /* on the map assets */; };
+		F6FFC3031D7E0F6E009AC3A3 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FFC3021D7E0F6E009AC3A3 /* MapViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -45,18 +37,8 @@
 		A9855BB31BEC3EDB00000031 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A9855BB81BEC3EDB00000031 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A9855BC01BEC40C400000031 /* BorderedButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BorderedButton.swift; sourceTree = "<group>"; };
-		A9855BC41BEC411E00000031 /* TMDBConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMDBConstants.swift; sourceTree = "<group>"; };
-		A9855BC61BEC414700000031 /* TMDBClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMDBClient.swift; sourceTree = "<group>"; };
-		A9855BC81BEC415F00000031 /* TMDBConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMDBConfig.swift; sourceTree = "<group>"; };
-		A9855BCA1BEC41A800000031 /* TMDBAuthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMDBAuthViewController.swift; sourceTree = "<group>"; };
-		A9855BCB1BEC41A800000031 /* TMDBConvenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMDBConvenience.swift; sourceTree = "<group>"; };
-		A9855BCC1BEC41A800000031 /* TMDBMovie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMDBMovie.swift; sourceTree = "<group>"; };
 		A9855BD01BEC41F500000031 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		A9855BD51BEC42A200000031 /* GCDBlackBox.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCDBlackBox.swift; sourceTree = "<group>"; };
-		A9855BD91BEC4DEB00000031 /* FavoritesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FavoritesViewController.swift; sourceTree = "<group>"; };
-		A9855BDA1BEC4DEB00000031 /* MovieDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieDetailViewController.swift; sourceTree = "<group>"; };
-		A9855BDB1BEC4DEB00000031 /* MoviePickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoviePickerViewController.swift; sourceTree = "<group>"; };
-		A9855BDC1BEC4DEB00000031 /* WatchlistViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WatchlistViewController.swift; sourceTree = "<group>"; };
 		A9FA13581D1AB76500B5F46E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		F68CAF091D7C668600907849 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = SOURCE_ROOT; };
 		F68CAF0B1D7C669E00907849 /* Secrets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
@@ -70,6 +52,8 @@
 		F68CAF1A1D7C6C1100907849 /* ParseConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ParseConfig.swift; path = Clients/ParseConfig.swift; sourceTree = "<group>"; };
 		F68CAF1B1D7C6C1100907849 /* ParseConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ParseConstants.swift; path = Clients/ParseConstants.swift; sourceTree = "<group>"; };
 		F68CAF1C1D7C6C1100907849 /* ParseConvenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ParseConvenience.swift; path = Clients/ParseConvenience.swift; sourceTree = "<group>"; };
+		F6FFC3001D7E0B92009AC3A3 /* on the map assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "on the map assets"; sourceTree = "<group>"; };
+		F6FFC3021D7E0F6E009AC3A3 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,9 +100,10 @@
 		A9855BBE1BEC3EE300000031 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				A9855BB01BEC3EDB00000031 /* Main.storyboard */,
 				A9FA13571D1AB76500B5F46E /* LaunchScreen.xib */,
 				A9855BB31BEC3EDB00000031 /* Assets.xcassets */,
-				A9855BB01BEC3EDB00000031 /* Main.storyboard */,
+				F6FFC3001D7E0B92009AC3A3 /* on the map assets */,
 			);
 			name = Assets;
 			sourceTree = "<group>";
@@ -145,10 +130,7 @@
 			isa = PBXGroup;
 			children = (
 				A9855BD01BEC41F500000031 /* LoginViewController.swift */,
-				A9855BDA1BEC4DEB00000031 /* MovieDetailViewController.swift */,
-				A9855BDB1BEC4DEB00000031 /* MoviePickerViewController.swift */,
-				A9855BD91BEC4DEB00000031 /* FavoritesViewController.swift */,
-				A9855BDC1BEC4DEB00000031 /* WatchlistViewController.swift */,
+				F6FFC3021D7E0F6E009AC3A3 /* MapViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -166,22 +148,8 @@
 			children = (
 				F68CAF221D7C6C1B00907849 /* Parse */,
 				F68CAF171D7C695900907849 /* Udacity */,
-				A9855BD81BEC431200000031 /* TMDB */,
 			);
 			name = Clients;
-			sourceTree = "<group>";
-		};
-		A9855BD81BEC431200000031 /* TMDB */ = {
-			isa = PBXGroup;
-			children = (
-				A9855BCA1BEC41A800000031 /* TMDBAuthViewController.swift */,
-				A9855BCB1BEC41A800000031 /* TMDBConvenience.swift */,
-				A9855BC61BEC414700000031 /* TMDBClient.swift */,
-				A9855BC41BEC411E00000031 /* TMDBConstants.swift */,
-				A9855BC81BEC415F00000031 /* TMDBConfig.swift */,
-				A9855BCC1BEC41A800000031 /* TMDBMovie.swift */,
-			);
-			name = TMDB;
 			sourceTree = "<group>";
 		};
 		F68CAF171D7C695900907849 /* Udacity */ = {
@@ -269,6 +237,7 @@
 			files = (
 				F68CAF0A1D7C668600907849 /* .gitignore in Resources */,
 				A9855BB41BEC3EDB00000031 /* Assets.xcassets in Resources */,
+				F6FFC3011D7E0B92009AC3A3 /* on the map assets in Resources */,
 				A9FA13591D1AB76500B5F46E /* LaunchScreen.xib in Resources */,
 				A9855BB21BEC3EDB00000031 /* Main.storyboard in Resources */,
 			);
@@ -285,25 +254,16 @@
 				F68CAF121D7C694700907849 /* UdacityConstants.swift in Sources */,
 				F68CAF0C1D7C669E00907849 /* Secrets.swift in Sources */,
 				F68CAF161D7C694700907849 /* UdacityConvenience.swift in Sources */,
-				A9855BCF1BEC41A800000031 /* TMDBMovie.swift in Sources */,
-				A9855BC91BEC415F00000031 /* TMDBConfig.swift in Sources */,
 				F68CAF1F1D7C6C1100907849 /* ParseConfig.swift in Sources */,
-				A9855BCE1BEC41A800000031 /* TMDBConvenience.swift in Sources */,
-				A9855BDE1BEC4DEB00000031 /* MovieDetailViewController.swift in Sources */,
 				A9855BD61BEC42A200000031 /* GCDBlackBox.swift in Sources */,
+				F6FFC3031D7E0F6E009AC3A3 /* MapViewController.swift in Sources */,
 				F68CAF141D7C694700907849 /* UdacityClient.swift in Sources */,
 				F68CAF1E1D7C6C1100907849 /* ParseClient.swift in Sources */,
-				A9855BC71BEC414700000031 /* TMDBClient.swift in Sources */,
 				F68CAF1D1D7C6C1100907849 /* ParseAuthViewController.swift in Sources */,
-				A9855BDD1BEC4DEB00000031 /* FavoritesViewController.swift in Sources */,
-				A9855BC51BEC411E00000031 /* TMDBConstants.swift in Sources */,
 				F68CAF131D7C694700907849 /* UdacityAuthViewController.swift in Sources */,
 				A9855BC21BEC40C400000031 /* BorderedButton.swift in Sources */,
-				A9855BE01BEC4DEB00000031 /* WatchlistViewController.swift in Sources */,
-				A9855BDF1BEC4DEB00000031 /* MoviePickerViewController.swift in Sources */,
 				F68CAF211D7C6C1100907849 /* ParseConvenience.swift in Sources */,
 				A9855BD11BEC41F500000031 /* LoginViewController.swift in Sources */,
-				A9855BCD1BEC41A800000031 /* TMDBAuthViewController.swift in Sources */,
 				F68CAF151D7C694700907849 /* UdacityConfig.swift in Sources */,
 				F68CAF201D7C6C1100907849 /* ParseConstants.swift in Sources */,
 			);
