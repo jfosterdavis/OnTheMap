@@ -20,8 +20,42 @@ struct StudentInformation {
     var lastName : String? //Description: the last name of the student which matches their Udacity profile last name
     var mapString : String? //Description: the location string used for geocoding the student location
     var mediaURL : String? //Description: the URL provided by the student
-    var latitude : Float? //Description: the latitude of the student location (ranges from -90 to 90)
-    var longitude : Float? //Description: the longitude of the student location (ranges from -180 to 180)
+    
+    private var _latitude : Float? //the actual stored value
+    var latitude : Float? { //Description: the latitude of the student location (ranges from -90 to 90)
+        get {
+            return _latitude
+        }
+        set(input) { //check for proper range
+            //got a float, now check that value is within expected range:
+            if input >= -90 && input <= 90 { //lattitude should be between -90 and 90, inclusive
+                //print("Processing object with latitude: " + String(inboundObject))
+                _latitude = input
+            } else {//lattitude was out of bounds for Earthly comprehension
+                //not many choices here, so will silently accept, and send the pin to the north pole! (This likely clearly indicates a problem to the user)
+                _latitude = 90
+                print("WARNING: Attempted to set Latitude to a value out of range.  Longitude has been set to: " + String(self.latitude))
+            }
+        }
+    }
+    
+    private var _longitude : Float? //actual value of longitude
+    var longitude : Float? {//Description: the longitude of the student location (ranges from -180 to 180)
+        get {
+            return _longitude
+        }
+        set(input) { //check for proper range
+            //got a float, now check that value is within expected range:
+            if input >= -180 && input <= 180 { //lattitude should be between -180 and 180, inclusive
+                //print("Processing object with latitude: " + String(inboundObject))
+                _longitude = input
+            } else {//lattitude was out of bounds for Earthly comprehension
+                //not many choices here, so will silently accept, and send the pin to the Pacifc Ocean! (This could indicate a problem to the user)
+                _longitude = 180
+                print("WARNING: Attempted to set Longitude to a value out of range.  Longitude has been set to: " + String(self.longitude))
+            }
+        }
+    }
     var createdAt : NSDate? //Description: the date when the student location was created
     var updatedAt : NSDate? //Description: the date when the student location was last updated
     
@@ -35,7 +69,8 @@ struct StudentInformation {
     }
     
     enum StudentInformationAssignmentError: ErrorType {
-        case BadInputValues(property: String)   
+        case BadInputValues(property: String)
+        case inputValueOutOfExpectedRange(expected: String, actual: Float)
     }
   
     
@@ -71,7 +106,9 @@ struct StudentInformation {
             print("\nSTUDENT INFORMATION ERROR: StudentInformationAssignmentError:")
             print(propertyName)
             return nil
-        } catch {
+        } catch StudentInformationAssignmentError.inputValueOutOfExpectedRange(let expected, let actual) {
+            print("\nSTUDENT INFORMATION ERROR: A value was out of the expected range when calling attemptToAssignValues.  Expected: \"" + expected + "\" Actual: " + String(actual))
+        }catch {
             print("\nSTUDENT INFORMATION ERROR: Unknown error when calling attemptToAssignValues")
             return nil
         }
@@ -165,14 +202,24 @@ struct StudentInformation {
         if let inboundObject = data["latitude"] as? Float {
             //print("Processing object with latitude: " + String(inboundObject))
             self.latitude = inboundObject
+            //check that value was accepted
+            if self.latitude != inboundObject {
+                //value was not set properly
+                throw StudentInformationAssignmentError.inputValueOutOfExpectedRange(expected: "Between -90 and 90, inclusive", actual: inboundObject)
+            }
         } else {
             throw StudentInformationAssignmentError.BadInputValues(property: "latitude")
         }
         
         // longitude
         if let inboundObject = data["longitude"] as? Float {
-            //print("Processing object with longitude: " + String(inboundObject))
+            //print("Processing object with latitude: " + String(inboundObject))
             self.longitude = inboundObject
+            //check that value was accepted
+            if self.longitude != inboundObject {
+                //value was not set properly
+                throw StudentInformationAssignmentError.inputValueOutOfExpectedRange(expected: "Between -180 and 180, inclusive", actual: inboundObject)
+            }
         } else {
             throw StudentInformationAssignmentError.BadInputValues(property: "longitude")
         }
@@ -203,6 +250,8 @@ struct StudentInformation {
         //all values assigned successfully
         return true
     }
+    
+    
     
     
 }

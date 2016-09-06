@@ -87,7 +87,8 @@ class LoginViewController: UIViewController {
                 "updatedAt" : "2015-03-13T03:37:58.389Z"
             ]
         ]
-//        for info in testStudents {
+        //A test to check the StudentInformation struct without having to log in
+        //        for info in testStudents {
 //            if let test = StudentInformation(fromDataSet: info){
 //                let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
 //                appDelegate.StudentInformations.append(test)
