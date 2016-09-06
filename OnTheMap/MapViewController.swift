@@ -28,6 +28,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         super.viewDidLoad()
         
         //parseTestMessage()
+        
+        mapView.delegate = self
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -69,6 +71,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             let app = UIApplication.sharedApplication()
             if let toOpen = view.annotation?.subtitle! {
                 app.openURL(NSURL(string: toOpen)!)
+            } else {
+                print("Failed to open view annotation")
             }
         }
     }
@@ -77,7 +81,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     //takes data in the shared StudentInformation model and destructively sets the annotations
     func createAnnotationsFromSharedModel () {
-        
+        //clear current annotations
+        self.annotations = [MKPointAnnotation]()
         for StudentInformation in StudentInformations {
             
             // Notice that the float values are being used to create CLLocationDegree values.
@@ -99,9 +104,13 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             annotation.subtitle = mediaURL
             
             // Finally we place the annotation in an array of annotations.
-            annotations.append(annotation)
+            self.annotations.append(annotation)
         }
         print("The Annotations array has " + String(annotations.count) + " members.")
+    }
+    
+    func plotPins(annotations : [MKPointAnnotation]) {
+        self.mapView.addAnnotations(annotations)
     }
     
     //MARK: - Convenience functions for fetching and plotting pins
@@ -124,16 +133,18 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     func fetchPinsAndPlotPins(limit: Int?, skip: Int?, order: String?) {
         fetchPins(limit, skip: skip, order: order) { () in
             self.runFunctionThatUpdatesUI {
-                self.plotPins()
+                self.plotPinsFromSharedModel()
             }
         }
     }
     
     //plots all of the pins in the shared model
     //this updates the UI so must be in main queue.
-    func plotPins() {
+    func plotPinsFromSharedModel() {
         print("plotPins() called")
         createAnnotationsFromSharedModel()
+        plotPins(self.annotations)
+        
     }
     
     
