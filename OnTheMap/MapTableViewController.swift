@@ -56,16 +56,18 @@ class MapTableViewController: UITableViewController {
         return cell
     }
     
-//    //When a user selects an item from the table
-//    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-//        let detailController = self.storyboard!.instantiateViewControllerWithIdentifier("MemeDetailViewController") as! MemeDetailViewController
-//        let meme = self.sharedMemes[indexPath.row]
-//        print("about to show detail for meme at indexPath: ",indexPath.row)
-//        detailController.meme = meme
-//        //tell the detail contorller where this meme belongs in the shared model in case user wants to edit
-//        detailController.indexPath = indexPath
-//        self.navigationController!.pushViewController(detailController, animated: true)
-//        
-//    }
+    //When a user selects an item from the table
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        print("Row from table was selected")
+        let app = UIApplication.sharedApplication()
+        let StudentInformation = self.StudentInformations[indexPath.row]
+        if let toOpen = StudentInformation.mediaURL {
+            print("tring to open browser from table to go to " + toOpen)
+            app.openURL(NSURL(string: toOpen)!)
+        } else {
+            print("Failed to open view annotation")
+        }
+        
+    }
 
 }

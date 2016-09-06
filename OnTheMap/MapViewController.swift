@@ -35,8 +35,11 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
         
-        //make an initial fetch for pins
-        fetchPinsAndPlotPins(200, skip: 5, order: "-lastName")
+        //make an initial fetch for pins if there are none
+        if StudentInformations.isEmpty {
+            fetchPinsAndPlotPins(200, skip: 5, order: "-lastName")
+        }
+        
     }
     
     // MARK: - MKMapViewDelegate
