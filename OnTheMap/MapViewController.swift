@@ -33,12 +33,12 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         super.viewWillAppear(animated)
         
         //make an initial fetch for pins
-        ParseClient.sharedInstance.getStudentLocations(300) { (success, errorString) in
+        ParseClient.sharedInstance.getStudentLocations(200, skip: 300, order: "-lastName") { (success, errorString) in
             performUIUpdatesOnMain {
                 if success {
                     print("getStudentLocations completed successfully")
                 } else {
-                    print("ERROR: getStudentLocations failed!")
+                    print("\nERROR: getStudentLocations failed!")
                 }
             }
         }
@@ -73,6 +73,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                         if let test = StudentInformation(fromDataSet: newInfo){
                             let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
                             appDelegate.StudentInformations.append(test)
+                            
                         }
                         print("\nHere is one new item from the array of objects:")
                         print(newInfo)

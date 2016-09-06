@@ -42,41 +42,42 @@ struct StudentInformation {
     // MARK: init
     // mechanism to return as nil: http://stackoverflow.com/questions/26495586/best-practice-to-implement-a-failable-initializer-in-swift
     init?(fromDataSet data: [String:AnyObject]) {
-        print("\nAttempting to initialize StudentInformation Object from data set")
+        //print("\nAttempting to initialize StudentInformation Object from data set")
         
-        //try to stuff the data into the properties of this instance
+        //try to stuff the data into the properties of this instance, or return nil if it doesn't work
+        //check the keys first
         do {
             try checkInputKeys(data)
         } catch StudentInformationKeyError.BadInputKeys (let keys){
-            print("STUDENT INFORMATION ERROR: BadInputKeys:")
+            print("\nSTUDENT INFORMATION ERROR: Data appears to be malformed. BadInputKeys:")
             print(keys)
-            print("\n")
             return nil
         } catch StudentInformationKeyError.InputMismatchKeys(let keys) {
-            print("STUDENT INFORMATION ERROR: InputMismatchKeys:")
+            print("\nSTUDENT INFORMATION ERROR: InputMismatchKeys. Data appears to be malformed. These keys: ")
             print(keys)
-            print("\n")
+            print("Do not match the expected keys: ")
+            print(expectedKeys)
             return nil
         } catch {
-            print("STUDENT INFORMATION ERROR: Unknown error when calling checkInputKeys\n")
+            print("\nSTUDENT INFORMATION ERROR: Unknown error when calling checkInputKeys")
             return nil
         }
         
+        //keys look good, now try to assign the values to the struct
         do {
             try attemptToAssignValues(data)
-            print("Successfully initialized a StudentInformation object\n")
+            //print("Successfully initialized a StudentInformation object\n")
         } catch StudentInformationAssignmentError.BadInputValues(let propertyName) {
-            print("STUDENT INFORMATION ERROR: StudentInformationAssignmentError:")
+            print("\nSTUDENT INFORMATION ERROR: StudentInformationAssignmentError:")
             print(propertyName)
-            print("\n")
             return nil
         } catch {
-            print("STUDENT INFORMATION ERROR: Unknown error when calling attemptToAssignValues\n")
+            print("\nSTUDENT INFORMATION ERROR: Unknown error when calling attemptToAssignValues")
             return nil
         }
     }
     
-    //withiout a data set
+    //init withiout a data set
     init() {
         
     }
@@ -110,11 +111,11 @@ struct StudentInformation {
     mutating func attemptToAssignValues(data: [String:AnyObject]) throws -> Bool {
         
         //go through each item and attempt to assign it to the struct
-        print("\nAbout to assign values from the following object: ")
-        print(data)
+        //print("\nAbout to assign values from the following object: ")
+        //print(data)
         // ObjectID
         if let inboundObject = data["objectId"] as? String {
-            print("Processing object with id: " + inboundObject)
+            //print("Processing object with id: " + inboundObject)
             self.objectID = inboundObject
         } else {
             throw StudentInformationAssignmentError.BadInputValues(property: "objectId")
@@ -122,7 +123,7 @@ struct StudentInformation {
         
         // uniqueKey
         if let inboundObject = data["uniqueKey"] as? String {
-            print("Processing object with uniquekey: " + inboundObject)
+            //print("Processing object with uniquekey: " + inboundObject)
             self.uniqueKey = inboundObject
         } else {
             throw StudentInformationAssignmentError.BadInputValues(property: "uniqueKey")
@@ -130,7 +131,7 @@ struct StudentInformation {
         
         // firstName
         if let inboundObject = data["firstName"] as? String {
-            print("Processing object with firstname: " + inboundObject)
+            //print("Processing object with firstname: " + inboundObject)
             self.firstName = inboundObject
         } else {
             throw StudentInformationAssignmentError.BadInputValues(property: "firstName")
@@ -138,7 +139,7 @@ struct StudentInformation {
         
         // lastName
         if let inboundObject = data["lastName"] as? String {
-            print("Processing object with lastName: " + inboundObject)
+            //print("Processing object with lastName: " + inboundObject)
             self.lastName = inboundObject
         } else {
             throw StudentInformationAssignmentError.BadInputValues(property: "lastName")
@@ -146,7 +147,7 @@ struct StudentInformation {
         
         // mapString
         if let inboundObject = data["mapString"] as? String {
-            print("Processing object with mapString: " + inboundObject)
+            //print("Processing object with mapString: " + inboundObject)
             self.mapString = inboundObject
         } else {
             throw StudentInformationAssignmentError.BadInputValues(property: "mapString")
@@ -154,7 +155,7 @@ struct StudentInformation {
         
         // mediaURL
         if let inboundObject = data["mediaURL"] as? String {
-            print("Processing object with mediaURL: " + inboundObject)
+            //print("Processing object with mediaURL: " + inboundObject)
             self.mediaURL = inboundObject
         } else {
             throw StudentInformationAssignmentError.BadInputValues(property: "mediaURL")
@@ -162,7 +163,7 @@ struct StudentInformation {
         
         // latitude
         if let inboundObject = data["latitude"] as? Float {
-            print("Processing object with latitude: " + String(inboundObject))
+            //print("Processing object with latitude: " + String(inboundObject))
             self.latitude = inboundObject
         } else {
             throw StudentInformationAssignmentError.BadInputValues(property: "latitude")
@@ -170,7 +171,7 @@ struct StudentInformation {
         
         // longitude
         if let inboundObject = data["longitude"] as? Float {
-            print("Processing object with longitude: " + String(inboundObject))
+            //print("Processing object with longitude: " + String(inboundObject))
             self.longitude = inboundObject
         } else {
             throw StudentInformationAssignmentError.BadInputValues(property: "longitude")
@@ -185,7 +186,7 @@ struct StudentInformation {
         
         // createdAt
         if let inboundObject = dateFormatter.dateFromString((data["createdAt"] as? String)!) {
-            print("Processing object with createdAt: " + String(inboundObject))
+            //print("Processing object with createdAt: " + String(inboundObject))
             self.createdAt = inboundObject
         } else {
             throw StudentInformationAssignmentError.BadInputValues(property: "createdAt")
@@ -193,7 +194,7 @@ struct StudentInformation {
         
         // updatedAt
         if let inboundObject = dateFormatter.dateFromString((data["updatedAt"] as? String)!) {
-            print("Processing object with updatedAt: " + String(inboundObject))
+            //print("Processing object with updatedAt: " + String(inboundObject))
             self.updatedAt = inboundObject
         } else {
             throw StudentInformationAssignmentError.BadInputValues(property: "updatedAt")
