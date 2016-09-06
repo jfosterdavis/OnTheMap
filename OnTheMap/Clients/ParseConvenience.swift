@@ -103,6 +103,7 @@ extension ParseClient {
                         
                     }
                     print("\nThere are " + String(self.StudentInformations.count) + " Information Records stored.  getStudentLocations data pull Complete.")
+                    completionHandlerForGetStudentLocations(success: true, errorString: nil)
                 } else {
                     print("\nDATA ERROR: Could not find \(ParseClient.JSONResponseKeys.Results.Results) in \(results)")
                     completionHandlerForGetStudentLocations(success: false, errorString: "\nDATA ERROR: Failed to interpret data returned from Parse server (getStudentLocations).")

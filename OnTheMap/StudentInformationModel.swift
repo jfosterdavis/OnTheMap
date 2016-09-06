@@ -21,8 +21,8 @@ struct StudentInformation {
     var mapString : String? //Description: the location string used for geocoding the student location
     var mediaURL : String? //Description: the URL provided by the student
     
-    private var _latitude : Float? //the actual stored value
-    var latitude : Float? { //Description: the latitude of the student location (ranges from -90 to 90)
+    private var _latitude : Double? //the actual stored value
+    var latitude : Double? { //Description: the latitude of the student location (ranges from -90 to 90)
         get {
             return _latitude
         }
@@ -39,8 +39,8 @@ struct StudentInformation {
         }
     }
     
-    private var _longitude : Float? //actual value of longitude
-    var longitude : Float? {//Description: the longitude of the student location (ranges from -180 to 180)
+    private var _longitude : Double? //actual value of longitude
+    var longitude : Double? {//Description: the longitude of the student location (ranges from -180 to 180)
         get {
             return _longitude
         }
@@ -70,7 +70,7 @@ struct StudentInformation {
     
     enum StudentInformationAssignmentError: ErrorType {
         case BadInputValues(property: String)
-        case inputValueOutOfExpectedRange(expected: String, actual: Float)
+        case inputValueOutOfExpectedRange(expected: String, actual: Double)
     }
   
     
@@ -200,7 +200,7 @@ struct StudentInformation {
         }
         
         // latitude
-        if let inboundObject = data["latitude"] as? Float {
+        if let inboundObject = data["latitude"] as? Double {
             //print("Processing object with latitude: " + String(inboundObject))
             self.latitude = inboundObject
             //check that value was accepted
@@ -213,7 +213,7 @@ struct StudentInformation {
         }
         
         // longitude
-        if let inboundObject = data["longitude"] as? Float {
+        if let inboundObject = data["longitude"] as? Double {
             //print("Processing object with latitude: " + String(inboundObject))
             self.longitude = inboundObject
             //check that value was accepted

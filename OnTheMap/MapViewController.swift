@@ -22,6 +22,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var mapView: MKMapView!
     
     var session: NSURLSession!
+    var annotations = [MKPointAnnotation]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +37,75 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         fetchPinsAndPlotPins(200, skip: 5, order: "-lastName")
     }
     
+    // MARK: - MKMapViewDelegate
+    
+    // Here we create a view with a "right callout accessory view". You might choose to look into other
+    // decoration alternatives. Notice the similarity between this method and the cellForRowAtIndexPath
+    // method in TableViewDataSource.
+    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+        
+        let reuseId = "pin"
+        
+        var pinView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseId) as? MKPinAnnotationView
+        
+        if pinView == nil {
+            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+            pinView!.canShowCallout = true
+            pinView!.pinColor = .Red
+            pinView!.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure)
+        }
+        else {
+            pinView!.annotation = annotation
+        }
+        
+        return pinView
+    }
+    
+    
+    // This delegate method is implemented to respond to taps. It opens the system browser
+    // to the URL specified in the annotationViews subtitle property.
+    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        if control == view.rightCalloutAccessoryView {
+            let app = UIApplication.sharedApplication()
+            if let toOpen = view.annotation?.subtitle! {
+                app.openURL(NSURL(string: toOpen)!)
+            }
+        }
+    }
+    
+    //MARK: 
+    
+    //takes data in the shared StudentInformation model and destructively sets the annotations
+    func createAnnotationsFromSharedModel () {
+        
+        for StudentInformation in StudentInformations {
+            
+            // Notice that the float values are being used to create CLLocationDegree values.
+            // This is a version of the Double type.
+            let lat = CLLocationDegrees(StudentInformation.latitude!)
+            let long = CLLocationDegrees(StudentInformation.longitude!)
+            
+            // The lat and long are used to create a CLLocationCoordinates2D instance.
+            let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
+            
+            let first = StudentInformation.firstName!
+            let last = StudentInformation.lastName!
+            let mediaURL = StudentInformation.mediaURL!
+            
+            // Here we create the annotation and set its coordiate, title, and subtitle properties
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = coordinate
+            annotation.title = "\(first) \(last)"
+            annotation.subtitle = mediaURL
+            
+            // Finally we place the annotation in an array of annotations.
+            annotations.append(annotation)
+        }
+        print("The Annotations array has " + String(annotations.count) + " members.")
+    }
+    
+    //MARK: - Convenience functions for fetching and plotting pins
+    
     func runFunctionThatUpdatesUI(doThis: () -> Void) -> Void {
         GCDBlackBox.performUIUpdatesOnMain {
             doThis()
@@ -44,7 +114,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     func fetchPins(limit: Int?, skip: Int?, order: String?, completionHandlerForFetchPins: () -> Void) {
         GCDBlackBox.dataDownloadInBackground {
-            ParseClient.sharedInstance.getStudentLocations(200, skip: 5, order: "-lastName") { (success, errorString) in
+            ParseClient.sharedInstance.getStudentLocations(limit, skip: skip, order: order) { (success, errorString) in
                 //closure...
                 completionHandlerForFetchPins()
             }
@@ -63,6 +133,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     //this updates the UI so must be in main queue.
     func plotPins() {
         print("plotPins() called")
+        createAnnotationsFromSharedModel()
     }
     
     
