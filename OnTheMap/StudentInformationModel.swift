@@ -40,27 +40,39 @@ struct StudentInformation {
   
     
     // MARK: init
-    init(fromDataSet data: [String:AnyObject]){
+    // mechanism to return as nil: http://stackoverflow.com/questions/26495586/best-practice-to-implement-a-failable-initializer-in-swift
+    init?(fromDataSet data: [String:AnyObject]) {
+        print("\nAttempting to initialize StudentInformation Object from data set")
+        
         //try to stuff the data into the properties of this instance
         do {
             try checkInputKeys(data)
         } catch StudentInformationKeyError.BadInputKeys (let keys){
-            print("BadInputKeys: ")
+            print("STUDENT INFORMATION ERROR: BadInputKeys:")
             print(keys)
+            print("\n")
+            return nil
         } catch StudentInformationKeyError.InputMismatchKeys(let keys) {
-            print("InputMismatchKeys: ")
+            print("STUDENT INFORMATION ERROR: InputMismatchKeys:")
             print(keys)
+            print("\n")
+            return nil
         } catch {
-            print("Unknown error when calling checkInputKeys")
+            print("STUDENT INFORMATION ERROR: Unknown error when calling checkInputKeys\n")
+            return nil
         }
         
         do {
             try attemptToAssignValues(data)
+            print("Successfully initialized a StudentInformation object\n")
         } catch StudentInformationAssignmentError.BadInputValues(let propertyName) {
-            print("StudentInformationAssignmentError: ")
+            print("STUDENT INFORMATION ERROR: StudentInformationAssignmentError:")
             print(propertyName)
-        }catch {
-            print("Unknown error when calling attemptToAssignValues")
+            print("\n")
+            return nil
+        } catch {
+            print("STUDENT INFORMATION ERROR: Unknown error when calling attemptToAssignValues\n")
+            return nil
         }
     }
     
@@ -75,7 +87,7 @@ struct StudentInformation {
         //guard check one: Put the incoming keys into a set
         
         let keysToCheck = [String](data.keys) as? [String]
-        print("About to check these keys against expected: " + String(keysToCheck))
+        //print("About to check these keys against expected: " + String(keysToCheck))
         //check to see if incoming keys can be placed into a set of strings
         guard let incomingKeys : Set<String> = keysToCheck.map(Set.init) else {
             throw StudentInformationKeyError.BadInputKeys(keys: [String](data.keys))
@@ -86,9 +98,9 @@ struct StudentInformation {
             throw StudentInformationKeyError.InputMismatchKeys(keys: incomingKeys)
         }
         
-        print("The following sets appear to match: ")
-        print(self.expectedKeys)
-        print(keysToCheck!)
+        //print("The following sets appear to match: ")
+        //print(self.expectedKeys)
+        //print(keysToCheck!)
         
         //Keys match
         return true
@@ -98,8 +110,8 @@ struct StudentInformation {
     mutating func attemptToAssignValues(data: [String:AnyObject]) throws -> Bool {
         
         //go through each item and attempt to assign it to the struct
-        print("\nAbout to assign values from the following object: ")
-        print(data)
+        //print("\nAbout to assign values from the following object: ")
+        //print(data)
         // ObjectID
         if let inboundObject = data["objectId"] as? String {
             print("Processing object with id: " + inboundObject)
