@@ -101,13 +101,15 @@ class LoginViewController: UIViewController {
     // MARK: Actions
     
     @IBAction func loginPressed(sender: AnyObject) {
-        UdacityClient.sharedInstance.authenticateWithViewController(usernameTextField.text!, password: passwordTextField.text!, hostViewController: self) { (success, errorString) in
-            performUIUpdatesOnMain {
-                if success {
-                    self.completeLogin()
-                    self.displayError("Login was successful!")
-                } else {
-                    self.displayError(errorString)
+        GCDBlackBox.runNetworkFunctionInBackground {
+            UdacityClient.sharedInstance.authenticateWithViewController(self.usernameTextField.text!, password: self.passwordTextField.text!, hostViewController: self) { (success, errorString) in
+                GCDBlackBox.performUIUpdatesOnMain {
+                    if success {
+                        self.completeLogin()
+                        self.displayError("Login was successful!")
+                    } else {
+                        self.displayError(errorString)
+                    }
                 }
             }
         }

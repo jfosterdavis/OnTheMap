@@ -33,12 +33,14 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         super.viewWillAppear(animated)
         
         //make an initial fetch for pins
-        ParseClient.sharedInstance.getStudentLocations(200, skip: 5, order: "-lastName") { (success, errorString) in
-            performUIUpdatesOnMain {
-                if success {
-                    print("getStudentLocations completed successfully")
-                } else {
-                    print("\nERROR: getStudentLocations failed!")
+        GCDBlackBox.dataDownloadInBackground {
+            ParseClient.sharedInstance.getStudentLocations(200, skip: 5, order: "-lastName") { (success, errorString) in
+                GCDBlackBox.performUIUpdatesOnMain {
+                    if success {
+                        print("getStudentLocations completed successfully")
+                    } else {
+                        print("\nERROR: getStudentLocations failed!")
+                    }
                 }
             }
         }

@@ -8,8 +8,30 @@
 
 import Foundation
 
-func performUIUpdatesOnMain(updates: () -> Void) {
-    dispatch_async(dispatch_get_main_queue()) {
-        updates()
+struct GCDBlackBox {
+
+    static func performUIUpdatesOnMain(updates: () -> Void) {
+        dispatch_async(dispatch_get_main_queue()) {
+            updates()
+        }
+        
+        
     }
+
+    static let dataDownload = dispatch_queue_create("dataDownload", nil)
+
+   static func dataDownloadInBackground(function: () -> Void) {
+        dispatch_async(dataDownload) {
+            function()
+        }
+    }
+
+    static let genericNetworkQueue = dispatch_queue_create("genericNetworkQueue", nil)
+
+    static func runNetworkFunctionInBackground(function: () -> Void) {
+        dispatch_async(genericNetworkQueue) {
+            function()
+        }
+    }
+
 }
