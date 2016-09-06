@@ -33,12 +33,28 @@ class LoginViewController: UIViewController {
     override func viewDidAppear(animated: Bool) {
         super.viewWillAppear(animated)
         debugTextLabel.text = ""
+        
+        //test struct
+        let testStudent = [
+        "createdAt" : "2015-02-24T22:27:14.456Z",
+        "firstName" : "Jessica",
+        "lastName" : "Uelmen",
+        "latitude" : 28.1461248,
+        "longitude" : -82.75676799999999,
+        "mapString" : "Tarpon Springs, FL",
+        "mediaURL" : "www.linkedin.com/in/jessicauelmen/en",
+        "objectId" : "kj18GEaWD8",
+        "uniqueKey" : "872458750",
+        "updatedAt" : "2015-03-09T22:07:09.593Z"
+        ]
+        let test = StudentInformation(fromDataSet: testStudent)
+        print(test.lastName)
     }
     
     // MARK: Actions
     
     @IBAction func loginPressed(sender: AnyObject) {
-        UdacityClient.sharedInstance().authenticateWithViewController(usernameTextField.text!, password: passwordTextField.text!, hostViewController: self) { (success, errorString) in
+        UdacityClient.sharedInstance.authenticateWithViewController(usernameTextField.text!, password: passwordTextField.text!, hostViewController: self) { (success, errorString) in
             performUIUpdatesOnMain {
                 if success {
                     self.completeLogin()

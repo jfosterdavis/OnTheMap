@@ -12,6 +12,10 @@ import Foundation
 
 class UdacityClient : NSObject {
     
+    // MARK: Shared Instance
+    // This approach to singletons derived from http://krakendev.io/blog/the-right-way-to-write-a-singleton
+    static let sharedInstance = UdacityClient()
+    
     // MARK: Properties
     
     // shared session
@@ -181,10 +185,10 @@ class UdacityClient : NSObject {
     
     // MARK: Shared Instance
     
-    class func sharedInstance() -> UdacityClient {
-        struct Singleton {
-            static var sharedInstance = UdacityClient()
-        }
-        return Singleton.sharedInstance
-    }
+//    class func sharedInstance() -> UdacityClient {
+//        struct Singleton {
+//            static var sharedInstance = UdacityClient()
+//        }
+//        return Singleton.sharedInstance
+//    }
 }

@@ -28,6 +28,7 @@
 		F68CAF211D7C6C1100907849 /* ParseConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68CAF1C1D7C6C1100907849 /* ParseConvenience.swift */; };
 		F6FFC3011D7E0B92009AC3A3 /* on the map assets in Resources */ = {isa = PBXBuildFile; fileRef = F6FFC3001D7E0B92009AC3A3 /* on the map assets */; };
 		F6FFC3031D7E0F6E009AC3A3 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FFC3021D7E0F6E009AC3A3 /* MapViewController.swift */; };
+		F6FFC3051D7E14C9009AC3A3 /* StudentInformationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FFC3041D7E14C9009AC3A3 /* StudentInformationModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -54,6 +55,7 @@
 		F68CAF1C1D7C6C1100907849 /* ParseConvenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ParseConvenience.swift; path = Clients/ParseConvenience.swift; sourceTree = "<group>"; };
 		F6FFC3001D7E0B92009AC3A3 /* on the map assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "on the map assets"; sourceTree = "<group>"; };
 		F6FFC3021D7E0F6E009AC3A3 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		F6FFC3041D7E14C9009AC3A3 /* StudentInformationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentInformationModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +124,7 @@
 			isa = PBXGroup;
 			children = (
 				A9855BD71BEC430C00000031 /* Clients */,
+				F6FFC3041D7E14C9009AC3A3 /* StudentInformationModel.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -257,6 +260,7 @@
 				F68CAF1F1D7C6C1100907849 /* ParseConfig.swift in Sources */,
 				A9855BD61BEC42A200000031 /* GCDBlackBox.swift in Sources */,
 				F6FFC3031D7E0F6E009AC3A3 /* MapViewController.swift in Sources */,
+				F6FFC3051D7E14C9009AC3A3 /* StudentInformationModel.swift in Sources */,
 				F68CAF141D7C694700907849 /* UdacityClient.swift in Sources */,
 				F68CAF1E1D7C6C1100907849 /* ParseClient.swift in Sources */,
 				F68CAF1D1D7C6C1100907849 /* ParseAuthViewController.swift in Sources */,
