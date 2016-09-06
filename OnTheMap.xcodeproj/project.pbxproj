@@ -25,6 +25,7 @@
 		F6FFC3011D7E0B92009AC3A3 /* on the map assets in Resources */ = {isa = PBXBuildFile; fileRef = F6FFC3001D7E0B92009AC3A3 /* on the map assets */; };
 		F6FFC3031D7E0F6E009AC3A3 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FFC3021D7E0F6E009AC3A3 /* MapViewController.swift */; };
 		F6FFC3051D7E14C9009AC3A3 /* StudentInformationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FFC3041D7E14C9009AC3A3 /* StudentInformationModel.swift */; };
+		F6FFC3071D7F404B009AC3A3 /* MapTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FFC3061D7F404B009AC3A3 /* MapTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,7 @@
 		F6FFC3001D7E0B92009AC3A3 /* on the map assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "on the map assets"; sourceTree = "<group>"; };
 		F6FFC3021D7E0F6E009AC3A3 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		F6FFC3041D7E14C9009AC3A3 /* StudentInformationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentInformationModel.swift; sourceTree = "<group>"; };
+		F6FFC3061D7F404B009AC3A3 /* MapTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,6 +128,7 @@
 			children = (
 				A9855BD01BEC41F500000031 /* LoginViewController.swift */,
 				F6FFC3021D7E0F6E009AC3A3 /* MapViewController.swift */,
+				F6FFC3061D7F404B009AC3A3 /* MapTableViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -242,6 +245,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A9855BAD1BEC3EDB00000031 /* AppDelegate.swift in Sources */,
+				F6FFC3071D7F404B009AC3A3 /* MapTableViewController.swift in Sources */,
 				F68CAF121D7C694700907849 /* UdacityConstants.swift in Sources */,
 				F68CAF0C1D7C669E00907849 /* Secrets.swift in Sources */,
 				F68CAF161D7C694700907849 /* UdacityConvenience.swift in Sources */,
