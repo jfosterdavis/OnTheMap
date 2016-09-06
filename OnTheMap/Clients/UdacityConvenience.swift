@@ -53,6 +53,8 @@ extension UdacityClient {
                 completionHandlerForSession(success: false, sessionID: nil, errorString: "Login Failed (Session ID).")
             } else {
                 //json should have returned a [[String:AnyObject]]
+                print("About to find a Session Id within:")
+                print(results)
                 if let sessionID = results[UdacityClient.JSONResponseKeys.Session.Session]?![UdacityClient.JSONResponseKeys.Session.ID] as? String {
                     completionHandlerForSession(success: true, sessionID: sessionID, errorString: nil)
                 } else {

@@ -110,8 +110,8 @@ struct StudentInformation {
     mutating func attemptToAssignValues(data: [String:AnyObject]) throws -> Bool {
         
         //go through each item and attempt to assign it to the struct
-        //print("\nAbout to assign values from the following object: ")
-        //print(data)
+        print("\nAbout to assign values from the following object: ")
+        print(data)
         // ObjectID
         if let inboundObject = data["objectId"] as? String {
             print("Processing object with id: " + inboundObject)
