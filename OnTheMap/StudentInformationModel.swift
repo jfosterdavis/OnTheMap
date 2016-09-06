@@ -108,6 +108,7 @@ struct StudentInformation {
             return nil
         } catch StudentInformationAssignmentError.inputValueOutOfExpectedRange(let expected, let actual) {
             print("\nSTUDENT INFORMATION ERROR: A value was out of the expected range when calling attemptToAssignValues.  Expected: \"" + expected + "\" Actual: " + String(actual))
+            return nil
         }catch {
             print("\nSTUDENT INFORMATION ERROR: Unknown error when calling attemptToAssignValues")
             return nil
