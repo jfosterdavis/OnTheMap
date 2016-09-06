@@ -33,19 +33,37 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         super.viewWillAppear(animated)
         
         //make an initial fetch for pins
+        fetchPinsAndPlotPins(200, skip: 5, order: "-lastName")
+    }
+    
+    func runFunctionThatUpdatesUI(doThis: () -> Void) -> Void {
+        GCDBlackBox.performUIUpdatesOnMain {
+            doThis()
+        }
+    }
+    
+    func fetchPins(limit: Int?, skip: Int?, order: String?, completionHandlerForFetchPins: () -> Void) {
         GCDBlackBox.dataDownloadInBackground {
             ParseClient.sharedInstance.getStudentLocations(200, skip: 5, order: "-lastName") { (success, errorString) in
-                GCDBlackBox.performUIUpdatesOnMain {
-                    if success {
-                        print("getStudentLocations completed successfully")
-                    } else {
-                        print("\nERROR: getStudentLocations failed!")
-                    }
-                }
+                //closure...
+                completionHandlerForFetchPins()
             }
         }
     }
     
+    func fetchPinsAndPlotPins(limit: Int?, skip: Int?, order: String?) {
+        fetchPins(limit, skip: skip, order: order) { () in
+            self.runFunctionThatUpdatesUI {
+                self.plotPins()
+            }
+        }
+    }
+    
+    //plots all of the pins in the shared model
+    //this updates the UI so must be in main queue.
+    func plotPins() {
+        print("plotPins() called")
+    }
     
     
     func parseTestMessage() {
