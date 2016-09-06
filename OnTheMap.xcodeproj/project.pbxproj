@@ -17,13 +17,9 @@
 		F68CAF0A1D7C668600907849 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = F68CAF091D7C668600907849 /* .gitignore */; };
 		F68CAF0C1D7C669E00907849 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68CAF0B1D7C669E00907849 /* Secrets.swift */; };
 		F68CAF121D7C694700907849 /* UdacityConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68CAF0D1D7C694700907849 /* UdacityConstants.swift */; };
-		F68CAF131D7C694700907849 /* UdacityAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68CAF0E1D7C694700907849 /* UdacityAuthViewController.swift */; };
 		F68CAF141D7C694700907849 /* UdacityClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68CAF0F1D7C694700907849 /* UdacityClient.swift */; };
-		F68CAF151D7C694700907849 /* UdacityConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68CAF101D7C694700907849 /* UdacityConfig.swift */; };
 		F68CAF161D7C694700907849 /* UdacityConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68CAF111D7C694700907849 /* UdacityConvenience.swift */; };
-		F68CAF1D1D7C6C1100907849 /* ParseAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68CAF181D7C6C1100907849 /* ParseAuthViewController.swift */; };
 		F68CAF1E1D7C6C1100907849 /* ParseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68CAF191D7C6C1100907849 /* ParseClient.swift */; };
-		F68CAF1F1D7C6C1100907849 /* ParseConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68CAF1A1D7C6C1100907849 /* ParseConfig.swift */; };
 		F68CAF201D7C6C1100907849 /* ParseConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68CAF1B1D7C6C1100907849 /* ParseConstants.swift */; };
 		F68CAF211D7C6C1100907849 /* ParseConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68CAF1C1D7C6C1100907849 /* ParseConvenience.swift */; };
 		F6FFC3011D7E0B92009AC3A3 /* on the map assets in Resources */ = {isa = PBXBuildFile; fileRef = F6FFC3001D7E0B92009AC3A3 /* on the map assets */; };
@@ -44,13 +40,9 @@
 		F68CAF091D7C668600907849 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = SOURCE_ROOT; };
 		F68CAF0B1D7C669E00907849 /* Secrets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
 		F68CAF0D1D7C694700907849 /* UdacityConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UdacityConstants.swift; path = Clients/UdacityConstants.swift; sourceTree = "<group>"; };
-		F68CAF0E1D7C694700907849 /* UdacityAuthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UdacityAuthViewController.swift; path = Clients/UdacityAuthViewController.swift; sourceTree = "<group>"; };
 		F68CAF0F1D7C694700907849 /* UdacityClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UdacityClient.swift; path = Clients/UdacityClient.swift; sourceTree = "<group>"; };
-		F68CAF101D7C694700907849 /* UdacityConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UdacityConfig.swift; path = Clients/UdacityConfig.swift; sourceTree = "<group>"; };
 		F68CAF111D7C694700907849 /* UdacityConvenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UdacityConvenience.swift; path = Clients/UdacityConvenience.swift; sourceTree = "<group>"; };
-		F68CAF181D7C6C1100907849 /* ParseAuthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ParseAuthViewController.swift; path = Clients/ParseAuthViewController.swift; sourceTree = "<group>"; };
 		F68CAF191D7C6C1100907849 /* ParseClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ParseClient.swift; path = Clients/ParseClient.swift; sourceTree = "<group>"; };
-		F68CAF1A1D7C6C1100907849 /* ParseConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ParseConfig.swift; path = Clients/ParseConfig.swift; sourceTree = "<group>"; };
 		F68CAF1B1D7C6C1100907849 /* ParseConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ParseConstants.swift; path = Clients/ParseConstants.swift; sourceTree = "<group>"; };
 		F68CAF1C1D7C6C1100907849 /* ParseConvenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ParseConvenience.swift; path = Clients/ParseConvenience.swift; sourceTree = "<group>"; };
 		F6FFC3001D7E0B92009AC3A3 /* on the map assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "on the map assets"; sourceTree = "<group>"; };
@@ -160,8 +152,6 @@
 			children = (
 				F68CAF0F1D7C694700907849 /* UdacityClient.swift */,
 				F68CAF111D7C694700907849 /* UdacityConvenience.swift */,
-				F68CAF0E1D7C694700907849 /* UdacityAuthViewController.swift */,
-				F68CAF101D7C694700907849 /* UdacityConfig.swift */,
 				F68CAF0D1D7C694700907849 /* UdacityConstants.swift */,
 			);
 			name = Udacity;
@@ -172,8 +162,6 @@
 			children = (
 				F68CAF191D7C6C1100907849 /* ParseClient.swift */,
 				F68CAF1C1D7C6C1100907849 /* ParseConvenience.swift */,
-				F68CAF181D7C6C1100907849 /* ParseAuthViewController.swift */,
-				F68CAF1A1D7C6C1100907849 /* ParseConfig.swift */,
 				F68CAF1B1D7C6C1100907849 /* ParseConstants.swift */,
 			);
 			name = Parse;
@@ -257,18 +245,14 @@
 				F68CAF121D7C694700907849 /* UdacityConstants.swift in Sources */,
 				F68CAF0C1D7C669E00907849 /* Secrets.swift in Sources */,
 				F68CAF161D7C694700907849 /* UdacityConvenience.swift in Sources */,
-				F68CAF1F1D7C6C1100907849 /* ParseConfig.swift in Sources */,
 				A9855BD61BEC42A200000031 /* GCDBlackBox.swift in Sources */,
 				F6FFC3031D7E0F6E009AC3A3 /* MapViewController.swift in Sources */,
 				F6FFC3051D7E14C9009AC3A3 /* StudentInformationModel.swift in Sources */,
 				F68CAF141D7C694700907849 /* UdacityClient.swift in Sources */,
 				F68CAF1E1D7C6C1100907849 /* ParseClient.swift in Sources */,
-				F68CAF1D1D7C6C1100907849 /* ParseAuthViewController.swift in Sources */,
-				F68CAF131D7C694700907849 /* UdacityAuthViewController.swift in Sources */,
 				A9855BC21BEC40C400000031 /* BorderedButton.swift in Sources */,
 				F68CAF211D7C6C1100907849 /* ParseConvenience.swift in Sources */,
 				A9855BD11BEC41F500000031 /* LoginViewController.swift in Sources */,
-				F68CAF151D7C694700907849 /* UdacityConfig.swift in Sources */,
 				F68CAF201D7C6C1100907849 /* ParseConstants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

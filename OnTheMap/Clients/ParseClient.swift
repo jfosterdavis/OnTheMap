@@ -1,5 +1,5 @@
 //
-//  UdacityClient.swift
+//  ParseClient.swift
 //  TheMovieManager
 //
 //  Created by Jarrod Parkes on 2/11/15.
@@ -7,41 +7,55 @@
 //
 
 import Foundation
+import UIKit
 
-// MARK: - UdacityClient: NSObject
+// MARK: - ParseClient: NSObject
 
-class UdacityClient : NSObject {
+class ParseClient : NSObject {
     
     // MARK: Shared Instance
     // This approach to singletons derived from http://krakendev.io/blog/the-right-way-to-write-a-singleton
-    static let sharedInstance = UdacityClient()
+    static let sharedInstance = ParseClient()
     
     // MARK: Properties
     
     // shared session
     var session = NSURLSession.sharedSession()
     
+    //Set a pointer to the shared data model
+    var StudentInformations: [StudentInformation]{
+        return (UIApplication.sharedApplication().delegate as! AppDelegate).StudentInformations
+    }
+    
     // authentication state
-    var sessionID: String? = nil
-    var userID: Int? = nil
+//    var sessionID: String? = nil
+//    var userID: Int? = nil
     
     // MARK: Initializers
     
     override init() {
         super.init()
     }
-
+    
     // MARK: GET
     
-    func taskForGETMethod(method: String, parameters: [String:AnyObject], completionHandlerForGET: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
+    func taskForGETMethod(method: String, parameters: [String:AnyObject]?, completionHandlerForGET: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
         
         /* 1. Set the parameters */
-        var parametersWithApiKey = parameters
-        // No API key passed in this client
+        var passTheseParameters :[String:AnyObject]?
+        if let parameters = parameters {
+            passTheseParameters = parameters
+        } else {
+            passTheseParameters = nil
+        }
+        
+        // No API key passed in this m
         //parametersWithApiKey[ParameterKeys.ApiKey] = Constants.ApiKey
         
         /* 2/3. Build the URL, Configure the request */
-        let request = NSMutableURLRequest(URL: UdacityURLFromParameters(parametersWithApiKey, withPathExtension: method))
+        let request = NSMutableURLRequest(URL: ParseURLFromParameters(passTheseParameters, withPathExtension: method))
+        request.addValue(Secrets.ParseAPIKey, forHTTPHeaderField: "X-Parse-Application-Id")
+        request.addValue(Secrets.ParseRESTAPIKey, forHTTPHeaderField: "X-Parse-REST-API-Key")
         
         /* 4. Make the request */
         let task = session.dataTaskWithRequest(request) { (data, response, error) in
@@ -90,7 +104,7 @@ class UdacityClient : NSObject {
         //parametersWithApiKey[ParameterKeys.ApiKey] = Constants.ApiKey
         
         /* 2/3. Build the URL, Configure the request */
-        let request = NSMutableURLRequest(URL: UdacityURLFromParameters(parametersWithApiKey, withPathExtension: method))
+        let request = NSMutableURLRequest(URL: ParseURLFromParameters(parametersWithApiKey, withPathExtension: method))
         request.HTTPMethod = "POST"
         request.addValue("application/json", forHTTPHeaderField: "Accept")
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
@@ -148,11 +162,11 @@ class UdacityClient : NSObject {
     private func convertDataWithCompletionHandler(data: NSData, completionHandlerForConvertData: (result: AnyObject!, error: NSError?) -> Void) {
         
         var parsedResult: AnyObject!
-        let newData = data.subdataWithRange(NSMakeRange(5, data.length - 5))
+        //let newData = data.subdataWithRange(NSMakeRange(5, data.length - 5)) //don't need to this for Parse
         do {
-            parsedResult = try NSJSONSerialization.JSONObjectWithData(newData, options: .AllowFragments)
+            parsedResult = try NSJSONSerialization.JSONObjectWithData(data, options: .AllowFragments)
         } catch {
-            let userInfo = [NSLocalizedDescriptionKey : "Could not parse the data as JSON: '\(newData)'"]
+            let userInfo = [NSLocalizedDescriptionKey : "Could not parse the data as JSON: '\(data)'"]
             completionHandlerForConvertData(result: nil, error: NSError(domain: "convertDataWithCompletionHandler", code: 1, userInfo: userInfo))
         }
         
@@ -160,12 +174,12 @@ class UdacityClient : NSObject {
     }
     
     // create a URL from parameters
-    private func UdacityURLFromParameters(parameters: [String:AnyObject]?, withPathExtension: String? = nil) -> NSURL {
+    private func ParseURLFromParameters(parameters: [String:AnyObject]?, withPathExtension: String? = nil) -> NSURL {
         
         let components = NSURLComponents()
-        components.scheme = UdacityClient.Constants.ApiScheme
-        components.host = UdacityClient.Constants.ApiHost
-        components.path = UdacityClient.Constants.ApiPath + (withPathExtension ?? "")
+        components.scheme = ParseClient.Constants.ApiScheme
+        components.host = ParseClient.Constants.ApiHost
+        components.path = ParseClient.Constants.ApiPath + (withPathExtension ?? "")
         
         
         if let parameters = parameters {

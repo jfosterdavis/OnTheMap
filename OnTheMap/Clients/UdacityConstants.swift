@@ -54,7 +54,6 @@ extension UdacityClient {
         static let StatusCode = "status_code"
         
         // MARK: Authorization
-        //static let RequestToken = "request_token"
         //static let SessionID = "session_id"
         
         struct Session {

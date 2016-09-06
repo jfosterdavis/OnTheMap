@@ -30,7 +30,7 @@ class LoginViewController: UIViewController {
         configureBackground()
     }
     
-    //Set a pointer to the sharedMemes
+    //Set a pointer to the shared data model
     var StudentInformations: [StudentInformation]{
         return (UIApplication.sharedApplication().delegate as! AppDelegate).StudentInformations
     }
@@ -87,13 +87,13 @@ class LoginViewController: UIViewController {
                 "updatedAt" : "2015-03-13T03:37:58.389Z"
             ]
         ]
-        for info in testStudents {
-            if let test = StudentInformation(fromDataSet: info){
-                let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-                appDelegate.StudentInformations.append(test)
-            }
-        }
-        print("There are " + String(StudentInformations.count) + " Information Records stored.  Test Complete.")
+//        for info in testStudents {
+//            if let test = StudentInformation(fromDataSet: info){
+//                let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+//                appDelegate.StudentInformations.append(test)
+//            }
+//        }
+//        print("There are " + String(StudentInformations.count) + " Information Records stored.  Test Complete.")
         
     }
     

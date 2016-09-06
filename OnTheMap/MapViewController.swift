@@ -21,11 +21,30 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
     
+    var session: NSURLSession!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        parseTestMessage()
+        //parseTestMessage()
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        //make an initial fetch for pins
+        ParseClient.sharedInstance.getStudentLocations(300) { (success, errorString) in
+            performUIUpdatesOnMain {
+                if success {
+                    print("getStudentLocations completed successfully")
+                } else {
+                    print("ERROR: getStudentLocations failed!")
+                }
+            }
+        }
+    }
+    
+    
     
     func parseTestMessage() {
         let request = NSMutableURLRequest(URL: NSURL(string: "https://parse.udacity.com/parse/classes/StudentLocation")!)
