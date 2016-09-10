@@ -23,6 +23,7 @@
 		F68CAF1E1D7C6C1100907849 /* ParseClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68CAF191D7C6C1100907849 /* ParseClient.swift */; };
 		F68CAF201D7C6C1100907849 /* ParseConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68CAF1B1D7C6C1100907849 /* ParseConstants.swift */; };
 		F68CAF211D7C6C1100907849 /* ParseConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68CAF1C1D7C6C1100907849 /* ParseConvenience.swift */; };
+		F6EF9FDE1D848E740094CA42 /* PinPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EF9FDD1D848E740094CA42 /* PinPostViewController.swift */; };
 		F6FFC3011D7E0B92009AC3A3 /* on the map assets in Resources */ = {isa = PBXBuildFile; fileRef = F6FFC3001D7E0B92009AC3A3 /* on the map assets */; };
 		F6FFC3031D7E0F6E009AC3A3 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FFC3021D7E0F6E009AC3A3 /* MapViewController.swift */; };
 		F6FFC3051D7E14C9009AC3A3 /* StudentInformationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FFC3041D7E14C9009AC3A3 /* StudentInformationModel.swift */; };
@@ -48,6 +49,7 @@
 		F68CAF191D7C6C1100907849 /* ParseClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ParseClient.swift; path = Clients/ParseClient.swift; sourceTree = "<group>"; };
 		F68CAF1B1D7C6C1100907849 /* ParseConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ParseConstants.swift; path = Clients/ParseConstants.swift; sourceTree = "<group>"; };
 		F68CAF1C1D7C6C1100907849 /* ParseConvenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ParseConvenience.swift; path = Clients/ParseConvenience.swift; sourceTree = "<group>"; };
+		F6EF9FDD1D848E740094CA42 /* PinPostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinPostViewController.swift; sourceTree = "<group>"; };
 		F6FFC3001D7E0B92009AC3A3 /* on the map assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "on the map assets"; sourceTree = "<group>"; };
 		F6FFC3021D7E0F6E009AC3A3 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		F6FFC3041D7E14C9009AC3A3 /* StudentInformationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentInformationModel.swift; sourceTree = "<group>"; };
@@ -132,6 +134,7 @@
 				F62E37791D846E7E0032A61F /* LoginTextFieldDelegate.swift */,
 				F6FFC3021D7E0F6E009AC3A3 /* MapViewController.swift */,
 				F6FFC3061D7F404B009AC3A3 /* MapTableViewController.swift */,
+				F6EF9FDD1D848E740094CA42 /* PinPostViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -249,6 +252,7 @@
 			files = (
 				A9855BAD1BEC3EDB00000031 /* AppDelegate.swift in Sources */,
 				F6FFC3071D7F404B009AC3A3 /* MapTableViewController.swift in Sources */,
+				F6EF9FDE1D848E740094CA42 /* PinPostViewController.swift in Sources */,
 				F68CAF121D7C694700907849 /* UdacityConstants.swift in Sources */,
 				F68CAF0C1D7C669E00907849 /* Secrets.swift in Sources */,
 				F68CAF161D7C694700907849 /* UdacityConvenience.swift in Sources */,
