@@ -1,10 +1,11 @@
 //
 //  LoginViewController.swift
-//  TheMovieManager
+//  OnTheMap
 //
-//  Created by Jarrod Parkes on 2/26/15.
+//  Derrived from work Created by Jarrod Parkes on 2/11/15.
 //  Copyright (c) 2015 Jarrod Parkes. All rights reserved.
 //
+//  Further devlopment by Jacob Foster Davis in August - September 2016
 
 import UIKit
 
@@ -18,7 +19,7 @@ class LoginViewController: UIViewController {
 
     @IBOutlet weak var debugTextLabel: UILabel!
     @IBOutlet weak var loginButton: BorderedButton!
-    @IBOutlet weak var parseTestButton: BorderedButton!
+    //@IBOutlet weak var parseTestButton: BorderedButton!
 
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
@@ -27,6 +28,9 @@ class LoginViewController: UIViewController {
     
     /** Spinning wheel to show user that network activity is in progress */
     var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
+    
+    /// Text Field delegate
+    let textFieldDelegate = LoginTextFieldDelegate()
     
     /******************************************************/
     /******************* Shared Model **************/
@@ -42,7 +46,6 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         
-        
         //http://sourcefreeze.com/uiactivityindicatorview-example-using-swift-in-ios/
         activityIndicator.hidesWhenStopped = true
         activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
@@ -51,9 +54,23 @@ class LoginViewController: UIViewController {
         
         super.viewDidLoad()
         
+        //set the delegates
+        self.usernameTextField.delegate = textFieldDelegate
+        self.passwordTextField.delegate = textFieldDelegate
+        
         configureBackground()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
         
-        
+        //subscribe to keyboard notifications
+        self.subscribeToKeyboardNotifications()
+    }
+    
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.unsubscribeFromKeyboardNotifications()
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -179,6 +196,59 @@ class LoginViewController: UIViewController {
         let controller = storyboard!.instantiateViewControllerWithIdentifier("ManagerNavigationController") as! UINavigationController
         presentViewController(controller, animated: true, completion: nil)
     }
+    
+    /******************************************************/
+    /******************* Keyboard **************/
+    /******************************************************/
+    //MARK: - Keyboard
+    func subscribeToKeyboardNotifications() {
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LoginViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LoginViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+    }
+    
+    func unsubscribeFromKeyboardNotifications() {
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
+    }
+    
+    func getKeyboardHeight(notification: NSNotification) -> CGFloat {
+        let userInfo = notification.userInfo
+        let keyboardSize = userInfo![UIKeyboardFrameEndUserInfoKey] as!NSValue
+        return keyboardSize.CGRectValue().height
+    }
+    
+    func keyboardWillShow(notification: NSNotification) {
+        //check that the view is not already moved up for the keyboard.  if it isn't, then move the view if the keyboard would cover it.     
+        if view.frame.origin.y == 0 {
+           // check that the first responder is below the keyboard
+            print("frame origin is 0")
+            if let firstResponder = getFirstResponder() {
+                print("Got a first responder.  y value is ")
+                if firstResponder.frame.origin.y >  getKeyboardHeight(notification) {
+                    view.frame.origin.y = -(getKeyboardHeight(notification))
+                }
+            }
+        }
+    } //end of keyboardWillShow
+    
+    func keyboardWillHide(notification: NSNotification) {
+        view.frame.origin.y = 0
+    }
+    
+    func getFirstResponder() -> UIView? {
+        //this code adapted from http://stackoverflow.com/questions/12173802/trying-to-find-which-text-field-is-active-ios
+        for view in self.view.subviews {
+            print ("Checking " + String(view.description))
+            
+            if view.isFirstResponder() {
+                return view
+            }
+            
+        }
+        //there is no first responder, return nil
+        return nil
+    }
+    
 }
 
 // MARK: - LoginViewController (Configure UI)
