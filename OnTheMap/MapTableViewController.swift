@@ -10,14 +10,20 @@ import Foundation
 import UIKit
 class MapTableViewController: UITableViewController {
     
+    /******************************************************/
+    /******************* Shared Model **************/
+    /******************************************************/
     //Set a pointer to the shared data model
     var StudentInformations: [StudentInformation]{
         return (UIApplication.sharedApplication().delegate as! AppDelegate).StudentInformations
     }
     
+    /******************************************************/
+    /******************* Life Cycle **************/
+    /******************************************************/
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         
     }
     
@@ -30,7 +36,10 @@ class MapTableViewController: UITableViewController {
         self.tableView.reloadData()
     }
     
-    // MARK: Table View Data Source
+    /******************************************************/
+    /******************* Table Delegate Functions **************/
+    /******************************************************/
+    // MARK: - Table Delegate Functions
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.StudentInformations.count
@@ -67,7 +76,6 @@ class MapTableViewController: UITableViewController {
         } else {
             print("Failed to open view annotation")
         }
-        
     }
 
 }

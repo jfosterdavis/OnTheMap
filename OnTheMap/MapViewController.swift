@@ -14,16 +14,27 @@ import MapKit
 
 class MapViewController: UIViewController, MKMapViewDelegate {
     
-    //Set a pointer to the shared data model
-    var StudentInformations: [StudentInformation]{
-        return (UIApplication.sharedApplication().delegate as! AppDelegate).StudentInformations
-    }
+    /******************************************************/
+    /******************* PROPERTIES **************/
+    /******************************************************/
     
     @IBOutlet weak var mapView: MKMapView!
     
     var session: NSURLSession!
     var annotations = [MKPointAnnotation]()
     
+    /******************************************************/
+    /******************* Shared Model **************/
+    /******************************************************/
+    //Set a pointer to the shared data model
+    var StudentInformations: [StudentInformation]{
+        return (UIApplication.sharedApplication().delegate as! AppDelegate).StudentInformations
+    }
+    
+    /******************************************************/
+    /******************* Life Cycle **************/
+    /******************************************************/
+    //MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -42,7 +53,10 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         
     }
     
-    // MARK: - MKMapViewDelegate
+    /******************************************************/
+    /******************* Map Delegate **************/
+    /******************************************************/
+    //MARK: - Map Delegate
     
     // Here we create a view with a "right callout accessory view". You might choose to look into other
     // decoration alternatives. Notice the similarity between this method and the cellForRowAtIndexPath
@@ -67,8 +81,10 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     
-    // This delegate method is implemented to respond to taps. It opens the system browser
-    // to the URL specified in the annotationViews subtitle property.
+    /**
+     This delegate method is implemented to respond to taps. It opens the system browser
+     to the URL specified in the annotationViews subtitle property.
+     */
     func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         if control == view.rightCalloutAccessoryView {
             let app = UIApplication.sharedApplication()
@@ -80,9 +96,14 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-    //MARK: 
+    /******************************************************/
+    /******************* Convenience Functions **************/
+    /******************************************************/
+    //MARK: - Convenience Functions
     
-    //takes data in the shared StudentInformation model and destructively sets the annotations
+    /**
+     Takes data in the shared model and desctructively sets the annotations
+     */
     func createAnnotationsFromSharedModel () {
         //clear current annotations
         self.annotations = [MKPointAnnotation]()
@@ -112,18 +133,62 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         print("The Annotations array has " + String(annotations.count) + " members.")
     }
     
-    func plotPins(annotations : [MKPointAnnotation]) {
-        self.mapView.addAnnotations(annotations)
-    }
-    
-    //MARK: - Convenience functions for fetching and plotting pins
-    
+    /**
+     Takes a given UI function and runs it in the main queue
+     
+     - Parameters:
+         - doThis: A function, usually given as a closure
+     */
     func runFunctionThatUpdatesUI(doThis: () -> Void) -> Void {
         GCDBlackBox.performUIUpdatesOnMain {
             doThis()
         }
     }
     
+    /**
+     Fetches Pins from the Udacity ParseClient shared instance and plots them
+     
+     - Parameters:
+        - limit: how many pins to return
+        - skip: how many pins to skip when fetching
+        - order: which data field to order the results
+     */
+    func fetchPinsAndPlotPins(limit: Int?, skip: Int?, order: String?) {
+        //TODO: Add overwrite option
+        /*
+         *  Should this overwrite or not?
+         */
+        
+        fetchPins(limit, skip: skip, order: order) { () in
+            self.runFunctionThatUpdatesUI {
+                self.plotPinsFromSharedModel()
+            }
+        }
+    }
+    
+    /**
+     Plots pins from the shared model
+     */
+    func plotPinsFromSharedModel() {
+        print("plotPins() called")
+        createAnnotationsFromSharedModel()
+        plotPins(self.annotations)
+        
+    }
+    
+    /******************************************************/
+    /******************* Fetching Pins **************/
+    /******************************************************/
+    //MARK: - Fetching Pins
+     
+    /**
+     Fetches Pins from the Udacity ParseClient shared instance
+     
+     - Parameters:
+         - limit: how many pins to return
+         - skip: how many pins to skip when fetching
+         - order: which data field to order the results
+     */
     func fetchPins(limit: Int?, skip: Int?, order: String?, completionHandlerForFetchPins: () -> Void) {
         GCDBlackBox.dataDownloadInBackground {
             ParseClient.sharedInstance.getStudentLocations(limit, skip: skip, order: order) { (success, errorString) in
@@ -133,25 +198,28 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
-    func fetchPinsAndPlotPins(limit: Int?, skip: Int?, order: String?) {
-        fetchPins(limit, skip: skip, order: order) { () in
-            self.runFunctionThatUpdatesUI {
-                self.plotPinsFromSharedModel()
-            }
-        }
+    /******************************************************/
+    /******************* Plotting Pins **************/
+    /******************************************************/
+    //MARK: - Plotting Pins
+    
+    /**
+     Plots the given array of Pins
+     
+     - Parameters:
+         - annotations: An array of `MKPointAnnotation` objects
+     
+     */
+    func plotPins(annotations : [MKPointAnnotation]) {
+        self.mapView.addAnnotations(annotations)
     }
     
-    //plots all of the pins in the shared model
-    //this updates the UI so must be in main queue.
-    func plotPinsFromSharedModel() {
-        print("plotPins() called")
-        createAnnotationsFromSharedModel()
-        plotPins(self.annotations)
-        
-    }
+    /******************************************************/
+    /******************* Testing **************/
+    /******************************************************/
+    //MARK: - Testing  
     
-    
-    func parseTestMessage() {
+    private func parseTestMessage() {
         let request = NSMutableURLRequest(URL: NSURL(string: "https://parse.udacity.com/parse/classes/StudentLocation")!)
         request.addValue(Secrets.ParseAPIKey, forHTTPHeaderField: "X-Parse-Application-Id")
         request.addValue(Secrets.ParseRESTAPIKey, forHTTPHeaderField: "X-Parse-REST-API-Key")
@@ -164,7 +232,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             //print(NSString(data: data!, encoding: NSUTF8StringEncoding))
             var testData: AnyObject!
             do {
-             testData = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments)
+                testData = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments)
             } catch {
                 print("Failed to test Parse from MapView")
             }
@@ -190,5 +258,4 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
         task.resume()
     }
-    
 }

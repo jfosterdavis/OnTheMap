@@ -12,8 +12,10 @@ import UIKit
 
 class LoginViewController: UIViewController {
 
-    // MARK: Properties
-    
+    /******************************************************/
+    /******************* Properties **************/
+    /******************************************************/
+
     @IBOutlet weak var debugTextLabel: UILabel!
     @IBOutlet weak var loginButton: BorderedButton!
     @IBOutlet weak var parseTestButton: BorderedButton!
@@ -23,16 +25,35 @@ class LoginViewController: UIViewController {
     
     var session: NSURLSession!
     
-    // MARK: Life Cycle
+    /** Spinning wheel to show user that network activity is in progress */
+    var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        configureBackground()
-    }
-    
-    //Set a pointer to the shared data model
+    /******************************************************/
+    /******************* Shared Model **************/
+    /******************************************************/
     var StudentInformations: [StudentInformation]{
         return (UIApplication.sharedApplication().delegate as! AppDelegate).StudentInformations
+    }
+
+    /******************************************************/
+    /******************* Life Cycle **************/
+    /******************************************************/
+    //MARK: - Life Cycle
+    
+    override func viewDidLoad() {
+        
+        
+        //http://sourcefreeze.com/uiactivityindicatorview-example-using-swift-in-ios/
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+        activityIndicator.center = self.view.center
+        view.addSubview(activityIndicator)
+        
+        super.viewDidLoad()
+        
+        configureBackground()
+        
+        
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -98,12 +119,32 @@ class LoginViewController: UIViewController {
         
     }
     
-    // MARK: Actions
+    
+    /******************************************************/
+    /******************* Activity Indicator **************/
+    /******************************************************/
+    //MARK: - Activity Indicator
+    
+    func startActivityIndicator() {
+        activityIndicator.startAnimating()
+    }
+    
+    func stopActivityIndicator() {
+        activityIndicator.stopAnimating()
+    }
+    
+    /******************************************************/
+    /******************* Actions **************/
+    /******************************************************/
+    //MARK: - Actions
     
     @IBAction func loginPressed(sender: AnyObject) {
+        startActivityIndicator()
+        
         GCDBlackBox.runNetworkFunctionInBackground {
             UdacityClient.sharedInstance.authenticateWithViewController(self.usernameTextField.text!, password: self.passwordTextField.text!, hostViewController: self) { (success, errorString) in
                 GCDBlackBox.performUIUpdatesOnMain {
+                    self.stopActivityIndicator()
                     if success {
                         self.completeLogin()
                         self.displayError("Login was successful!")
@@ -129,8 +170,10 @@ class LoginViewController: UIViewController {
         task.resume()
     }
     
-    // MARK: Login
-    
+    /******************************************************/
+    /******************* Log In **************/
+    /******************************************************/
+    //MARK: - Log In
     private func completeLogin() {
         debugTextLabel.text = ""
         let controller = storyboard!.instantiateViewControllerWithIdentifier("ManagerNavigationController") as! UINavigationController

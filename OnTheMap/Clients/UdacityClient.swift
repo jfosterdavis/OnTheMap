@@ -1,10 +1,11 @@
 //
 //  UdacityClient.swift
-//  TheMovieManager
+//  OnTheMap
 //
-//  Created by Jarrod Parkes on 2/11/15.
+//  Derrived from work Created by Jarrod Parkes on 2/11/15.
 //  Copyright (c) 2015 Jarrod Parkes. All rights reserved.
 //
+//  Further devlopment by Jacob Foster Davis in August - September 2016
 
 import Foundation
 

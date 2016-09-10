@@ -1,10 +1,11 @@
 //
 //  ParseConstants.swift
-//  TheMovieManager
+//  OnTheMap
 //
-//  Created by Jarrod Parkes on 2/11/15.
+//  Derrived from work Created by Jarrod Parkes on 2/11/15.
 //  Copyright (c) 2015 Jarrod Parkes. All rights reserved.
 //
+//  Further devlopment by Jacob Foster Davis in August - September 2016
 
 // MARK: - ParseClient (Constants)
 
@@ -38,11 +39,7 @@ extension ParseClient {
         
     }
 
-    // MARK: URL Keys
-//    struct URLKeys {
-//        static let UserID = "id"
-//    }
-    
+   
     // MARK: Parameter Keys
     struct ParameterKeys {
         
@@ -75,14 +72,7 @@ extension ParseClient {
         // MARK: General
         static let StatusMessage = "status_message"
         static let StatusCode = "status_code"
-        
-        // MARK: Authorization
-//        static let RequestToken = "request_token" //probably don't need this because don't get token here
-//        static let SessionID = "session_id"
-        
-        // MARK: Account
-        //static let UserID = "id"
-        
+               
         // MARK: StudentLocation
         struct Results {
             static let Results = "results" //this is the name of the key that contains the array of StudentInformation dictionaries
