@@ -258,12 +258,24 @@
                                     <constraint firstItem="XlG-90-0hI" firstAttribute="leading" secondItem="Nca-aZ-Y8B" secondAttribute="leading" id="fB8-Cr-E8N"/>
                                 </constraints>
                             </view>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4sv-pt-JYt">
+                                <rect key="frame" x="0.0" y="20" width="600" height="44"/>
+                                <items>
+                                    <navigationItem title="Place a New Pin" id="t5D-uM-Rcr">
+                                        <barButtonItem key="leftBarButtonItem" systemItem="search" id="f5i-Fx-bbW"/>
+                                        <barButtonItem key="rightBarButtonItem" systemItem="cancel" id="pPz-p5-V61"/>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="4sv-pt-JYt" secondAttribute="trailing" id="7l5-3z-kqy"/>
+                            <constraint firstItem="4sv-pt-JYt" firstAttribute="top" secondItem="N1O-IW-xY8" secondAttribute="bottom" id="Auk-uQ-msX"/>
                             <constraint firstItem="RgX-kH-2Zd" firstAttribute="top" secondItem="Fw1-Z9-0jX" secondAttribute="top" id="PWA-Zj-VZQ"/>
                             <constraint firstAttribute="trailing" secondItem="Nca-aZ-Y8B" secondAttribute="trailing" id="Rps-eX-STb"/>
                             <constraint firstItem="OAC-AR-eed" firstAttribute="top" secondItem="RgX-kH-2Zd" secondAttribute="bottom" id="SBt-Ta-SYp"/>
+                            <constraint firstItem="4sv-pt-JYt" firstAttribute="leading" secondItem="Fw1-Z9-0jX" secondAttribute="leading" id="WN4-pU-eCz"/>
                             <constraint firstItem="RgX-kH-2Zd" firstAttribute="leading" secondItem="Fw1-Z9-0jX" secondAttribute="leading" id="YmO-hh-dOa"/>
                             <constraint firstItem="Nca-aZ-Y8B" firstAttribute="leading" secondItem="Fw1-Z9-0jX" secondAttribute="leading" id="bGy-Ql-GNj"/>
                             <constraint firstItem="Nca-aZ-Y8B" firstAttribute="top" secondItem="Fw1-Z9-0jX" secondAttribute="top" id="jsp-tc-ZHH"/>
@@ -272,9 +284,11 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="cancelNavButton" destination="pPz-p5-V61" id="nV3-03-wby"/>
                         <outlet property="miniMapContainer" destination="bGf-VX-FcQ" id="3Ic-Di-pgv"/>
                         <outlet property="miniMapView" destination="ajH-TF-RwZ" id="r26-MZ-FSE"/>
                         <outlet property="pinLocationCreatorContainer" destination="bbj-ri-ssN" id="J1N-oh-x3m"/>
+                        <outlet property="searchNavButton" destination="f5i-Fx-bbW" id="PtJ-Qq-bKL"/>
                         <outlet property="step1LocationInput" destination="TYr-4g-KGr" id="QHz-1k-0Zs"/>
                         <outlet property="step1PromptContainer" destination="LQr-hR-DMq" id="wPW-Xv-cxd"/>
                         <outlet property="step1View" destination="RgX-kH-2Zd" id="WYC-Kd-nqV"/>

@@ -38,6 +38,9 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var step2View: UIView!
     @IBOutlet weak var step1LocationInput: UITextField!
     
+    @IBOutlet var searchNavButton: UIBarButtonItem!
+    @IBOutlet weak var cancelNavButton: UIBarButtonItem!
+    
     /******************************************************/
     /******************* Life Cycle **************/
     /******************************************************/
@@ -46,6 +49,8 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
         super.viewDidLoad()
         
         miniMapView.delegate = self
+        
+        makeSearchNavBarButtonVisible(false)
         
     }
     
@@ -69,9 +74,14 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
     
     @IBAction func searchAndTransition(sender: AnyObject){
         if let textToGeoCode = step1LocationInput.text {
-            geocodeForward(textToGeoCode)
+            if !textToGeoCode.isEmpty {
+                geocodeForward(textToGeoCode)
+            } else {
+                //text field was empty
+                alertUser("Nothing to Search For", alertMessage: "Please enter the name of your location in the text box.")
+            }
         } else {
-            //TODO: Handle error
+            alertUser("Unknown Error", alertMessage: "Text box appears to not exist!")
         }
     } //end searchAndTransition
     
@@ -130,8 +140,8 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
         
         if pinView == nil {
             pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
-            //pinView!.canShowCallout = true
-            pinView!.pinColor = .Red
+            pinView!.canShowCallout = true
+            pinView!.pinTintColor = UIColor.redColor()
             //pinView!.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure)
         }
         else {
@@ -166,7 +176,7 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
      Plots the given Pin
      
      - Parameters:
-         - `annotation`: A `MKPointAnnotation` object
+         - annotation: A `MKPointAnnotation` object
      */
     func plotPin(annotation : MKPointAnnotation) {
         self.miniMapView.addAnnotation(annotation)
@@ -176,7 +186,7 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
      Takes a placemark and attempts to create a pin
      
      - Parameters:
-         - `placemark`: The placemark used to create the pin
+         - placemark: The placemark used to create the pin
      
      - Returns: `MKAnnotation` (a pin)
      */
@@ -197,7 +207,7 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
      Takes a Pin and plots it on the miniMap
      
      - Parameters:
-         - `pinToPlot`: The pin to plot
+         - pinToPlot: The pin to plot
      */
     func pinSetAndPlot(pinToPlot : MKPointAnnotation) -> Void {
         //set the pin
@@ -223,6 +233,48 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
         return self.newPin!
     } // end of cleanNewPin
     
+    /**
+     gives the user an alert. adapted from http://www.ioscreator.com/tutorials/display-an-alert-view-in-ios8-with-swift
+     
+     - Parameters:
+        - alertTitle: Title of the alert
+        - alertMessage: Message of the alert
+     */
+    func alertUser(alertTitle: String, alertMessage: String) -> Void {
+        //create an alert controller
+        let alertController = UIAlertController(title: alertTitle, message:
+            alertMessage, preferredStyle: UIAlertControllerStyle.Alert)
+        
+        //add dismiss button
+        alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+        
+        //present the alert
+        self.presentViewController(alertController, animated: true, completion: nil)
+    } // end of alertUser
+    
+    /**
+     makes the search barbutton visible or invisible
+     
+     - Parameters:
+     - state: True is visible. False is invisible
+     */
+    func makeSearchNavBarButtonVisible(state : Bool) -> Void {
+        if state {
+            //make it visible
+            self.navigationController?.navigationItem.leftBarButtonItem = searchNavButton
+            
+            //enable it
+            searchNavButton.enabled = true
+        } else {
+            //make it invisible
+            print("About to delete the searchNavButton")
+            self.navigationController?.navigationItem.leftBarButtonItem = nil
+            //disable
+            searchNavButton.enabled = false
+            
+        }
+    } // end of makeSearchNavBarButtonVisible
+    
     /******************************************************/
     /******************* Transitions between Step 1 and Step 2 **************/
     /******************************************************/
@@ -243,6 +295,9 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
                 self.step2View.alpha = 1
                 self.step1View.alpha = 0
             })
+            
+            //enable search button
+            makeSearchNavBarButtonVisible(true)
             
             //zoom to pin
             //adapted from http://stackoverflow.com/questions/34061162/how-to-zoom-into-pin-in-mkmapview-swift
