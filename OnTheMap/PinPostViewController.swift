@@ -17,7 +17,6 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
     /******************************************************/
     //MARK: - Properties
     var newPin : MKPointAnnotation?
-    
 
     
     
@@ -26,20 +25,26 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
     /******************************************************/
     //MARK: - Outlets
     
-    @IBOutlet weak var searchButton: UIButton!
-    
+    //container views
+    @IBOutlet weak var step1View: UIView!
+    @IBOutlet weak var step2View: UIView!
     @IBOutlet weak var step2PromptContainer: UIView!
     @IBOutlet weak var miniMapContainer: UIView!
     @IBOutlet weak var step1PromptContainer: UIView!
     @IBOutlet weak var pinLocationCreatorContainer: UIView!
+    
+    //mapView
     @IBOutlet weak var miniMapView: MKMapView!
     
-    @IBOutlet weak var step1View: UIView!
-    @IBOutlet weak var step2View: UIView!
+    //User Input
     @IBOutlet weak var step1LocationInput: UITextField!
+    @IBOutlet weak var step2URLInput: UITextView!
     
+    //buttons
     @IBOutlet var searchNavButton: UIBarButtonItem!
     @IBOutlet weak var cancelNavButton: UIBarButtonItem!
+    @IBOutlet weak var pinItButton: BorderedButton!
+    @IBOutlet weak var findAndMapButton: BorderedButton!
     
     /******************************************************/
     /******************* Life Cycle **************/
@@ -50,7 +55,12 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
         
         miniMapView.delegate = self
         
+        //initialize button states
         makeSearchNavBarButtonVisible(false)
+        makePinItButtonEnabled(false)
+        
+        //set delegates
+        step2URLInput.delegate = self
         
     }
     
@@ -84,6 +94,23 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
             alertUser("Unknown Error", alertMessage: "Text box appears to not exist!")
         }
     } //end searchAndTransition
+    
+    @IBAction func searchNavButtonPressed(sender: AnyObject) {
+        transitionToOtherStep()
+    }
+    
+    @IBAction func cancelNavButtonPressed(sender: AnyObject) {
+    }
+    
+    @IBAction func pinItButtonPressed(sender: AnyObject) {
+        print("Pin It button pressed")
+        //check that all data is input
+        //add missing data to the pin
+        //Send this Pen to Parse
+        //add it to the map
+        //dismiss this view controller and zoom to user's pin
+    }
+    
     
     /******************************************************/
     /******************* Geocode Functions **************/
@@ -256,7 +283,7 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
      makes the search barbutton visible or invisible
      
      - Parameters:
-     - state: True is visible. False is invisible
+        - state: True is visible. False is invisible
      */
     func makeSearchNavBarButtonVisible(state : Bool) -> Void {
         if state {
@@ -275,6 +302,40 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
         }
     } // end of makeSearchNavBarButtonVisible
     
+    /**
+     sets the PinIt button as enabled or disabled
+     
+     - Parameters:
+         - state: True is enabled. False is disabled
+     */
+    func makePinItButtonEnabled(state: Bool) -> Void {
+        print("Pin It button is being set to " + String(state))
+        self.pinItButton.enabled = state
+    } // end of makePinItButtonEnabled
+    
+    ///Allows touches outside of text fields to end editing
+    //adapted from http://www.codingexplorer.com/how-to-dismiss-uitextfields-keyboard-in-your-swift-app/
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        view.endEditing(true)
+        super.touchesBegan(touches, withEvent: event)
+    }
+    
+    /******************************************************/
+    /******************* Text Actions **************/
+    /******************************************************/
+    //MARK: - Text Actions
+    
+    func textViewDidChangeAction(textView: UITextView) -> Void {
+        //if the textview is not empty, then enable the Pin It button
+        //also check for strings with only whitespace
+        let stringWithNoWhitespace = textView.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        if !textView.text.isEmpty && !stringWithNoWhitespace.isEmpty{
+            makePinItButtonEnabled(true)
+        } else {
+            makePinItButtonEnabled(false)
+        }
+    }
+    
     /******************************************************/
     /******************* Transitions between Step 1 and Step 2 **************/
     /******************************************************/
@@ -285,11 +346,15 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
      */
     func transitionToOtherStep() {
         print("About to transition...")
-        if self.step1View.alpha == 0 { //must be on step 2, go to step 1
+        if self.step1View.alpha == 0 { //must be on step 2,
+            //go to step 1
             UIView.animateWithDuration(0.5, animations: {
                 self.step2View.alpha = 0
                 self.step1View.alpha = 1
             })
+            
+            //disable search button
+            makeSearchNavBarButtonVisible(false)
         } else { // must be on step 1, go to step 2
             UIView.animateWithDuration(0.5, animations: {
                 self.step2View.alpha = 1

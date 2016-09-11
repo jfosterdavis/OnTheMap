@@ -226,9 +226,21 @@
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XlG-90-0hI">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="201"/>
+                                        <subviews>
+                                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" text="Enter your URL" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Ske-tf-gpE">
+                                                <rect key="frame" x="8" y="73" width="584" height="115"/>
+                                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="URL"/>
+                                            </textView>
+                                        </subviews>
                                         <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                                         <constraints>
+                                            <constraint firstItem="Ske-tf-gpE" firstAttribute="bottom" secondItem="XlG-90-0hI" secondAttribute="bottomMargin" constant="-5" id="8dY-qy-fB9"/>
+                                            <constraint firstItem="Ske-tf-gpE" firstAttribute="leading" secondItem="XlG-90-0hI" secondAttribute="leadingMargin" id="Bxy-ic-SOP"/>
                                             <constraint firstAttribute="height" constant="201" id="Hzp-BP-XIV"/>
+                                            <constraint firstItem="Ske-tf-gpE" firstAttribute="trailing" secondItem="XlG-90-0hI" secondAttribute="trailingMargin" id="YQ1-kK-mFI"/>
+                                            <constraint firstItem="Ske-tf-gpE" firstAttribute="top" secondItem="XlG-90-0hI" secondAttribute="topMargin" constant="65" id="mCb-9P-E9h"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bGf-VX-FcQ">
@@ -237,9 +249,21 @@
                                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="ajH-TF-RwZ">
                                                 <rect key="frame" x="0.0" y="0.0" width="600" height="401"/>
                                             </mapView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eWA-Dx-oIC" customClass="BorderedButton" customModule="OnTheMap" customModuleProvider="target">
+                                                <rect key="frame" x="193" y="333" width="214" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="214" id="abQ-27-qwG"/>
+                                                </constraints>
+                                                <state key="normal" title="Pin it!"/>
+                                                <connections>
+                                                    <action selector="pinItButtonPressed:" destination="oSM-bg-Awt" eventType="touchUpInside" id="mI3-bl-71J"/>
+                                                </connections>
+                                            </button>
                                         </subviews>
                                         <color key="backgroundColor" red="1" green="0.52036780019999995" blue="0.93478993830000001" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="eWA-Dx-oIC" secondAttribute="bottom" constant="38" id="3Uq-2o-NDL"/>
+                                            <constraint firstItem="eWA-Dx-oIC" firstAttribute="centerX" secondItem="ajH-TF-RwZ" secondAttribute="centerX" id="4dC-B7-V8k"/>
                                             <constraint firstItem="ajH-TF-RwZ" firstAttribute="leading" secondItem="bGf-VX-FcQ" secondAttribute="leading" id="DVy-XE-ytH"/>
                                             <constraint firstAttribute="bottom" secondItem="ajH-TF-RwZ" secondAttribute="bottom" id="FXB-gy-4hO"/>
                                             <constraint firstAttribute="trailing" secondItem="ajH-TF-RwZ" secondAttribute="trailing" id="IQ6-Oa-1Ee"/>
@@ -262,8 +286,16 @@
                                 <rect key="frame" x="0.0" y="20" width="600" height="44"/>
                                 <items>
                                     <navigationItem title="Place a New Pin" id="t5D-uM-Rcr">
-                                        <barButtonItem key="leftBarButtonItem" systemItem="search" id="f5i-Fx-bbW"/>
-                                        <barButtonItem key="rightBarButtonItem" systemItem="cancel" id="pPz-p5-V61"/>
+                                        <barButtonItem key="leftBarButtonItem" systemItem="search" id="f5i-Fx-bbW">
+                                            <connections>
+                                                <action selector="searchNavButtonPressed:" destination="oSM-bg-Awt" id="SKB-OG-Szp"/>
+                                            </connections>
+                                        </barButtonItem>
+                                        <barButtonItem key="rightBarButtonItem" systemItem="cancel" id="pPz-p5-V61">
+                                            <connections>
+                                                <action selector="cancelNavButtonPressed:" destination="oSM-bg-Awt" id="v48-Gf-TpU"/>
+                                            </connections>
+                                        </barButtonItem>
                                     </navigationItem>
                                 </items>
                             </navigationBar>
@@ -285,14 +317,17 @@
                     </view>
                     <connections>
                         <outlet property="cancelNavButton" destination="pPz-p5-V61" id="nV3-03-wby"/>
+                        <outlet property="findAndMapButton" destination="S8D-aL-HzG" id="mv7-S8-a9p"/>
                         <outlet property="miniMapContainer" destination="bGf-VX-FcQ" id="3Ic-Di-pgv"/>
                         <outlet property="miniMapView" destination="ajH-TF-RwZ" id="r26-MZ-FSE"/>
+                        <outlet property="pinItButton" destination="eWA-Dx-oIC" id="AS8-70-aK8"/>
                         <outlet property="pinLocationCreatorContainer" destination="bbj-ri-ssN" id="J1N-oh-x3m"/>
                         <outlet property="searchNavButton" destination="f5i-Fx-bbW" id="PtJ-Qq-bKL"/>
                         <outlet property="step1LocationInput" destination="TYr-4g-KGr" id="QHz-1k-0Zs"/>
                         <outlet property="step1PromptContainer" destination="LQr-hR-DMq" id="wPW-Xv-cxd"/>
                         <outlet property="step1View" destination="RgX-kH-2Zd" id="WYC-Kd-nqV"/>
                         <outlet property="step2PromptContainer" destination="XlG-90-0hI" id="u8x-2F-1CB"/>
+                        <outlet property="step2URLInput" destination="Ske-tf-gpE" id="p5e-2K-rtb"/>
                         <outlet property="step2View" destination="Nca-aZ-Y8B" id="yIE-jb-qvZ"/>
                     </connections>
                 </viewController>
