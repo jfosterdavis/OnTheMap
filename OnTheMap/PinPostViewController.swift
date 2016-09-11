@@ -17,6 +17,7 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
     /******************************************************/
     //MARK: - Properties
     var newPin : MKPointAnnotation?
+    var newStudentInfo : StudentInformation?
 
     
     
@@ -46,6 +47,16 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var pinItButton: BorderedButton!
     @IBOutlet weak var findAndMapButton: BorderedButton!
     
+    
+    /******************************************************/
+    /******************* Error Checking **************/
+    /******************************************************/
+    //MARK: - Error Checking
+    
+    enum StudentInfoCreationError: ErrorType {
+        case MissingObject() //Missing an object needed to create
+    }
+    
     /******************************************************/
     /******************* Life Cycle **************/
     /******************************************************/
@@ -61,6 +72,9 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
         
         //set delegates
         step2URLInput.delegate = self
+        
+        //set up a new StudentInformation object
+        setupNewStudentInfo()
         
     }
     
@@ -102,10 +116,27 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
     @IBAction func cancelNavButtonPressed(sender: AnyObject) {
     }
     
-    @IBAction func pinItButtonPressed(sender: AnyObject) {
+    @IBAction func pinItButtonPressed(sender: BorderedButton!) {
         print("Pin It button pressed")
+        //make sure text view is done editing
+        step2URLInput.endEditing(true)
+        
         //check that all data is input
-        //add missing data to the pin
+        //set the mediaURL
+        if !setNewStudentInfoURL(self.step2URLInput.text!){
+            print("failed to set URL")
+        }
+        //set the coordinates
+        if self.newPin !=  nil {
+            print("About to try to set coordinates")
+            setNewStudentInfoCoordinates(self.newPin!)
+        } else {
+            //TODO: handle case
+            print("failed to set coordinates")
+        }
+        
+        print("StudentIformation Object is ready to take: ")
+        print(self.newStudentInfo)
         //Send this Pen to Parse
         //add it to the map
         //dismiss this view controller and zoom to user's pin
@@ -138,6 +169,9 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
                 }
                 //set the newPin and plot it
                 self.pinSetAndPlot(self.pinFromPlacemark(placemarks[0]))
+                
+                //set the new mapString
+                self.setNewStudentInfoMapString(placemarks[0].name!)
                 
                 //transition
                 self.transitionToOtherStep()
@@ -245,6 +279,107 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
         
     } // end of pinSetAndPlot
     
+    /**
+     Attempts to give the current newStudentInfo the given text as a URL
+     
+     - Parameters:
+         - inputURL: the URL to give the newStudentInfo
+     
+     - Returns:
+         - `true`: if successful
+         - `false`: otherwise
+     */
+    
+    /******************************************************/
+    /******************* StudentInformation Object **************/
+    /******************************************************/
+    //MARK: - StudentInformation Object
+    
+    func setNewStudentInfoURL(inputURL : String!) -> Bool {
+        print("setNewStudentInfoURL called")
+        if self.newStudentInfo == nil {
+            //the newStudentInfo is not initialized
+            print("the newStudentInfo is not initialized")
+            return false
+        } else {
+            //the newStudentInfo exists, set the value
+            self.newStudentInfo!.mediaURL = inputURL!
+            
+            //check for success because the struct has input validation
+            if self.newStudentInfo!.mediaURL == inputURL! {
+                print("mediaURL set to: " + String(self.newStudentInfo!.mediaURL))
+                return true
+            } else {
+                print("failed to set URL")
+                return false
+            }
+        }
+    } // end of setNewStudentInfoURL
+    
+    /**
+     Attempts to give the current newStudentInfo the given Coordinates from the pin
+     
+     - Parameters:
+         - inputPin: a MKPointAnnotation
+     
+     - Returns:
+         - `true`: if successful
+         - `false`: otherwise
+     */
+    func setNewStudentInfoCoordinates(inputPin : MKPointAnnotation) -> Bool {
+        if self.newStudentInfo == nil {
+            print("failed to set coordinates. self.newstudentinfo returned nil")
+            //the newStudentInfo is not initialized
+            return false
+        } else {
+            //the newStudentInfo exists, set the value
+            self.newStudentInfo!.latitude = inputPin.coordinate.latitude
+            self.newStudentInfo!.longitude = inputPin.coordinate.longitude
+            
+            //check for success because the struct has input validation
+            if self.newStudentInfo!.latitude == inputPin.coordinate.latitude &&
+            self.newStudentInfo!.longitude == inputPin.coordinate.longitude {
+                print("latitude set to: " + String(self.newStudentInfo!.latitude))
+                print("longitude set to: " + String(self.newStudentInfo!.longitude))
+                return true
+            } else {
+                print("failed to set coordinates")
+                print(inputPin)
+                return false
+            }
+        }
+    } // end of setNewStudentInfoCoordinates
+    
+    
+    /**
+     Attempts to give the current newStudentInfo the given mapString
+     
+     - Parameters:
+         - inputMapString: a string from the user's search
+     
+     - Returns:
+         - `true`: if successful
+         - `false`: otherwise
+     */
+    func setNewStudentInfoMapString(inputMapString : String!) -> Bool {
+        if self.newStudentInfo == nil {
+            //the newStudentInfo is not initialized
+            return false
+        } else {
+            //the newStudentInfo exists, set the value
+            self.newStudentInfo!.mapString = inputMapString
+            
+            //check for success because the struct has input validation
+            if self.newStudentInfo!.mapString == inputMapString  {
+                print("Mapstring set to: " + String(self.newStudentInfo!.mapString))
+                return true
+            } else {
+                print("failed to set MapString")
+                return false
+            }
+        }
+    } // end of setNewStudentInfoMapString
+    
     /******************************************************/
     /******************* Housekeeping functions **************/
     /******************************************************/
@@ -320,6 +455,10 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
         super.touchesBegan(touches, withEvent: event)
     }
     
+    func setupNewStudentInfo() {
+        self.newStudentInfo = StudentInformation()
+    }
+    
     /******************************************************/
     /******************* Text Actions **************/
     /******************************************************/
@@ -355,6 +494,9 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
             
             //disable search button
             makeSearchNavBarButtonVisible(false)
+            
+            //set up a new StudentInformation object
+            setupNewStudentInfo()
         } else { // must be on step 1, go to step 2
             UIView.animateWithDuration(0.5, animations: {
                 self.step2View.alpha = 1
