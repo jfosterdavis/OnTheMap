@@ -161,14 +161,53 @@
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LQr-hR-DMq">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="199"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DWH-JJ-tCh">
+                                                <rect key="frame" x="28" y="38" width="541" height="143"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
                                         <color key="backgroundColor" red="1" green="0.33634457400000001" blue="0.43557968689999998" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
+                                            <constraint firstItem="DWH-JJ-tCh" firstAttribute="leading" secondItem="LQr-hR-DMq" secondAttribute="leadingMargin" constant="20" id="7mK-Yg-dGn"/>
+                                            <constraint firstItem="DWH-JJ-tCh" firstAttribute="top" secondItem="LQr-hR-DMq" secondAttribute="topMargin" constant="30" id="C0m-Jf-hUe"/>
                                             <constraint firstAttribute="height" constant="199" id="UAJ-Ql-kVi"/>
+                                            <constraint firstAttribute="bottomMargin" secondItem="DWH-JJ-tCh" secondAttribute="bottom" constant="10" id="XeG-Zo-sZI"/>
+                                            <constraint firstAttribute="trailingMargin" secondItem="DWH-JJ-tCh" secondAttribute="trailing" constant="23" id="kun-To-Imq"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bbj-ri-ssN">
                                         <rect key="frame" x="0.0" y="199" width="600" height="401"/>
+                                        <subviews>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="TYr-4g-KGr">
+                                                <rect key="frame" x="48" y="138" width="501" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="height" constant="30" id="zdx-vi-jQy"/>
+                                                </constraints>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S8D-aL-HzG" customClass="BorderedButton" customModule="OnTheMap" customModuleProvider="target">
+                                                <rect key="frame" x="193" y="333" width="214" height="30"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="214" id="q7c-o1-TMJ"/>
+                                                </constraints>
+                                                <state key="normal" title="Find and Map"/>
+                                                <connections>
+                                                    <action selector="searchAndTransition:" destination="oSM-bg-Awt" eventType="touchUpInside" id="JEC-Bm-tYF"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
                                         <color key="backgroundColor" red="0.41942376529999997" green="1" blue="0.37908768310000002" alpha="1" colorSpace="calibratedRGB"/>
+                                        <constraints>
+                                            <constraint firstAttribute="trailingMargin" secondItem="TYr-4g-KGr" secondAttribute="trailing" constant="43" id="8wA-AM-PWO"/>
+                                            <constraint firstItem="S8D-aL-HzG" firstAttribute="centerX" secondItem="bbj-ri-ssN" secondAttribute="centerX" id="Lcr-on-NQO"/>
+                                            <constraint firstItem="TYr-4g-KGr" firstAttribute="top" secondItem="bbj-ri-ssN" secondAttribute="topMargin" constant="130" id="NW5-NI-8v6"/>
+                                            <constraint firstAttribute="bottom" secondItem="S8D-aL-HzG" secondAttribute="bottom" constant="38" id="SGC-bI-SOv"/>
+                                            <constraint firstItem="TYr-4g-KGr" firstAttribute="leading" secondItem="bbj-ri-ssN" secondAttribute="leadingMargin" constant="40" id="g1X-tP-nVt"/>
+                                        </constraints>
                                     </view>
                                 </subviews>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -236,6 +275,7 @@
                         <outlet property="miniMapContainer" destination="bGf-VX-FcQ" id="3Ic-Di-pgv"/>
                         <outlet property="miniMapView" destination="ajH-TF-RwZ" id="r26-MZ-FSE"/>
                         <outlet property="pinLocationCreatorContainer" destination="bbj-ri-ssN" id="J1N-oh-x3m"/>
+                        <outlet property="step1LocationInput" destination="TYr-4g-KGr" id="QHz-1k-0Zs"/>
                         <outlet property="step1PromptContainer" destination="LQr-hR-DMq" id="wPW-Xv-cxd"/>
                         <outlet property="step1View" destination="RgX-kH-2Zd" id="WYC-Kd-nqV"/>
                         <outlet property="step2PromptContainer" destination="XlG-90-0hI" id="u8x-2F-1CB"/>

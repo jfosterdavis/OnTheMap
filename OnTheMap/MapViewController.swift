@@ -207,7 +207,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
      Plots the given array of Pins
      
      - Parameters:
-         - annotations: An array of `MKPointAnnotation` objects
+         - `annotations`: An array of `MKPointAnnotation` objects
      
      */
     func plotPins(annotations : [MKPointAnnotation]) {
