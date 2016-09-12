@@ -12,7 +12,7 @@ import MapKit
 
 // MARK: - MapViewController: UIViewController
 
-class MapViewController: UIViewController, MKMapViewDelegate {
+class MapViewController: UIViewController, MKMapViewDelegate, PinPostViewControllerDelegate {
     
     /******************************************************/
     /******************* PROPERTIES **************/
@@ -22,6 +22,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     var session: NSURLSession!
     var annotations = [MKPointAnnotation]()
+    
+    var newStudentInfo : StudentInformation?
     
     /******************************************************/
     /******************* Shared Model **************/
@@ -41,6 +43,10 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         //parseTestMessage()
         
         mapView.delegate = self
+        
+        setupNewStudentInfo()
+        
+        self.tabBarController?.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: #selector(addPinButtonPressed))
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -52,6 +58,19 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
         
     }
+    
+    /******************************************************/
+    /******************* Actions **************/
+    /******************************************************/
+    //MARK: - Actions
+    
+    func addPinButtonPressed(sender: AnyObject) {
+        let vc = storyboard?.instantiateViewControllerWithIdentifier("PinPostViewController") as! PinPostViewController
+        vc.delegate = self
+        self.presentViewController(vc, animated: true, completion: nil)
+        
+    }
+    
     
     /******************************************************/
     /******************* Map Delegate **************/
@@ -80,6 +99,18 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         return pinView
     }
     
+    /******************************************************/
+    /******************* PinPostViewControllerDelegate **************/
+    /******************************************************/
+    //MARK: - PinPostViewControllerDelegate
+    
+    func newStudentInformationDataReady(newStudentInfo: StudentInformation) {
+        setupNewStudentInfo()
+        self.newStudentInfo = newStudentInfo
+        print("Got new student info from PinPostViewController:")
+        print(self.newStudentInfo)
+    }
+    
     
     /**
      This delegate method is implemented to respond to taps. It opens the system browser
@@ -93,6 +124,27 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             } else {
                 print("Failed to open view annotation")
             }
+        }
+    }
+    
+    /******************************************************/
+    /******************* Housekeeping **************/
+    /******************************************************/
+    //MARK: - Housekeeping
+    
+    func setupNewStudentInfo() {
+        self.newStudentInfo = StudentInformation()
+    }
+    
+    /******************************************************/
+    /******************* Segue **************/
+    /******************************************************/
+    //MARK: - Segue
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "PinPostViewController" {
+            let pinPostViewController = segue.destinationViewController as! PinPostViewController
+            pinPostViewController.delegate = self
         }
     }
     

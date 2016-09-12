@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="oSM-bg-Awt">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Wzx-6C-yNT">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -147,7 +147,7 @@
         <!--Pin Post View Controller-->
         <scene sceneID="XWD-EM-5bi">
             <objects>
-                <viewController id="oSM-bg-Awt" customClass="PinPostViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PinPostViewController" id="oSM-bg-Awt" customClass="PinPostViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="N1O-IW-xY8"/>
                         <viewControllerLayoutGuide type="bottom" id="OAC-AR-eed"/>
@@ -339,13 +339,7 @@
         <scene sceneID="xkM-4i-sat">
             <objects>
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="AoF-9E-uwa" userLabel="Manager Tab" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" title="On The Map" id="779-2I-7NP">
-                        <barButtonItem key="leftBarButtonItem" image="TableCellIcon" id="0ec-hH-57H">
-                            <connections>
-                                <segue destination="oSM-bg-Awt" kind="presentation" id="Jxg-FQ-RhO"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="On The Map" id="779-2I-7NP"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="kGf-fJ-FKV">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
@@ -376,16 +370,20 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="VFK-5a-kWJ">
                                 <rect key="frame" x="0.0" y="64" width="600" height="487"/>
                             </mapView>
+                            <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RfV-sO-aXJ">
+                                <rect key="frame" x="0.0" y="20" width="600" height="44"/>
+                            </navigationBar>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="VFK-5a-kWJ" firstAttribute="top" secondItem="nXG-ab-qmZ" secondAttribute="bottom" id="EI4-hs-X6G"/>
                             <constraint firstAttribute="trailingMargin" secondItem="VFK-5a-kWJ" secondAttribute="trailing" constant="-20" id="FCL-ht-T19"/>
                             <constraint firstItem="VFK-5a-kWJ" firstAttribute="leading" secondItem="9n3-G9-9Vo" secondAttribute="leadingMargin" constant="-20" id="JN4-Vz-EFB"/>
-                            <constraint firstItem="Lfj-rp-eCm" firstAttribute="top" secondItem="VFK-5a-kWJ" secondAttribute="bottom" id="kwb-8L-B7r"/>
+                            <constraint firstItem="VFK-5a-kWJ" firstAttribute="top" secondItem="nXG-ab-qmZ" secondAttribute="bottom" id="Sxe-kn-XFd"/>
+                            <constraint firstItem="Lfj-rp-eCm" firstAttribute="top" secondItem="VFK-5a-kWJ" secondAttribute="bottom" id="tGE-2k-EtU"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Map" image="MapTabIcon" id="jkb-3U-uCD"/>
+                    <tabBarItem key="tabBarItem" title="Map" image="MapTabIcon" id="2bf-xm-0pe"/>
+                    <navigationItem key="navigationItem" title="Title" id="aBk-3u-vyq"/>
                     <connections>
                         <outlet property="mapView" destination="VFK-5a-kWJ" id="7b5-Lf-nJ6"/>
                     </connections>

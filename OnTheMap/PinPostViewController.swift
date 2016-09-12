@@ -10,6 +10,12 @@ import Foundation
 import UIKit
 import MapKit
 
+//adapted from http://stackoverflow.com/questions/19343519/pass-data-back-to-previous-viewcontroller
+/// Used to send information back to the presenting view controller
+protocol PinPostViewControllerDelegate: class {
+    func newStudentInformationDataReady(newStudentInfo : StudentInformation)
+}
+
 class PinPostViewController: UIViewController, MKMapViewDelegate {
     
     /******************************************************/
@@ -18,6 +24,8 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
     //MARK: - Properties
     var newPin : MKPointAnnotation?
     var newStudentInfo : StudentInformation?
+    /// Delegate for passing data back to presenting viewcontroller
+    weak var delegate : PinPostViewControllerDelegate? = nil
 
     
     
@@ -114,6 +122,7 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
     }
     
     @IBAction func cancelNavButtonPressed(sender: AnyObject) {
+        dismissViewControllerAnimated(true, completion: nil)
     }
     
     @IBAction func pinItButtonPressed(sender: BorderedButton!) {
@@ -124,7 +133,7 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
         //check that all data is input
         //set the mediaURL
         if !setNewStudentInfoURL(self.step2URLInput.text!){
-            print("failed to set URL")
+            print("Failed to set URL")
         }
         //set the coordinates
         if self.newPin !=  nil {
@@ -132,14 +141,16 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
             setNewStudentInfoCoordinates(self.newPin!)
         } else {
             //TODO: handle case
-            print("failed to set coordinates")
+            print("Failed to set coordinates")
         }
         
-        print("StudentIformation Object is ready to take: ")
+        print("StudentIformation Object ready: ")
         print(self.newStudentInfo)
-        //Send this Pen to Parse
-        //add it to the map
-        //dismiss this view controller and zoom to user's pin
+        //Send data back
+        
+        self.delegate?.newStudentInformationDataReady(self.newStudentInfo!)
+        
+        self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     
@@ -229,6 +240,12 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
     }
     
     /******************************************************/
+    /******************* StudentInformationDataDelegate **************/
+    /******************************************************/
+    //MARK: - StudentInformationDataDelegate
+    
+    
+    /******************************************************/
     /******************* Pins **************/
     /******************************************************/
     //MARK: - Pins
@@ -296,7 +313,7 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
     //MARK: - StudentInformation Object
     
     func setNewStudentInfoURL(inputURL : String!) -> Bool {
-        print("setNewStudentInfoURL called")
+        //print("setNewStudentInfoURL called")
         if self.newStudentInfo == nil {
             //the newStudentInfo is not initialized
             print("the newStudentInfo is not initialized")
@@ -328,7 +345,7 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
      */
     func setNewStudentInfoCoordinates(inputPin : MKPointAnnotation) -> Bool {
         if self.newStudentInfo == nil {
-            print("failed to set coordinates. self.newstudentinfo returned nil")
+            print("Failed to set coordinates. self.newstudentinfo returned nil")
             //the newStudentInfo is not initialized
             return false
         } else {
@@ -339,11 +356,11 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
             //check for success because the struct has input validation
             if self.newStudentInfo!.latitude == inputPin.coordinate.latitude &&
             self.newStudentInfo!.longitude == inputPin.coordinate.longitude {
-                print("latitude set to: " + String(self.newStudentInfo!.latitude))
-                print("longitude set to: " + String(self.newStudentInfo!.longitude))
+                print("Latitude set to: " + String(self.newStudentInfo!.latitude))
+                print("Longitude set to: " + String(self.newStudentInfo!.longitude))
                 return true
             } else {
-                print("failed to set coordinates")
+                print("Failed to set coordinates")
                 print(inputPin)
                 return false
             }
@@ -364,6 +381,7 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
     func setNewStudentInfoMapString(inputMapString : String!) -> Bool {
         if self.newStudentInfo == nil {
             //the newStudentInfo is not initialized
+            print("Failed to set MapString")
             return false
         } else {
             //the newStudentInfo exists, set the value
@@ -374,7 +392,7 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
                 print("Mapstring set to: " + String(self.newStudentInfo!.mapString))
                 return true
             } else {
-                print("failed to set MapString")
+                print("Failed to set MapString")
                 return false
             }
         }
