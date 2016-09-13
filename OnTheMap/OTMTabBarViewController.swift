@@ -119,7 +119,14 @@ class OTMTabBarController: UITabBarController, PinPostViewControllerDelegate {
             appDelegate.UdacityUserInfo = tempNewUserInfo
             print("Set the shared UdacityUserInfo model:")
             print(UdacityUserInfo)
+            
+            //update the "logged in as"
+            updateNavBarPromptName("\(UdacityUserInfo.firstName!) \(UdacityUserInfo.lastName!)")
         }
+    }
+    
+    func updateNavBarPromptName(name: String) {
+        self.navigationItem.prompt = "Logged in as: " + name
     }
     
     
