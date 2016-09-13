@@ -129,7 +129,6 @@
 			children = (
 				A9855BD71BEC430C00000031 /* Clients */,
 				F6FFC3041D7E14C9009AC3A3 /* StudentInformationModel.swift */,
-				F6B20E531D886DA000AD5924 /* UdacityUserInformationModel.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -167,6 +166,7 @@
 		F68CAF171D7C695900907849 /* Udacity */ = {
 			isa = PBXGroup;
 			children = (
+				F6B20E531D886DA000AD5924 /* UdacityUserInformationModel.swift */,
 				F68CAF0F1D7C694700907849 /* UdacityClient.swift */,
 				F68CAF111D7C694700907849 /* UdacityConvenience.swift */,
 				F68CAF0D1D7C694700907849 /* UdacityConstants.swift */,

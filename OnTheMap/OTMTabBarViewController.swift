@@ -20,6 +20,8 @@ class OTMTabBarController: UITabBarController, PinPostViewControllerDelegate {
     
     weak var otmDelegate : OTMTabBarControllerDelegate? = nil
     
+    var newUserInfo : UdacityUserInformation?
+    
     /******************************************************/
     /******************* Shared Model **************/
     /******************************************************/
@@ -38,6 +40,20 @@ class OTMTabBarController: UITabBarController, PinPostViewControllerDelegate {
     }
     
     /******************************************************/
+    /******************* Life Cycle **************/
+    /******************************************************/
+    //MARK: - LifeCycle
+    
+    override func viewDidLoad() {
+        
+        //attempt to get user info
+        fetchUserData()
+        //check to see if data was retrived, and set shared model if so
+
+        
+    }
+    
+    /******************************************************/
     /******************* Actions **************/
     /******************************************************/
     //MARK: - Actions
@@ -52,6 +68,58 @@ class OTMTabBarController: UITabBarController, PinPostViewControllerDelegate {
     
     
     @IBAction func logOutButtonPressed(sender: AnyObject) {
+    }
+    
+    /******************************************************/
+    /******************* User Data **************/
+    /******************************************************/
+    //MARK: - User Data
+    
+    func fetchUserData() -> Void {
+        print("Attempting to fetch user data from OTMTabBarController")
+        GCDBlackBox.runNetworkFunctionInBackground {
+            UdacityClient.sharedInstance.fetchUserData() { (result, error) in
+                GCDBlackBox.performUIUpdatesOnMain {
+                    //self.stopActivityIndicator()
+                    if let result = result {
+                        //check that this userID matches the one we already have
+                        if self.UdacityUserInfo.userID == result.userID! {
+                            //they match, so set the temporary newUserInfo
+                            
+                            self.newUserInfo = result
+                            print("OTMTabBarController successfully retrieved and set newUserInfo")
+                            self.updateUdacityModelFromNewUserInfo()
+                        } else {
+                            //something has gone wrong and we have a different user
+                            //TODO: handle error
+                            /*
+                             *  <#description#>
+                             */
+                            print("OTMTabBarController failed to retrieve and set newUserInfo (userID mismatch)")
+                            self.newUserInfo = nil
+                        }
+                        
+                    } else {
+                        //TODO: handle error
+                        /*
+                         *  <#description#>
+                         */
+                        
+                        print("OTMTabBarController failed to retrieve and set newUserInfo (empty result set)")
+                        self.newUserInfo = nil
+                    }
+                }
+            }
+        }
+    }
+    
+    func updateUdacityModelFromNewUserInfo(){
+        if let tempNewUserInfo = newUserInfo {
+            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+            appDelegate.UdacityUserInfo = tempNewUserInfo
+            print("Set the shared UdacityUserInfo model:")
+            print(UdacityUserInfo)
+        }
     }
     
     

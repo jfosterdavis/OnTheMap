@@ -22,6 +22,77 @@ extension UdacityClient {
         Step 1: Request a session ID
         Step 2: Set the Session ID
     */
+    
+    func fetchUserData(completionHandlerForFetchUserData: (result: UdacityUserInformation?, error: NSError?) -> Void) {
+        
+        self.getUserData() { (result, error) in
+            if let result = result {
+                completionHandlerForFetchUserData(result: result, error: nil)
+            } else {
+                completionHandlerForFetchUserData(result: result, error: error)
+            }
+        }
+        
+    }
+    
+    func getUserData(completionHandlerForGetUserData: (result: UdacityUserInformation?, error: NSError?) -> Void) {
+        
+        /* 1. Specify parameters, method (if has {key}), and HTTP body (if POST) */
+        //no parameters
+        let parameters : [String:AnyObject]? = nil
+        var mutableMethod: String = Methods.PublicUserData
+        mutableMethod = subtituteKeyInMethod(mutableMethod, key: UdacityClient.URLKeys.UserID, value: String(UdacityClient.sharedInstance.userID!))!
+        
+        /* 2. Make the request */
+        taskForGETMethod(mutableMethod, parameters: parameters) { (results, error) in
+            
+            /* 3. Send the desired value(s) to completion handler */
+            if let error = error {
+                completionHandlerForGetUserData(result: nil, error: error)
+            } else {
+                
+                //parse the response and create a UdacityUserInformation object. UserID is already known
+                var newUdacityUserInfo = UdacityUserInformation()
+                newUdacityUserInfo.userID = UdacityClient.sharedInstance.userID!
+                
+                if let firstName = results[UdacityClient.JSONResponseKeys.User.User]?![UdacityClient.JSONResponseKeys.User.FirstName] as? String {
+                    newUdacityUserInfo.firstName = firstName
+                    
+                    if let lastName = results[UdacityClient.JSONResponseKeys.User.User]?![UdacityClient.JSONResponseKeys.User.LastName] as? String {
+                        newUdacityUserInfo.lastName = lastName
+                        if let nickName = results[UdacityClient.JSONResponseKeys.User.User]?![UdacityClient.JSONResponseKeys.User.NickName] as? String {
+                            newUdacityUserInfo.nickName = nickName
+                            
+                            if let imageURL = results[UdacityClient.JSONResponseKeys.User.User]?![UdacityClient.JSONResponseKeys.User.ImageURL] as? String {
+                                newUdacityUserInfo.imageURL = imageURL
+                                
+                                //now have a completed UdacityUserInformation object, so return
+                                completionHandlerForGetUserData(result: newUdacityUserInfo, error: nil)
+                                
+                            } else {
+                                print("Could not find \(UdacityClient.JSONResponseKeys.User.User) in \(results)")
+                                completionHandlerForGetUserData(result: nil, error: NSError(domain: "getUserData parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not get user imageURL"]))
+                            }
+                            
+                        } else {
+                            print("Could not find \(UdacityClient.JSONResponseKeys.User.User) in \(results)")
+                            completionHandlerForGetUserData(result: nil, error: NSError(domain: "getUserData parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not get user nickname"]))
+                        }
+                        
+                    } else {
+                        print("Could not find \(UdacityClient.JSONResponseKeys.User.User) in \(results)")
+                        completionHandlerForGetUserData(result: nil, error: NSError(domain: "getUserData parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not get last name"]))
+                    }
+                    
+                } else {
+                    print("Could not find \(UdacityClient.JSONResponseKeys.User.User) in \(results)")
+                    completionHandlerForGetUserData(result: nil, error: NSError(domain: "getUserData parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not get first name"]))
+                }
+            }
+        }
+        
+    }
+    
     func authenticateWithViewController(username: String, password : String, hostViewController: UIViewController, completionHandlerForAuth: (success: Bool, errorString: String?) -> Void) {
         
         self.getSessionID(username, password: password) { (success, sessionID, userID, errorString) in

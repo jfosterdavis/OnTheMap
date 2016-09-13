@@ -206,6 +206,13 @@ class LoginViewController: UIViewController {
         presentViewController(controller, animated: true, completion: nil)
     }
     
+    /**
+     fetches the userinfo from the Udacity Parse Server
+     */
+    private func getUserInfo() {
+        
+    }
+    
     /******************************************************/
     /******************* Keyboard **************/
     /******************************************************/
