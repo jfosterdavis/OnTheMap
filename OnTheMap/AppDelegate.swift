@@ -22,6 +22,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     /******************************************************/
     //MARK: - The Shared Model
     var StudentInformations = [StudentInformation]()
+    var UdacityUserInfo = UdacityUserInformation()
+    var NewStudentInfo = StudentInformation()
     
     // MARK: UIApplicationDelegate
     

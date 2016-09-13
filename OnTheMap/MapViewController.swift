@@ -12,7 +12,7 @@ import MapKit
 
 // MARK: - MapViewController: UIViewController
 
-class MapViewController: UIViewController, MKMapViewDelegate, PinPostViewControllerDelegate {
+class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControllerDelegate {
     
     /******************************************************/
     /******************* PROPERTIES **************/
@@ -33,6 +33,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, PinPostViewControl
         return (UIApplication.sharedApplication().delegate as! AppDelegate).StudentInformations
     }
     
+//    var UdacityUserInfo: UdacityUserInformation {
+//        return (UIApplication.sharedApplication().delegate as! AppDelegate).UdacityUserInfo
+//    }
+    
     /******************************************************/
     /******************* Life Cycle **************/
     /******************************************************/
@@ -42,11 +46,18 @@ class MapViewController: UIViewController, MKMapViewDelegate, PinPostViewControl
         
         //parseTestMessage()
         
+        
+        //set delegates
         mapView.delegate = self
+        
+        let otmTabBarController = self.tabBarController as! OTMTabBarController
+        otmTabBarController.otmDelegate = self
         
         setupNewStudentInfo()
         
-        self.tabBarController?.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: #selector(addPinButtonPressed))
+        
+        //way to add this button adapted from http://stackoverflow.com/questions/31747470/button-in-navigation-bar-in-tab-bar-uiviewcontroller-not-showing
+       // self.tabBarController?.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: #selector(addPinButtonPressed))
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -54,7 +65,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, PinPostViewControl
         
         //make an initial fetch for pins if there are none
         if StudentInformations.isEmpty {
-            fetchPinsAndPlotPins(200, skip: 5, order: "-lastName")
+            fetchPinsAndPlotPins(100, skip: 5, order: "-lastName")
         }
         
     }
@@ -64,13 +75,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, PinPostViewControl
     /******************************************************/
     //MARK: - Actions
     
-    func addPinButtonPressed(sender: AnyObject) {
-        let vc = storyboard?.instantiateViewControllerWithIdentifier("PinPostViewController") as! PinPostViewController
-        vc.delegate = self
-        self.presentViewController(vc, animated: true, completion: nil)
-        
-    }
-    
+//    func addPinButtonPressed(sender: AnyObject) {
+//        let vc = storyboard?.instantiateViewControllerWithIdentifier("PinPostViewController") as! PinPostViewController
+//        vc.delegate = self
+//        self.presentViewController(vc, animated: true, completion: nil)
+//        
+//    }
     
     /******************************************************/
     /******************* Map Delegate **************/
@@ -99,19 +109,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, PinPostViewControl
         return pinView
     }
     
-    /******************************************************/
-    /******************* PinPostViewControllerDelegate **************/
-    /******************************************************/
-    //MARK: - PinPostViewControllerDelegate
-    
-    func newStudentInformationDataReady(newStudentInfo: StudentInformation) {
-        setupNewStudentInfo()
-        self.newStudentInfo = newStudentInfo
-        print("Got new student info from PinPostViewController:")
-        print(self.newStudentInfo)
-    }
-    
-    
     /**
      This delegate method is implemented to respond to taps. It opens the system browser
      to the URL specified in the annotationViews subtitle property.
@@ -128,24 +125,24 @@ class MapViewController: UIViewController, MKMapViewDelegate, PinPostViewControl
     }
     
     /******************************************************/
+    /******************* PinPostViewControllerDelegate **************/
+    /******************************************************/
+    //MARK: - PinPostViewControllerDelegate
+    
+//    func newStudentInformationDataReady(newStudentInfo: StudentInformation) {
+//        setupNewStudentInfo()
+//        self.newStudentInfo = newStudentInfo
+//        print("Got new student info from PinPostViewController:")
+//        print(self.newStudentInfo)
+//    }
+    
+    /******************************************************/
     /******************* Housekeeping **************/
     /******************************************************/
     //MARK: - Housekeeping
     
     func setupNewStudentInfo() {
         self.newStudentInfo = StudentInformation()
-    }
-    
-    /******************************************************/
-    /******************* Segue **************/
-    /******************************************************/
-    //MARK: - Segue
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "PinPostViewController" {
-            let pinPostViewController = segue.destinationViewController as! PinPostViewController
-            pinPostViewController.delegate = self
-        }
     }
     
     /******************************************************/
@@ -160,29 +157,34 @@ class MapViewController: UIViewController, MKMapViewDelegate, PinPostViewControl
         //clear current annotations
         self.annotations = [MKPointAnnotation]()
         for StudentInformation in StudentInformations {
-            
-            // Notice that the float values are being used to create CLLocationDegree values.
-            // This is a version of the Double type.
-            let lat = CLLocationDegrees(StudentInformation.latitude!)
-            let long = CLLocationDegrees(StudentInformation.longitude!)
-            
-            // The lat and long are used to create a CLLocationCoordinates2D instance.
-            let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
-            
-            let first = StudentInformation.firstName!
-            let last = StudentInformation.lastName!
-            let mediaURL = StudentInformation.mediaURL!
-            
-            // Here we create the annotation and set its coordiate, title, and subtitle properties
-            let annotation = MKPointAnnotation()
-            annotation.coordinate = coordinate
-            annotation.title = "\(first) \(last)"
-            annotation.subtitle = mediaURL
-            
-            // Finally we place the annotation in an array of annotations.
+            let annotation = self.studentInformationToAnnotation(StudentInformation)
             self.annotations.append(annotation)
         }
         print("The Annotations array has " + String(annotations.count) + " members.")
+    }
+    
+    func studentInformationToAnnotation (studentInfo : StudentInformation) -> MKPointAnnotation {
+        
+        // Notice that the float values are being used to create CLLocationDegree values.
+        // This is a version of the Double type.
+        let lat = CLLocationDegrees(studentInfo.latitude!)
+        let long = CLLocationDegrees(studentInfo.longitude!)
+        
+        // The lat and long are used to create a CLLocationCoordinates2D instance.
+        let coordinate = CLLocationCoordinate2D(latitude: lat, longitude: long)
+        
+        let first = studentInfo.firstName!
+        let last = studentInfo.lastName!
+        let mediaURL = studentInfo.mediaURL!
+        
+        // Here we create the annotation and set its coordiate, title, and subtitle properties
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = coordinate
+        annotation.title = "\(first) \(last)"
+        annotation.subtitle = mediaURL
+        
+        // Finally we place the annotation in an array of annotations.
+        return annotation
     }
     
     /**
@@ -264,6 +266,24 @@ class MapViewController: UIViewController, MKMapViewDelegate, PinPostViewControl
      */
     func plotPins(annotations : [MKPointAnnotation]) {
         self.mapView.addAnnotations(annotations)
+    }
+    
+    func plotPin(annotation : MKPointAnnotation) {
+        self.mapView.addAnnotation(annotation)
+    }
+    
+    func plotNewPinFromStudentInformation(newStudentInfo : StudentInformation) {
+        let annotation = self.studentInformationToAnnotation(newStudentInfo)
+        plotPin(annotation)
+        
+        //Zoom to pin
+        let pinToZoomOn = annotation
+        let span = MKCoordinateSpanMake(0.5, 0.5)
+        let region = MKCoordinateRegion(center: pinToZoomOn.coordinate, span: span)
+        //annotation selection adapted from http://stackoverflow.com/questions/978897/how-to-trigger-mkannotationviews-callout-view-without-touching-the-pin
+        mapView.selectAnnotation(annotation, animated: true)
+        mapView.setRegion(region, animated: true)
+        
     }
     
     /******************************************************/

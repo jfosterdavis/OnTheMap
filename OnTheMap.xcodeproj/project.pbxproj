@@ -24,6 +24,8 @@
 		F68CAF201D7C6C1100907849 /* ParseConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68CAF1B1D7C6C1100907849 /* ParseConstants.swift */; };
 		F68CAF211D7C6C1100907849 /* ParseConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = F68CAF1C1D7C6C1100907849 /* ParseConvenience.swift */; };
 		F6B20E521D85CF4F00AD5924 /* URLInputTextViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B20E511D85CF4F00AD5924 /* URLInputTextViewDelegate.swift */; };
+		F6B20E541D886DA000AD5924 /* UdacityUserInformationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B20E531D886DA000AD5924 /* UdacityUserInformationModel.swift */; };
+		F6B20E561D8872D900AD5924 /* OTMTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B20E551D8872D900AD5924 /* OTMTabBarViewController.swift */; };
 		F6EF9FDE1D848E740094CA42 /* PinPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EF9FDD1D848E740094CA42 /* PinPostViewController.swift */; };
 		F6FFC3011D7E0B92009AC3A3 /* on the map assets in Resources */ = {isa = PBXBuildFile; fileRef = F6FFC3001D7E0B92009AC3A3 /* on the map assets */; };
 		F6FFC3031D7E0F6E009AC3A3 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FFC3021D7E0F6E009AC3A3 /* MapViewController.swift */; };
@@ -51,6 +53,8 @@
 		F68CAF1B1D7C6C1100907849 /* ParseConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ParseConstants.swift; path = Clients/ParseConstants.swift; sourceTree = "<group>"; };
 		F68CAF1C1D7C6C1100907849 /* ParseConvenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ParseConvenience.swift; path = Clients/ParseConvenience.swift; sourceTree = "<group>"; };
 		F6B20E511D85CF4F00AD5924 /* URLInputTextViewDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLInputTextViewDelegate.swift; sourceTree = "<group>"; };
+		F6B20E531D886DA000AD5924 /* UdacityUserInformationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityUserInformationModel.swift; sourceTree = "<group>"; };
+		F6B20E551D8872D900AD5924 /* OTMTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTMTabBarViewController.swift; sourceTree = "<group>"; };
 		F6EF9FDD1D848E740094CA42 /* PinPostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinPostViewController.swift; sourceTree = "<group>"; };
 		F6FFC3001D7E0B92009AC3A3 /* on the map assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "on the map assets"; sourceTree = "<group>"; };
 		F6FFC3021D7E0F6E009AC3A3 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
@@ -125,6 +129,7 @@
 			children = (
 				A9855BD71BEC430C00000031 /* Clients */,
 				F6FFC3041D7E14C9009AC3A3 /* StudentInformationModel.swift */,
+				F6B20E531D886DA000AD5924 /* UdacityUserInformationModel.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -137,6 +142,7 @@
 				F6FFC3021D7E0F6E009AC3A3 /* MapViewController.swift */,
 				F6FFC3061D7F404B009AC3A3 /* MapTableViewController.swift */,
 				F6EF9FDD1D848E740094CA42 /* PinPostViewController.swift */,
+				F6B20E551D8872D900AD5924 /* OTMTabBarViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -274,6 +280,8 @@
 				F6FFC3051D7E14C9009AC3A3 /* StudentInformationModel.swift in Sources */,
 				F68CAF141D7C694700907849 /* UdacityClient.swift in Sources */,
 				F68CAF1E1D7C6C1100907849 /* ParseClient.swift in Sources */,
+				F6B20E541D886DA000AD5924 /* UdacityUserInformationModel.swift in Sources */,
+				F6B20E561D8872D900AD5924 /* OTMTabBarViewController.swift in Sources */,
 				A9855BC21BEC40C400000031 /* BorderedButton.swift in Sources */,
 				F68CAF211D7C6C1100907849 /* ParseConvenience.swift in Sources */,
 				A9855BD11BEC41F500000031 /* LoginViewController.swift in Sources */,

@@ -38,6 +38,10 @@ class LoginViewController: UIViewController {
     var StudentInformations: [StudentInformation]{
         return (UIApplication.sharedApplication().delegate as! AppDelegate).StudentInformations
     }
+    
+    var UdacityUserInfo: UdacityUserInformation {
+        return (UIApplication.sharedApplication().delegate as! AppDelegate).UdacityUserInfo
+    }
 
     /******************************************************/
     /******************* Life Cycle **************/

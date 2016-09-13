@@ -524,9 +524,14 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
             //enable search button
             makeSearchNavBarButtonVisible(true)
             
+            
+            
             //zoom to pin
             //adapted from http://stackoverflow.com/questions/34061162/how-to-zoom-into-pin-in-mkmapview-swift
             if let pinToZoomOn = self.newPin {
+                //display callout
+                miniMapView.selectAnnotation(pinToZoomOn, animated: true)
+                
                 let span = MKCoordinateSpanMake(0.5, 0.5)
                 let region = MKCoordinateRegion(center: pinToZoomOn.coordinate, span: span)
                 miniMapView.setRegion(region, animated: true)

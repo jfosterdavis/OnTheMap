@@ -338,8 +338,19 @@
         <!--Manager Tab-->
         <scene sceneID="xkM-4i-sat">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="AoF-9E-uwa" userLabel="Manager Tab" sceneMemberID="viewController">
-                    <navigationItem key="navigationItem" title="On The Map" id="779-2I-7NP"/>
+                <tabBarController storyboardIdentifier="OTMTabBarController" automaticallyAdjustsScrollViewInsets="NO" id="AoF-9E-uwa" userLabel="Manager Tab" customClass="OTMTabBarController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" title="On The Map" id="779-2I-7NP">
+                        <barButtonItem key="leftBarButtonItem" title="Log Out" id="P7e-vz-fLC">
+                            <connections>
+                                <action selector="logOutButtonPressed:" destination="AoF-9E-uwa" id="RrJ-T3-GBN"/>
+                            </connections>
+                        </barButtonItem>
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="Jgf-1C-9ac">
+                            <connections>
+                                <action selector="addNewPinButtonPressed:" destination="AoF-9E-uwa" id="obe-Wr-KpW"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" id="kGf-fJ-FKV">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
@@ -347,6 +358,8 @@
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </tabBar>
                     <connections>
+                        <outlet property="addNewPinButton" destination="Jgf-1C-9ac" id="8yI-2s-b8u"/>
+                        <outlet property="logOutButton" destination="P7e-vz-fLC" id="FBd-aE-5GX"/>
                         <segue destination="JCr-W7-R9O" kind="relationship" relationship="viewControllers" id="qd8-VR-ntd"/>
                         <segue destination="1g4-tO-VQ6" kind="relationship" relationship="viewControllers" id="bfz-Gb-Ux6"/>
                     </connections>
