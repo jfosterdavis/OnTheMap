@@ -167,8 +167,13 @@ class LoginViewController: UIViewController {
                 GCDBlackBox.performUIUpdatesOnMain {
                     self.stopActivityIndicator()
                     if success {
+                        //set the userID in the shared UdacityUserInfo object
+                        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                        appDelegate.UdacityUserInfo.userID = UdacityClient.sharedInstance.userID!
+                        
                         self.completeLogin()
                         self.displayError("Login was successful!")
+                        
                     } else {
                         self.displayError(errorString)
                     }

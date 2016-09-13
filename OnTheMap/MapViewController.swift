@@ -74,13 +74,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
     /******************* Actions **************/
     /******************************************************/
     //MARK: - Actions
-    
-//    func addPinButtonPressed(sender: AnyObject) {
-//        let vc = storyboard?.instantiateViewControllerWithIdentifier("PinPostViewController") as! PinPostViewController
-//        vc.delegate = self
-//        self.presentViewController(vc, animated: true, completion: nil)
-//        
-//    }
+
     
     /******************************************************/
     /******************* Map Delegate **************/
@@ -124,17 +118,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
         }
     }
     
-    /******************************************************/
-    /******************* PinPostViewControllerDelegate **************/
-    /******************************************************/
-    //MARK: - PinPostViewControllerDelegate
-    
-//    func newStudentInformationDataReady(newStudentInfo: StudentInformation) {
-//        setupNewStudentInfo()
-//        self.newStudentInfo = newStudentInfo
-//        print("Got new student info from PinPostViewController:")
-//        print(self.newStudentInfo)
-//    }
     
     /******************************************************/
     /******************* Housekeeping **************/
@@ -280,9 +263,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
         let pinToZoomOn = annotation
         let span = MKCoordinateSpanMake(0.5, 0.5)
         let region = MKCoordinateRegion(center: pinToZoomOn.coordinate, span: span)
+        mapView.setRegion(region, animated: true)
         //annotation selection adapted from http://stackoverflow.com/questions/978897/how-to-trigger-mkannotationviews-callout-view-without-touching-the-pin
         mapView.selectAnnotation(annotation, animated: true)
-        mapView.setRegion(region, animated: true)
+        
         
     }
     
