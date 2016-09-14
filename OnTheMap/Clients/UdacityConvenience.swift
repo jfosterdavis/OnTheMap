@@ -55,17 +55,17 @@ extension UdacityClient {
                 var newUdacityUserInfo = UdacityUserInformation()
                 newUdacityUserInfo.userID = UdacityClient.sharedInstance.userID!
                 //model: //(results?[UdacityClient.JSONResponseKeys.Account.Account] as? [String:AnyObject])?[UdacityClient.JSONResponseKeys.Account.Key] as? String
-                print(results![UdacityClient.JSONResponseKeys.Account.Account] as [String:AnyObject])
-               // if let userResults = (results?[UdacityClient.JSONResponseKeys.Account.Account] as? AnyObject) {
-                    if let firstName = (results?[UdacityClient.JSONResponseKeys.Account.Account] as? [String:AnyObject])?[UdacityClient.JSONResponseKeys.User.FirstName] as? String {
+                print(results![UdacityClient.JSONResponseKeys.User.User] as? [String:AnyObject])
+                if let userResults = (results?[UdacityClient.JSONResponseKeys.User.User] as? [String:AnyObject]) {
+                    if let firstName = userResults[UdacityClient.JSONResponseKeys.User.FirstName] as? String {
                         newUdacityUserInfo.firstName = firstName
                         
-                        if let lastName = (results?[UdacityClient.JSONResponseKeys.Account.Account] as? [String:AnyObject])?[UdacityClient.JSONResponseKeys.User.LastName] as? String {
+                        if let lastName = userResults[UdacityClient.JSONResponseKeys.User.LastName] as? String {
                             newUdacityUserInfo.lastName = lastName
-                            if let nickName = (results?[UdacityClient.JSONResponseKeys.Account.Account] as? [String:AnyObject])?[UdacityClient.JSONResponseKeys.User.NickName] as? String {
+                            if let nickName = userResults[UdacityClient.JSONResponseKeys.User.NickName] as? String {
                                 newUdacityUserInfo.nickName = nickName
                                 
-                                if let imageURL = ((results?[UdacityClient.JSONResponseKeys.Account.Account] as? [String:AnyObject])?[UdacityClient.JSONResponseKeys.User.User] as? [String:AnyObject])?[UdacityClient.JSONResponseKeys.User.ImageURL] as? String {
+                                if let imageURL = (results?[UdacityClient.JSONResponseKeys.User.User] as? [String:AnyObject])?[UdacityClient.JSONResponseKeys.User.ImageURL] as? String {
                                     newUdacityUserInfo.imageURL = imageURL
                                     
                                     //now have a completed UdacityUserInformation object, so return
@@ -90,10 +90,10 @@ extension UdacityClient {
                         print("ERROR Could not find \(UdacityClient.JSONResponseKeys.User.FirstName) in \(results)")
                         completionHandlerForGetUserData(nil, NSError(domain: "getUserData parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not get first name"]))
                     }
-               // } else {
-               //     print("ERROR Could not find \(UdacityClient.JSONResponseKeys.User.User) in \(results)")
-               //     completionHandlerForGetUserData(nil, NSError(domain: "getUserData parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not get user dictionary"]))
-               // }
+                } else {
+                    print("ERROR Could not find \(UdacityClient.JSONResponseKeys.User.User) in \(results)")
+                    completionHandlerForGetUserData(nil, NSError(domain: "getUserData parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not get user dictionary"]))
+                }
             }
         }
         
@@ -143,22 +143,33 @@ extension UdacityClient {
                 //}
                 //print((results?[UdacityClient.JSONResponseKeys.Session.Session] as AnyObject))
                 //print((results?[UdacityClient.JSONResponseKeys.Session.Session] as AnyObject)[UdacityClient.JSONResponseKeys.Session.ID] as? String)
-                
-                if let sessionID = (results?[UdacityClient.JSONResponseKeys.Session.Session] as? [String:AnyObject])?[UdacityClient.JSONResponseKeys.Session.ID] as? String {
-                    //completionHandlerForSession(success: true, sessionID: sessionID, errorString: nil)
-                    
-                    //get userID
-                    if let userID = (results?[UdacityClient.JSONResponseKeys.Account.Account] as? [String:AnyObject])?[UdacityClient.JSONResponseKeys.Account.Key] as? String {
-                        completionHandlerForSession(true, sessionID, userID, nil)
+                if let sessionResults = (results?[UdacityClient.JSONResponseKeys.Session.Session] as? [String:AnyObject]) {
+                    if let sessionID = sessionResults[UdacityClient.JSONResponseKeys.Session.ID] as? String {
+                        //completionHandlerForSession(success: true, sessionID: sessionID, errorString: nil)
+                        //get userID
+                        if let accountResults = (results?[UdacityClient.JSONResponseKeys.Account.Account] as? [String:AnyObject]) {
+                            
+                            if let userID = accountResults[UdacityClient.JSONResponseKeys.Account.Key] as? String {
+                                completionHandlerForSession(true, sessionID, userID, nil)
+                            } else {
+                                print("Could not find \(UdacityClient.JSONResponseKeys.Account.Key) in \(results)")
+                                completionHandlerForSession(false, sessionID, nil, "Login Failed (Couldn't obtain User ID).")
+                            }
+                        } else {
+                            print("Could not find \(UdacityClient.JSONResponseKeys.Account.Account) in \(results)")
+                            completionHandlerForSession(false, sessionID, nil, "Login Failed (Couldn't obtain User ID).")
+                        }
+                        
                     } else {
-                        print("Could not find \(UdacityClient.JSONResponseKeys.Account.Account) in \(results)")
-                        completionHandlerForSession(false, sessionID, nil, "Login Failed (Couldn't obtain User ID).")
+                        print("Could not find \(UdacityClient.JSONResponseKeys.Session.ID) in \(results)")
+                        completionHandlerForSession(false, nil, nil, "Login Failed (Session ID).")
                     }
-                    
                 } else {
                     print("Could not find \(UdacityClient.JSONResponseKeys.Session.Session) in \(results)")
                     completionHandlerForSession(false, nil, nil, "Login Failed (Session ID).")
                 }
+                
+
                 
 
             }
