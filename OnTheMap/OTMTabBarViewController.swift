@@ -13,12 +13,17 @@ protocol OTMTabBarControllerDelegate: class {
     func plotNewPinFromStudentInformation(_ newStudentInfo : StudentInformation)
 }
 
+protocol OTMTabBarControllerLogOutDelegate: class {
+    func userLoggedOut()
+}
+
 class OTMTabBarController: UITabBarController, PinPostViewControllerDelegate {
     
     @IBOutlet weak var addNewPinButton: UIBarButtonItem!
     @IBOutlet weak var logOutButton: UIBarButtonItem!
     
     weak var otmDelegate : OTMTabBarControllerDelegate? = nil
+    var otmLogOutDelegates = [OTMTabBarControllerLogOutDelegate]()
     
     var newUserInfo : UdacityUserInformation?
     
@@ -68,6 +73,42 @@ class OTMTabBarController: UITabBarController, PinPostViewControllerDelegate {
     
     
     @IBAction func logOutButtonPressed(_ sender: AnyObject) {
+        
+        GCDBlackBox.runNetworkFunctionInBackground {
+            UdacityClient.sharedInstance.logOutUser() { (result, error) in
+                GCDBlackBox.performUIUpdatesOnMain {
+                    //self.stopActivityIndicator()
+                    if result != nil {
+                        
+                        //reset nav bar prompt
+                        self.updateNavBarPromptName(nil)
+                        
+                        
+                        
+                        //dismiss back to log in screen
+                        self.dismiss(animated: true, completion: nil)
+                        
+                        //run view controller housekeeping
+                        for vc in self.otmLogOutDelegates {
+                            vc.userLoggedOut()
+                        }
+                        
+                        //cleared out the shared models
+                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                        appDelegate.resetAllSharedModels()
+                        
+                    } else {
+                        //TODO: handle error
+                        /*
+                         *  <#description#>
+                         */
+                        
+                        print("OTMTabBarController failed to lot user out. (empty result set)")
+                    }
+                }
+            }
+        }
+        
     }
     
     /******************************************************/
@@ -125,8 +166,13 @@ class OTMTabBarController: UITabBarController, PinPostViewControllerDelegate {
         }
     }
     
-    func updateNavBarPromptName(_ name: String) {
-        self.navigationItem.prompt = "Logged in as: " + name
+    func updateNavBarPromptName(_ name: String?) {
+        
+        if name != nil {
+            self.navigationItem.prompt = "Logged in as: " + name!
+        } else {
+            self.navigationItem.prompt = nil
+        }
     }
     
     

@@ -12,7 +12,7 @@ import MapKit
 
 // MARK: - MapViewController: UIViewController
 
-class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControllerDelegate {
+class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControllerDelegate, OTMTabBarControllerLogOutDelegate {
     
     /******************************************************/
     /******************* PROPERTIES **************/
@@ -52,8 +52,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
         
         let otmTabBarController = self.tabBarController as! OTMTabBarController
         otmTabBarController.otmDelegate = self
+        otmTabBarController.otmLogOutDelegates.append(self)
         
-        setupNewStudentInfo()
+        if newStudentInfo == nil {
+            setupNewStudentInfo()
+        }
+        
         
         
         //way to add this button adapted from http://stackoverflow.com/questions/31747470/button-in-navigation-bar-in-tab-bar-uiviewcontroller-not-showing
@@ -66,10 +70,13 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
         //make an initial fetch for pins if there are none
         if StudentInformations.isEmpty {
             fetchPinsAndPlotPins(100, skip: 5, order: "-lastName")
+        } else {
+            //otherwise replot the ones in memeory
+            self.plotPinsFromSharedModel()
         }
         
     }
-    
+        
     /******************************************************/
     /******************* Actions **************/
     /******************************************************/
@@ -116,6 +123,19 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
                 print("Failed to open view annotation")
             }
         }
+    }
+    
+    /******************************************************/
+    /******************* OTMTabBarControllerLogOutDelegate **************/
+    /******************************************************/
+    //MARK: - OTMTabBarControllerLogOutDelegate
+    
+    func userLoggedOut() {
+        //user logged out.  shut it all down
+        //adapted from http://stackoverflow.com/questions/26756889/how-to-unload-self-view-from-uiviewcontroller-in-swift
+        
+        //for future use
+        
     }
     
     
@@ -255,7 +275,16 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
         self.mapView.addAnnotation(annotation)
     }
     
+    /******************************************************/
+    /******************* OTMTabBarControllerLogOutDelegate **************/
+    /******************************************************/
+    //MARK: - OTMTabBarControllerLogOutDelegate
+    
     func plotNewPinFromStudentInformation(_ newStudentInfo : StudentInformation) {
+        //put this pin in memory
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.StudentInformations.append(newStudentInfo)
+        
         let annotation = self.studentInformationToAnnotation(newStudentInfo)
         plotPin(annotation)
         

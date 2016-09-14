@@ -23,13 +23,87 @@ extension UdacityClient {
         Step 2: Set the Session ID
     */
     
+    
+    /******************************************************/
+    /******************* Log Out **************/
+    /******************************************************/
+    //MARK: - Log Out
+    /**
+     Logs the user out
+     
+     -Returns: `true` if successful, `false` otherwise
+     
+     */
+    func logOutUser(_ completionHandlerForLogOutUser: @escaping (_ result: AnyObject?, _ error: NSError?) -> Void) {
+        
+        self.deleteUserSession() { (result, error) in
+            if result != nil {
+                completionHandlerForLogOutUser(result, nil)
+    
+            } else {
+                completionHandlerForLogOutUser(nil, error)
+            }
+        }
+        
+    } // end of logOutUser
+    
+    /**
+     Network request to delete the current user session
+     
+     */
+    func deleteUserSession(_ completionHandlerForDeleteUserSession: @escaping (_ result: AnyObject?, _ error: NSError?) -> Void) {
+        
+        /* 1. Specify parameters, method (if has {key}), and HTTP body (if POST) */
+        //no parameters
+        let parameters : [String:AnyObject]? = nil
+        let mutableMethod: String = Methods.DeleteSession
+        //mutableMethod = subtituteKeyInMethod(mutableMethod, key: UdacityClient.URLKeys.UserID, value: String(UdacityClient.sharedInstance.userID!))!
+        
+        /* 2. Make the request */
+        let _ = taskForDELETEMethod(mutableMethod, parameters: parameters) { (results, error) in
+            
+            /* 3. Send the desired value(s) to completion handler */
+            if let error = error {
+                print(error)
+                completionHandlerForDeleteUserSession(nil, NSError(domain: "deleteUserSession parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not get user imageURL"]))
+            } else {
+                //json should have returned a [[String:AnyObject]]
+                if let sessionResults = (results?[UdacityClient.JSONResponseKeys.Session.Session] as? [String:AnyObject]) {
+                    if (sessionResults[UdacityClient.JSONResponseKeys.Session.ID] as? String) != nil {
+                        //completionHandlerForSession(success: true, sessionID: sessionID, errorString: nil)
+                        completionHandlerForDeleteUserSession(results, nil)
+                    } else {
+                        print("Could not find \(UdacityClient.JSONResponseKeys.Session.ID) in \(results)")
+                        completionHandlerForDeleteUserSession(nil, NSError(domain: "deleteUserSession parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not find Session ID"]))
+                    }
+                } else {
+                    print("Could not find \(UdacityClient.JSONResponseKeys.Session.Session) in \(results)")
+                    completionHandlerForDeleteUserSession(nil, NSError(domain: "deleteUserSession parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not find JSON results"]))
+                }
+            }
+        }
+        
+        
+    } // end of deleteUserSession
+    
+    /******************************************************/
+    /******************* Fetch Public User Data **************/
+    /******************************************************/
+    //MARK: - Public User Data
+    
+    /**
+     Fetches Public data about a user based on the userID from the Udacity Server
+     
+     - Parameters:
+         - completionHandlerForFetchUserData: completion handler
+     */
     func fetchUserData(_ completionHandlerForFetchUserData: @escaping (_ result: UdacityUserInformation?, _ error: NSError?) -> Void) {
         
         self.getUserData() { (result, error) in
             if let result = result {
                 completionHandlerForFetchUserData(result, nil)
             } else {
-                completionHandlerForFetchUserData(result, error)
+                completionHandlerForFetchUserData(nil, error)
             }
         }
         
@@ -99,6 +173,12 @@ extension UdacityClient {
         
     }
     
+    
+    /******************************************************/
+    /******************* Log in **************/
+    /******************************************************/
+    //MARK: - Log in
+    
     func authenticateWithViewController(_ username: String, password : String, hostViewController: UIViewController, completionHandlerForAuth: @escaping (_ success: Bool, _ errorString: String?) -> Void) {
         
         self.getSessionID(username, password: password) { (success, sessionID, userID, errorString) in
@@ -133,16 +213,6 @@ extension UdacityClient {
                 completionHandlerForSession(false, nil, nil, "Login Failed (Session ID).")
             } else {
                 //json should have returned a [[String:AnyObject]]
-                //print("About to find a Session Id within:")
-                //print(results)
-                //print(results!)
-                //print(results![UdacityClient.JSONResponseKeys.Session.Session] as? [String:AnyObject])
-               // if let test = (results?[UdacityClient.JSONResponseKeys.Session.Session] as? [String:AnyObject]) {
-                //    print("test results")
-                //    print(test)
-                //}
-                //print((results?[UdacityClient.JSONResponseKeys.Session.Session] as AnyObject))
-                //print((results?[UdacityClient.JSONResponseKeys.Session.Session] as AnyObject)[UdacityClient.JSONResponseKeys.Session.ID] as? String)
                 if let sessionResults = (results?[UdacityClient.JSONResponseKeys.Session.Session] as? [String:AnyObject]) {
                     if let sessionID = sessionResults[UdacityClient.JSONResponseKeys.Session.ID] as? String {
                         //completionHandlerForSession(success: true, sessionID: sessionID, errorString: nil)
@@ -168,10 +238,6 @@ extension UdacityClient {
                     print("Could not find \(UdacityClient.JSONResponseKeys.Session.Session) in \(results)")
                     completionHandlerForSession(false, nil, nil, "Login Failed (Session ID).")
                 }
-                
-
-                
-
             }
         }
     }

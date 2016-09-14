@@ -33,6 +33,9 @@ extension UdacityClient {
         // User Data
         static let PublicUserData = "/users/{user_id}"
         
+        // Log Out
+        static let DeleteSession = "/session"
+        
     }
     
     // MARK: URL Keys
