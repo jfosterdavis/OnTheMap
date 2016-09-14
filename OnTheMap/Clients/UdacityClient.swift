@@ -45,12 +45,12 @@ class UdacityClient : NSObject {
         let request = NSMutableURLRequest(url: UdacityURLFromParameters(parametersWithApiKey, withPathExtension: method))
         
         /* 4. Make the request */
-        let task = session.dataTask(with: request, completionHandler: { (data, response, error) in
+        let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
             
             func sendError(_ error: String) {
                 print(error)
                 let userInfo = [NSLocalizedDescriptionKey : error]
-                completionHandlerForGET(result: nil, error: NSError(domain: "taskForGETMethod", code: 1, userInfo: userInfo))
+                completionHandlerForGET(nil, NSError(domain: "taskForGETMethod", code: 1, userInfo: userInfo))
             }
             
             /* GUARD: Was there an error? */
@@ -73,7 +73,7 @@ class UdacityClient : NSObject {
             
             /* 5/6. Parse the data and use the data (happens in completion handler) */
             self.convertDataWithCompletionHandler(data, completionHandlerForConvertData: completionHandlerForGET)
-        }) 
+        }
         
         /* 7. Start the request */
         task.resume()
@@ -98,12 +98,12 @@ class UdacityClient : NSObject {
         request.httpBody = jsonBody.data(using: String.Encoding.utf8)
         //print("About to make a request with the following HTTPBody: " + (request.HTTPBody as String)
         /* 4. Make the request */
-        let task = session.dataTask(with: request, completionHandler: { (data, response, error) in
+        let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
             
             func sendError(_ error: String) {
                 print(error)
                 let userInfo = [NSLocalizedDescriptionKey : error]
-                completionHandlerForPOST(result: nil, error: NSError(domain: "taskForGETMethod", code: 1, userInfo: userInfo))
+                completionHandlerForPOST(nil, NSError(domain: "taskForGETMethod", code: 1, userInfo: userInfo))
             }
             
             /* GUARD: Was there an error? */
@@ -126,7 +126,7 @@ class UdacityClient : NSObject {
             
             /* 5/6. Parse the data and use the data (happens in completion handler) */
             self.convertDataWithCompletionHandler(data, completionHandlerForConvertData: completionHandlerForPOST)
-        }) 
+        }
         
         /* 7. Start the request */
         task.resume()
@@ -149,12 +149,12 @@ class UdacityClient : NSObject {
     fileprivate func convertDataWithCompletionHandler(_ data: Data, completionHandlerForConvertData: (_ result: AnyObject?, _ error: NSError?) -> Void) {
         
         var parsedResult: AnyObject!
-        let newData = data.subdata(in: NSMakeRange(5, data.count - 5))
+        let newData = data.subdata(in: 4..<data.count)
         do {
-            parsedResult = try JSONSerialization.jsonObject(with: newData, options: .allowFragments)
+            parsedResult = try JSONSerialization.jsonObject(with: newData, options: .allowFragments) as AnyObject
         } catch {
             let userInfo = [NSLocalizedDescriptionKey : "Could not parse the data as JSON: '\(newData)'"]
-            completionHandlerForConvertData(result: nil, error: NSError(domain: "convertDataWithCompletionHandler", code: 1, userInfo: userInfo))
+            completionHandlerForConvertData(nil, NSError(domain: "convertDataWithCompletionHandler", code: 1, userInfo: userInfo))
         }
         
         completionHandlerForConvertData(parsedResult, nil)

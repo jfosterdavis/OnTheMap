@@ -280,7 +280,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
         request.addValue(Secrets.ParseAPIKey, forHTTPHeaderField: "X-Parse-Application-Id")
         request.addValue(Secrets.ParseRESTAPIKey, forHTTPHeaderField: "X-Parse-REST-API-Key")
         let session = URLSession.shared
-        let task = session.dataTask(with: request, completionHandler: { data, response, error in
+        let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
             if error != nil { // Handle error...
                 print("Parse test failed")
                 return
@@ -288,7 +288,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
             //print(NSString(data: data!, encoding: NSUTF8StringEncoding))
             var testData: AnyObject!
             do {
-                testData = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
+                testData = try JSONSerialization.jsonObject(with: data!, options: .allowFragments) as AnyObject
             } catch {
                 print("Failed to test Parse from MapView")
             }
@@ -311,7 +311,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
                 }
                 print("There are " + String(self.StudentInformations.count) + " Information Records stored.  MapView Test Complete.")
             }
-        }) 
+        }
         task.resume()
     }
 }

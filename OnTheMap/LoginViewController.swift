@@ -186,13 +186,13 @@ class LoginViewController: UIViewController {
         request.addValue(Secrets.ParseAPIKey, forHTTPHeaderField: "X-Parse-Application-Id")
         request.addValue(Secrets.ParseRESTAPIKey, forHTTPHeaderField: "X-Parse-REST-API-Key")
         let session = URLSession.shared
-        let task = session.dataTask(with: request, completionHandler: { data, response, error in
+        let task = session.dataTask(with: request as URLRequest) { data, response, error in
             if error != nil { // Handle error...
                 print("Parse test failed")
                 return
             }
-            print(NSString(data: data!, encoding: String.Encoding.utf8))
-        }) 
+            //print(NSString(data: data!, encoding: String.Encoding.utf8))
+        }
         task.resume()
     }
     

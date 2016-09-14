@@ -44,7 +44,7 @@ extension UdacityClient {
         mutableMethod = subtituteKeyInMethod(mutableMethod, key: UdacityClient.URLKeys.UserID, value: String(UdacityClient.sharedInstance.userID!))!
         
         /* 2. Make the request */
-        taskForGETMethod(mutableMethod, parameters: parameters) { (results, error) in
+        let _ = taskForGETMethod(mutableMethod, parameters: parameters) { (results, error) in
             
             /* 3. Send the desired value(s) to completion handler */
             if let error = error {
@@ -119,7 +119,7 @@ extension UdacityClient {
         let jsonBody = "{\"\(UdacityClient.JSONBodyKeys.Udacity.Udacity)\": {\"\(UdacityClient.JSONBodyKeys.Udacity.Username)\": \"\(username)\", \"\(UdacityClient.JSONBodyKeys.Udacity.Password)\": \"\(password)\"}}"
         print("Attempting to get Session ID with the following jsonBody: " + (jsonBody))
         /* 2. Make the request */
-        taskForPOSTMethod(UdacityClient.Methods.AuthenticationSessionNew, parameters: nil, jsonBody: jsonBody) { (results, error) in
+        let _ = taskForPOSTMethod(UdacityClient.Methods.AuthenticationSessionNew, parameters: nil, jsonBody: jsonBody) { (results, error) in
             
             /* 3. Send the desired value(s) to completion handler */
             if let error = error {
@@ -129,6 +129,7 @@ extension UdacityClient {
                 //json should have returned a [[String:AnyObject]]
                 //print("About to find a Session Id within:")
                 //print(results)
+                
                 if let sessionID = results?[UdacityClient.JSONResponseKeys.Session.Session]?![UdacityClient.JSONResponseKeys.Session.ID] as? String {
                     //completionHandlerForSession(success: true, sessionID: sessionID, errorString: nil)
                     

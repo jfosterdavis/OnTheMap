@@ -55,12 +55,12 @@ class ParseClient : NSObject {
         request.addValue(Secrets.ParseRESTAPIKey, forHTTPHeaderField: "X-Parse-REST-API-Key")
         
         /* 4. Make the request */
-        let task = session.dataTask(with: request, completionHandler: { (data, response, error) in
+        let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
             
             func sendError(_ error: String) {
                 print(error)
                 let userInfo = [NSLocalizedDescriptionKey : error]
-                completionHandlerForGET(result: nil, error: NSError(domain: "taskForGETMethod", code: 1, userInfo: userInfo))
+                completionHandlerForGET(nil, NSError(domain: "taskForGETMethod", code: 1, userInfo: userInfo))
             }
             
             /* GUARD: Was there an error? */
@@ -83,7 +83,7 @@ class ParseClient : NSObject {
             
             /* 5/6. Parse the data and use the data (happens in completion handler) */
             self.convertDataWithCompletionHandler(data, completionHandlerForConvertData: completionHandlerForGET)
-        }) 
+        }
         
         /* 7. Start the request */
         task.resume()
@@ -108,12 +108,12 @@ class ParseClient : NSObject {
         request.httpBody = jsonBody.data(using: String.Encoding.utf8)
         //print("About to make a request with the following HTTPBody: " + (request.HTTPBody as String)
         /* 4. Make the request */
-        let task = session.dataTask(with: request, completionHandler: { (data, response, error) in
+        let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
             
             func sendError(_ error: String) {
                 print(error)
                 let userInfo = [NSLocalizedDescriptionKey : error]
-                completionHandlerForPOST(result: nil, error: NSError(domain: "taskForGETMethod", code: 1, userInfo: userInfo))
+                completionHandlerForPOST(nil, NSError(domain: "taskForGETMethod", code: 1, userInfo: userInfo))
             }
             
             /* GUARD: Was there an error? */
@@ -136,7 +136,7 @@ class ParseClient : NSObject {
             
             /* 5/6. Parse the data and use the data (happens in completion handler) */
             self.convertDataWithCompletionHandler(data, completionHandlerForConvertData: completionHandlerForPOST)
-        }) 
+        }
         
         /* 7. Start the request */
         task.resume()
@@ -161,7 +161,7 @@ class ParseClient : NSObject {
         var parsedResult: AnyObject!
         //let newData = data.subdataWithRange(NSMakeRange(5, data.length - 5)) //don't need to this for Parse
         do {
-            parsedResult = try JSONSerialization.jsonObject(with: data, options: .allowFragments)
+            parsedResult = try JSONSerialization.jsonObject(with: data, options: .allowFragments) as AnyObject
         } catch {
             let userInfo = [NSLocalizedDescriptionKey : "\nDATA CONVERT ERROR: Could not parse the data as JSON: '\(data)'"]
             completionHandlerForConvertData(nil, NSError(domain: "convertDataWithCompletionHandler", code: 1, userInfo: userInfo))

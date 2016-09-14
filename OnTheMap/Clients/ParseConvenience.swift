@@ -56,7 +56,7 @@ extension ParseClient {
         print(parameters)
         
         /* 2. Make the request */
-        taskForGETMethod(ParseClient.Methods.StudentLocationGET, parameters: passTheseParameters as [String : AnyObject]?) { (results, error) in
+        let _ = taskForGETMethod(ParseClient.Methods.StudentLocationGET, parameters: passTheseParameters as [String : AnyObject]?) { (results, error) in
             
             /* 3. Send the desired value(s) to completion handler */
             if let error = error {
