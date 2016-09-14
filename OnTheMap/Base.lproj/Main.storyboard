@@ -7,10 +7,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Manager Navigation-->
+        <!--OTM Navigation-->
         <scene sceneID="2cX-Pa-55d">
             <objects>
-                <navigationController storyboardIdentifier="ManagerNavigationController" id="kU7-ZA-CTN" userLabel="Manager Navigation" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="OTMNavigationController" id="kU7-ZA-CTN" userLabel="OTM Navigation" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="tOf-JB-2gq">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -102,7 +102,7 @@
                                 <rect key="frame" x="0.0" y="92" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="oB9-qq-iWT" id="uRb-fL-CxU">
-                                    <frame key="frameInset" width="320" height="44"/>
+                                    <frame key="frameInset" width="320" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gkp-bn-ie7">
@@ -247,6 +247,7 @@
                                         <constraints>
                                             <constraint firstAttribute="bottom" secondItem="eWA-Dx-oIC" secondAttribute="bottom" constant="38" id="3Uq-2o-NDL"/>
                                             <constraint firstItem="eWA-Dx-oIC" firstAttribute="centerX" secondItem="ajH-TF-RwZ" secondAttribute="centerX" id="4dC-B7-V8k"/>
+                                            <constraint firstItem="eWA-Dx-oIC" firstAttribute="top" secondItem="bGf-VX-FcQ" secondAttribute="top" constant="301" id="4kq-TO-jog"/>
                                             <constraint firstItem="ajH-TF-RwZ" firstAttribute="leading" secondItem="bGf-VX-FcQ" secondAttribute="leading" id="DVy-XE-ytH"/>
                                             <constraint firstAttribute="bottom" secondItem="ajH-TF-RwZ" secondAttribute="bottom" id="FXB-gy-4hO"/>
                                             <constraint firstAttribute="trailing" secondItem="ajH-TF-RwZ" secondAttribute="trailing" id="IQ6-Oa-1Ee"/>
@@ -259,7 +260,6 @@
                                     <constraint firstAttribute="trailing" secondItem="XlG-90-0hI" secondAttribute="trailing" id="5o9-1U-1Jc"/>
                                     <constraint firstAttribute="bottom" secondItem="bGf-VX-FcQ" secondAttribute="bottom" id="6Tw-CC-0b5"/>
                                     <constraint firstItem="XlG-90-0hI" firstAttribute="top" secondItem="Nca-aZ-Y8B" secondAttribute="top" id="9z4-Qf-IYB"/>
-                                    <constraint firstItem="bGf-VX-FcQ" firstAttribute="top" secondItem="Nca-aZ-Y8B" secondAttribute="top" constant="199" id="K3z-1i-yFZ"/>
                                     <constraint firstItem="bGf-VX-FcQ" firstAttribute="leading" secondItem="Nca-aZ-Y8B" secondAttribute="leading" id="Tpo-yX-Fmu"/>
                                     <constraint firstAttribute="trailing" secondItem="bGf-VX-FcQ" secondAttribute="trailing" id="Whg-eg-A2M"/>
                                     <constraint firstItem="XlG-90-0hI" firstAttribute="leading" secondItem="Nca-aZ-Y8B" secondAttribute="leading" id="fB8-Cr-E8N"/>
@@ -293,8 +293,8 @@
                             <constraint firstItem="4sv-pt-JYt" firstAttribute="leading" secondItem="Fw1-Z9-0jX" secondAttribute="leading" id="WN4-pU-eCz"/>
                             <constraint firstItem="RgX-kH-2Zd" firstAttribute="leading" secondItem="Fw1-Z9-0jX" secondAttribute="leading" id="YmO-hh-dOa"/>
                             <constraint firstItem="Nca-aZ-Y8B" firstAttribute="leading" secondItem="Fw1-Z9-0jX" secondAttribute="leading" id="bGy-Ql-GNj"/>
+                            <constraint firstItem="Nca-aZ-Y8B" firstAttribute="bottom" secondItem="OAC-AR-eed" secondAttribute="top" id="i0W-AI-ufA"/>
                             <constraint firstItem="Nca-aZ-Y8B" firstAttribute="top" secondItem="Fw1-Z9-0jX" secondAttribute="top" id="jsp-tc-ZHH"/>
-                            <constraint firstItem="OAC-AR-eed" firstAttribute="top" secondItem="Nca-aZ-Y8B" secondAttribute="bottom" id="kYa-oN-7cX"/>
                         </constraints>
                     </view>
                     <connections>
@@ -317,10 +317,10 @@
             </objects>
             <point key="canvasLocation" x="3324.375" y="428.87323943661971"/>
         </scene>
-        <!--Manager Tab-->
+        <!--OTM Tab-->
         <scene sceneID="xkM-4i-sat">
             <objects>
-                <tabBarController storyboardIdentifier="OTMTabBarController" automaticallyAdjustsScrollViewInsets="NO" id="AoF-9E-uwa" userLabel="Manager Tab" customClass="OTMTabBarController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="OTMTabBarController" automaticallyAdjustsScrollViewInsets="NO" id="AoF-9E-uwa" userLabel="OTM Tab" customClass="OTMTabBarController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" title="On The Map" id="779-2I-7NP">
                         <barButtonItem key="leftBarButtonItem" title="Log Out" id="P7e-vz-fLC">
                             <connections>

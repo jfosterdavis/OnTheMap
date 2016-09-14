@@ -202,7 +202,7 @@ class LoginViewController: UIViewController {
     //MARK: - Log In
     fileprivate func completeLogin() {
         debugTextLabel.text = ""
-        let controller = storyboard!.instantiateViewController(withIdentifier: "ManagerNavigationController") as! UINavigationController
+        let controller = storyboard!.instantiateViewController(withIdentifier: "OTMNavigationController") as! UINavigationController
         present(controller, animated: true, completion: nil)
     }
     
