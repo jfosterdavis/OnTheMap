@@ -441,7 +441,7 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
     func makeSearchNavBarButtonVisible(_ state : Bool) -> Void {
         if state {
             //make it visible
-            self.navigationController?.navigationItem.leftBarButtonItem!.tintColor = nil
+            searchNavButton.tintColor = nil
             
             //enable it
             searchNavButton.isEnabled = true
@@ -449,7 +449,7 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
             //make it invisible
             print("About to hide the searchNavButton")
             //self.navigationController?.navigationItem.leftBarButtonItem = nil
-            self.navigationController?.navigationItem.leftBarButtonItem!.tintColor = UIColor.clear
+            searchNavButton.tintColor = UIColor.clear
             //disable
             searchNavButton.isEnabled = false
             
