@@ -7,6 +7,35 @@
 //
 
 import Foundation
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l >= r
+  default:
+    return !(lhs < rhs)
+  }
+}
+
+fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l <= r
+  default:
+    return !(rhs < lhs)
+  }
+}
+
 /**
  Designed to hold Student Information from the Udacity Parse Server for On the Map
  
@@ -31,9 +60,9 @@ struct StudentInformation {
     var lastName : String? //Description: the last name of the student which matches their Udacity profile last name
     var mapString : String? //Description: the location string used for geocoding the student location
     var mediaURL : String? //Description: the URL provided by the student
-    private var _latitude : Double? //the actual stored value
-    var createdAt : NSDate? //Description: the date when the student location was created
-    var updatedAt : NSDate? //Description: the date when the student location was last updated
+    fileprivate var _latitude : Double? //the actual stored value
+    var createdAt : Date? //Description: the date when the student location was created
+    var updatedAt : Date? //Description: the date when the student location was last updated
     var latitude : Double? { //Description: the latitude of the student location (ranges from -90 to 90)
         get {
             return _latitude
@@ -46,11 +75,11 @@ struct StudentInformation {
             } else {//lattitude was out of bounds for Earthly comprehension
                 //not many choices here, so will silently accept, and send the pin to the north pole! (This likely clearly indicates a problem to the user)
                 _latitude = 90
-                print("WARNING: Attempted to set Latitude to a value out of range.  Longitude has been set to: " + String(self.latitude))
+                print("WARNING: Attempted to set Latitude to a value out of range.  Longitude has been set to: " + String(describing: self.latitude))
             }
         }
     }
-    private var _longitude : Double? //actual value of longitude
+    fileprivate var _longitude : Double? //actual value of longitude
     var longitude : Double? {//Description: the longitude of the student location (ranges from -180 to 180)
         get {
             return _longitude
@@ -63,7 +92,7 @@ struct StudentInformation {
             } else {//lattitude was out of bounds for Earthly comprehension
                 //not many choices here, so will silently accept, and send the pin to the Pacifc Ocean! (This could indicate a problem to the user)
                 _longitude = 180
-                print("WARNING: Attempted to set Longitude to a value out of range.  Longitude has been set to: " + String(self.longitude))
+                print("WARNING: Attempted to set Longitude to a value out of range.  Longitude has been set to: " + String(describing: self.longitude))
             }
         }
     }
@@ -79,12 +108,12 @@ struct StudentInformation {
     /*
      *  Used to throw errors
      */
-    enum StudentInformationKeyError: ErrorType {
-        case BadInputKeys(keys: [String]) //couldn't convert incoming dictionary keys to a set of Strings
-        case InputMismatchKeys(keys: Set<String>) //incoming keys don't match expected keys
+    enum StudentInformationKeyError: Error {
+        case badInputKeys(keys: [String]) //couldn't convert incoming dictionary keys to a set of Strings
+        case inputMismatchKeys(keys: Set<String>) //incoming keys don't match expected keys
     }
-    enum StudentInformationAssignmentError: ErrorType {
-        case BadInputValues(property: String)
+    enum StudentInformationAssignmentError: Error {
+        case badInputValues(property: String)
         case inputValueOutOfExpectedRange(expected: String, actual: Double)
     }
   
@@ -103,11 +132,11 @@ struct StudentInformation {
         //check the keys first
         do {
             try checkInputKeys(data)
-        } catch StudentInformationKeyError.BadInputKeys (let keys){
+        } catch StudentInformationKeyError.badInputKeys (let keys){
             print("\nSTUDENT INFORMATION ERROR: Data appears to be malformed. BadInputKeys:")
             print(keys)
             return nil
-        } catch StudentInformationKeyError.InputMismatchKeys(let keys) {
+        } catch StudentInformationKeyError.inputMismatchKeys(let keys) {
             print("\nSTUDENT INFORMATION ERROR: InputMismatchKeys. Data appears to be malformed. These keys: ")
             print(keys)
             print("Do not match the expected keys: ")
@@ -122,7 +151,7 @@ struct StudentInformation {
         do {
             try attemptToAssignValues(data)
             //print("Successfully initialized a StudentInformation object\n")
-        } catch StudentInformationAssignmentError.BadInputValues(let propertyName) {
+        } catch StudentInformationAssignmentError.badInputValues(let propertyName) {
             print("\nSTUDENT INFORMATION ERROR: StudentInformationAssignmentError:")
             print(propertyName)
             return nil
@@ -161,19 +190,19 @@ struct StudentInformation {
         - `StudentInformationKeyError.BadInputKeys` if input keys can't be made into a set
         - `StudentInformationKeyError.InputMismatchKeys` if input keys don't match `expectedKeys`
      */
-    func checkInputKeys(data: [String:AnyObject]) throws -> Bool {
+    func checkInputKeys(_ data: [String:AnyObject]) throws -> Bool {
         //guard check one: Put the incoming keys into a set
         
         let keysToCheck = [String](data.keys) as? [String]
         //print("About to check these keys against expected: " + String(keysToCheck))
         //check to see if incoming keys can be placed into a set of strings
         guard let incomingKeys : Set<String> = keysToCheck.map(Set.init) else {
-            throw StudentInformationKeyError.BadInputKeys(keys: [String](data.keys))
+            throw StudentInformationKeyError.badInputKeys(keys: [String](data.keys))
         }
         
         //compare the new set with the expectedKeys
         guard incomingKeys == self.expectedKeys else {
-            throw StudentInformationKeyError.InputMismatchKeys(keys: incomingKeys)
+            throw StudentInformationKeyError.inputMismatchKeys(keys: incomingKeys)
         }
         
         //print("The following sets appear to match: ")
@@ -197,7 +226,7 @@ struct StudentInformation {
          - `StudentInformationAssignmentError.BadInputValues` if input doesn't have a key in the `expectedKeys` Set
          - `StudentInformationAssignmentError.inputValueOutOfExpectedRange` if input value at a key that has an expected range is out of range
      */
-    mutating func attemptToAssignValues(data: [String:AnyObject]) throws -> Bool {
+    mutating func attemptToAssignValues(_ data: [String:AnyObject]) throws -> Bool {
         
         //go through each item and attempt to assign it to the struct
         //print("\nAbout to assign values from the following object: ")
@@ -207,7 +236,7 @@ struct StudentInformation {
             //print("Processing object with id: " + inboundObject)
             self.objectID = inboundObject
         } else {
-            throw StudentInformationAssignmentError.BadInputValues(property: "objectId")
+            throw StudentInformationAssignmentError.badInputValues(property: "objectId")
         }
         
         // uniqueKey
@@ -215,7 +244,7 @@ struct StudentInformation {
             //print("Processing object with uniquekey: " + inboundObject)
             self.uniqueKey = inboundObject
         } else {
-            throw StudentInformationAssignmentError.BadInputValues(property: "uniqueKey")
+            throw StudentInformationAssignmentError.badInputValues(property: "uniqueKey")
         }
         
         // firstName
@@ -223,7 +252,7 @@ struct StudentInformation {
             //print("Processing object with firstname: " + inboundObject)
             self.firstName = inboundObject
         } else {
-            throw StudentInformationAssignmentError.BadInputValues(property: "firstName")
+            throw StudentInformationAssignmentError.badInputValues(property: "firstName")
         }
         
         // lastName
@@ -231,7 +260,7 @@ struct StudentInformation {
             //print("Processing object with lastName: " + inboundObject)
             self.lastName = inboundObject
         } else {
-            throw StudentInformationAssignmentError.BadInputValues(property: "lastName")
+            throw StudentInformationAssignmentError.badInputValues(property: "lastName")
         }
         
         // mapString
@@ -239,7 +268,7 @@ struct StudentInformation {
             //print("Processing object with mapString: " + inboundObject)
             self.mapString = inboundObject
         } else {
-            throw StudentInformationAssignmentError.BadInputValues(property: "mapString")
+            throw StudentInformationAssignmentError.badInputValues(property: "mapString")
         }
         
         // mediaURL
@@ -247,7 +276,7 @@ struct StudentInformation {
             //print("Processing object with mediaURL: " + inboundObject)
             self.mediaURL = inboundObject
         } else {
-            throw StudentInformationAssignmentError.BadInputValues(property: "mediaURL")
+            throw StudentInformationAssignmentError.badInputValues(property: "mediaURL")
         }
         
         // latitude
@@ -260,7 +289,7 @@ struct StudentInformation {
                 throw StudentInformationAssignmentError.inputValueOutOfExpectedRange(expected: "Between -90 and 90, inclusive", actual: inboundObject)
             }
         } else {
-            throw StudentInformationAssignmentError.BadInputValues(property: "latitude")
+            throw StudentInformationAssignmentError.badInputValues(property: "latitude")
         }
         
         // longitude
@@ -273,30 +302,30 @@ struct StudentInformation {
                 throw StudentInformationAssignmentError.inputValueOutOfExpectedRange(expected: "Between -180 and 180, inclusive", actual: inboundObject)
             }
         } else {
-            throw StudentInformationAssignmentError.BadInputValues(property: "longitude")
+            throw StudentInformationAssignmentError.badInputValues(property: "longitude")
         }
         
         //date formating from http://stackoverflow.com/questions/24777496/how-can-i-convert-string-date-to-nsdate
         //http://userguide.icu-project.org/formatparse/datetime
-        let dateFormatter = NSDateFormatter()
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "y-MM-dd'T'HH:mm:ss.SSS'Z'"
         //http://stackoverflow.com/questions/35539929/time-zone-in-swift-nsdate
-        dateFormatter.timeZone = NSTimeZone(abbreviation: "GMT")
+        dateFormatter.timeZone = TimeZone(abbreviation: "GMT")
         
         // createdAt
-        if let inboundObject = dateFormatter.dateFromString((data["createdAt"] as? String)!) {
+        if let inboundObject = dateFormatter.date(from: (data["createdAt"] as? String)!) {
             //print("Processing object with createdAt: " + String(inboundObject))
             self.createdAt = inboundObject
         } else {
-            throw StudentInformationAssignmentError.BadInputValues(property: "createdAt")
+            throw StudentInformationAssignmentError.badInputValues(property: "createdAt")
         }
         
         // updatedAt
-        if let inboundObject = dateFormatter.dateFromString((data["updatedAt"] as? String)!) {
+        if let inboundObject = dateFormatter.date(from: (data["updatedAt"] as? String)!) {
             //print("Processing object with updatedAt: " + String(inboundObject))
             self.updatedAt = inboundObject
         } else {
-            throw StudentInformationAssignmentError.BadInputValues(property: "updatedAt")
+            throw StudentInformationAssignmentError.badInputValues(property: "updatedAt")
         }
         
         //all values assigned successfully

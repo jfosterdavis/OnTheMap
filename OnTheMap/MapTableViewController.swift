@@ -15,7 +15,7 @@ class MapTableViewController: UITableViewController {
     /******************************************************/
     //Set a pointer to the shared data model
     var StudentInformations: [StudentInformation]{
-        return (UIApplication.sharedApplication().delegate as! AppDelegate).StudentInformations
+        return (UIApplication.shared.delegate as! AppDelegate).StudentInformations
     }
     
     /******************************************************/
@@ -27,7 +27,7 @@ class MapTableViewController: UITableViewController {
         
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         //refresh the data
@@ -41,16 +41,16 @@ class MapTableViewController: UITableViewController {
     /******************************************************/
     // MARK: - Table Delegate Functions
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.StudentInformations.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         //print("From cellForRowAtIndexPath.  There are ", String(self.sharedMemes.count), " shared Memes")
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("StudentInformationCell")!
-        let StudentInformation = self.StudentInformations[indexPath.row]
+        let cell = tableView.dequeueReusableCell(withIdentifier: "StudentInformationCell")!
+        let StudentInformation = self.StudentInformations[(indexPath as NSIndexPath).row]
         
         // Set the name and image
         cell.textLabel?.text = (StudentInformation.firstName! as String) + " " + (StudentInformation.lastName! as String)
@@ -66,13 +66,13 @@ class MapTableViewController: UITableViewController {
     }
     
     //When a user selects an item from the table
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("Row from table was selected")
-        let app = UIApplication.sharedApplication()
-        let StudentInformation = self.StudentInformations[indexPath.row]
+        let app = UIApplication.shared
+        let StudentInformation = self.StudentInformations[(indexPath as NSIndexPath).row]
         if let toOpen = StudentInformation.mediaURL {
             print("tring to open browser from table to go to " + toOpen)
-            app.openURL(NSURL(string: toOpen)!)
+            app.openURL(URL(string: toOpen)!)
         } else {
             print("Failed to open view annotation")
         }

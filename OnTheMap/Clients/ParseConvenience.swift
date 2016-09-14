@@ -23,7 +23,7 @@ extension ParseClient {
      Step 2: Set the Session ID
     */
     
-    func getStudentLocations(limit : Int? = nil, skip: Int? = nil, order: String? = nil, completionHandlerForGetStudentLocations: (success: Bool, errorString: String?) -> Void) {
+    func getStudentLocations(_ limit : Int? = nil, skip: Int? = nil, order: String? = nil, completionHandlerForGetStudentLocations: @escaping (_ success: Bool, _ errorString: String?) -> Void) {
         
         /* 1. Specify parameters, method (if has {key}), and HTTP body (if POST) */
         var parameters : [String: String] = [String: String]()
@@ -56,12 +56,12 @@ extension ParseClient {
         print(parameters)
         
         /* 2. Make the request */
-        taskForGETMethod(ParseClient.Methods.StudentLocationGET, parameters: passTheseParameters) { (results, error) in
+        taskForGETMethod(ParseClient.Methods.StudentLocationGET, parameters: passTheseParameters as [String : AnyObject]?) { (results, error) in
             
             /* 3. Send the desired value(s) to completion handler */
             if let error = error {
                 print(error)
-                completionHandlerForGetStudentLocations(success: false, errorString: "Login Failed (Session ID).")
+                completionHandlerForGetStudentLocations(false, "Login Failed (Session ID).")
             } else {
                 //json should have returned a A dictionary with a key of "results" that contains an array of dictionaries
                 //print("JSON response from getStudentLocations:")
@@ -72,7 +72,7 @@ extension ParseClient {
                 var successCount : Int = 0 //keep track of successes
                 var failCount : Int = 0  //track fails
                 
-                if let resultsArray = results[ParseClient.JSONResponseKeys.Results.Results] as? NSArray { //dig into the JSON response dictionary to get the array at key "results"
+                if let resultsArray = results?[ParseClient.JSONResponseKeys.Results.Results] as? NSArray { //dig into the JSON response dictionary to get the array at key "results"
                     
                     //print("Unwrapped JSON response from getStudentLocations:")
                     //print (resultsArray)
@@ -85,7 +85,7 @@ extension ParseClient {
                             if let newStudentInformationStruct = StudentInformation(fromDataSet: locationDictionary){ //attempt to initialize a new StudentInformationStruct from the dictionary
                                 
                                 //We have a new StudentInformation struct, so save it to the shared model
-                                let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                                let appDelegate = UIApplication.shared.delegate as! AppDelegate
                                 appDelegate.StudentInformations.append(newStudentInformationStruct)
                                 
                                 //this attempt was a success
@@ -104,10 +104,10 @@ extension ParseClient {
                         
                     }
                     print("\nThere are " + String(self.StudentInformations.count) + " Information Records stored.  getStudentLocations data pull Complete.")
-                    completionHandlerForGetStudentLocations(success: true, errorString: nil)
+                    completionHandlerForGetStudentLocations(true, nil)
                 } else {
                     print("\nDATA ERROR: Could not find \(ParseClient.JSONResponseKeys.Results.Results) in \(results)")
-                    completionHandlerForGetStudentLocations(success: false, errorString: "\nDATA ERROR: Failed to interpret data returned from Parse server (getStudentLocations).")
+                    completionHandlerForGetStudentLocations(false, "\nDATA ERROR: Failed to interpret data returned from Parse server (getStudentLocations).")
                 }
                 //report the results of this function to the log
                 print("\n")

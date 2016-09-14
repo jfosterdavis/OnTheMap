@@ -24,10 +24,10 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var usernameTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     
-    var session: NSURLSession!
+    var session: URLSession!
     
     /** Spinning wheel to show user that network activity is in progress */
-    var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
+    var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
     
     /// Text Field delegate
     let textFieldDelegate = LoginTextFieldDelegate()
@@ -36,11 +36,11 @@ class LoginViewController: UIViewController {
     /******************* Shared Model **************/
     /******************************************************/
     var StudentInformations: [StudentInformation]{
-        return (UIApplication.sharedApplication().delegate as! AppDelegate).StudentInformations
+        return (UIApplication.shared.delegate as! AppDelegate).StudentInformations
     }
     
     var UdacityUserInfo: UdacityUserInformation {
-        return (UIApplication.sharedApplication().delegate as! AppDelegate).UdacityUserInfo
+        return (UIApplication.shared.delegate as! AppDelegate).UdacityUserInfo
     }
 
     /******************************************************/
@@ -52,7 +52,7 @@ class LoginViewController: UIViewController {
         
         //http://sourcefreeze.com/uiactivityindicatorview-example-using-swift-in-ios/
         activityIndicator.hidesWhenStopped = true
-        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
         activityIndicator.center = self.view.center
         view.addSubview(activityIndicator)
         
@@ -65,19 +65,19 @@ class LoginViewController: UIViewController {
         configureBackground()
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         //subscribe to keyboard notifications
         self.subscribeToKeyboardNotifications()
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         self.unsubscribeFromKeyboardNotifications()
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         debugTextLabel.text = ""
         
@@ -159,7 +159,7 @@ class LoginViewController: UIViewController {
     /******************************************************/
     //MARK: - Actions
     
-    @IBAction func loginPressed(sender: AnyObject) {
+    @IBAction func loginPressed(_ sender: AnyObject) {
         startActivityIndicator()
         
         GCDBlackBox.runNetworkFunctionInBackground {
@@ -168,7 +168,7 @@ class LoginViewController: UIViewController {
                     self.stopActivityIndicator()
                     if success {
                         //set the userID in the shared UdacityUserInfo object
-                        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
                         appDelegate.UdacityUserInfo.userID = UdacityClient.sharedInstance.userID!
                         
                         self.completeLogin()
@@ -181,18 +181,18 @@ class LoginViewController: UIViewController {
             }
         }
     }
-    @IBAction func parseTestMessage(sender: AnyObject) {
-        let request = NSMutableURLRequest(URL: NSURL(string: "https://parse.udacity.com/parse/classes/StudentLocation")!)
+    @IBAction func parseTestMessage(_ sender: AnyObject) {
+        let request = NSMutableURLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation")!)
         request.addValue(Secrets.ParseAPIKey, forHTTPHeaderField: "X-Parse-Application-Id")
         request.addValue(Secrets.ParseRESTAPIKey, forHTTPHeaderField: "X-Parse-REST-API-Key")
-        let session = NSURLSession.sharedSession()
-        let task = session.dataTaskWithRequest(request) { data, response, error in
+        let session = URLSession.shared
+        let task = session.dataTask(with: request, completionHandler: { data, response, error in
             if error != nil { // Handle error...
                 print("Parse test failed")
                 return
             }
-            print(NSString(data: data!, encoding: NSUTF8StringEncoding))
-        }
+            print(NSString(data: data!, encoding: String.Encoding.utf8))
+        }) 
         task.resume()
     }
     
@@ -200,16 +200,16 @@ class LoginViewController: UIViewController {
     /******************* Log In **************/
     /******************************************************/
     //MARK: - Log In
-    private func completeLogin() {
+    fileprivate func completeLogin() {
         debugTextLabel.text = ""
-        let controller = storyboard!.instantiateViewControllerWithIdentifier("ManagerNavigationController") as! UINavigationController
-        presentViewController(controller, animated: true, completion: nil)
+        let controller = storyboard!.instantiateViewController(withIdentifier: "ManagerNavigationController") as! UINavigationController
+        present(controller, animated: true, completion: nil)
     }
     
     /**
      fetches the userinfo from the Udacity Parse Server
      */
-    private func getUserInfo() {
+    fileprivate func getUserInfo() {
         
     }
     
@@ -218,22 +218,22 @@ class LoginViewController: UIViewController {
     /******************************************************/
     //MARK: - Keyboard
     func subscribeToKeyboardNotifications() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LoginViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(LoginViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(LoginViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(LoginViewController.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
     func unsubscribeFromKeyboardNotifications() {
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
-    func getKeyboardHeight(notification: NSNotification) -> CGFloat {
-        let userInfo = notification.userInfo
+    func getKeyboardHeight(_ notification: Notification) -> CGFloat {
+        let userInfo = (notification as NSNotification).userInfo
         let keyboardSize = userInfo![UIKeyboardFrameEndUserInfoKey] as!NSValue
-        return keyboardSize.CGRectValue().height
+        return keyboardSize.cgRectValue.height
     }
     
-    func keyboardWillShow(notification: NSNotification) {
+    func keyboardWillShow(_ notification: Notification) {
         //check that the view is not already moved up for the keyboard.  if it isn't, then move the view if the keyboard would cover it.     
         if view.frame.origin.y == 0 {
            // check that the first responder is below the keyboard
@@ -247,7 +247,7 @@ class LoginViewController: UIViewController {
         }
     } //end of keyboardWillShow
     
-    func keyboardWillHide(notification: NSNotification) {
+    func keyboardWillHide(_ notification: Notification) {
         view.frame.origin.y = 0
     }
     
@@ -256,7 +256,7 @@ class LoginViewController: UIViewController {
         for view in self.view.subviews {
             print ("Checking " + String(view.description))
             
-            if view.isFirstResponder() {
+            if view.isFirstResponder {
                 return view
             }
             
@@ -271,9 +271,9 @@ class LoginViewController: UIViewController {
 
 extension LoginViewController {
     
-    private func setUIEnabled(enabled: Bool) {
-        loginButton.enabled = enabled
-        debugTextLabel.enabled = enabled
+    fileprivate func setUIEnabled(_ enabled: Bool) {
+        loginButton.isEnabled = enabled
+        debugTextLabel.isEnabled = enabled
         
         // adjust login button alpha
         if enabled {
@@ -283,19 +283,19 @@ extension LoginViewController {
         }
     }
     
-    private func displayError(errorString: String?) {
+    fileprivate func displayError(_ errorString: String?) {
         if let errorString = errorString {
             debugTextLabel.text = errorString
         }
     }
     
-    private func configureBackground() {
+    fileprivate func configureBackground() {
         let backgroundGradient = CAGradientLayer()
-        let colorTop = UIColor(red: 0.345, green: 0.839, blue: 0.988, alpha: 1.0).CGColor
-        let colorBottom = UIColor(red: 0.023, green: 0.569, blue: 0.910, alpha: 1.0).CGColor
+        let colorTop = UIColor(red: 0.345, green: 0.839, blue: 0.988, alpha: 1.0).cgColor
+        let colorBottom = UIColor(red: 0.023, green: 0.569, blue: 0.910, alpha: 1.0).cgColor
         backgroundGradient.colors = [colorTop, colorBottom]
         backgroundGradient.locations = [0.0, 1.0]
         backgroundGradient.frame = view.frame
-        view.layer.insertSublayer(backgroundGradient, atIndex: 0)
+        view.layer.insertSublayer(backgroundGradient, at: 0)
     }
 }

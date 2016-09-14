@@ -12,24 +12,24 @@ import UIKit
 extension PinPostViewController: UITextViewDelegate {
     
     //adapted from http://stackoverflow.com/questions/7372484/how-to-clear-previous-text-in-uitextview-before-writing-text
-    func textViewDidBeginEditing(textView: UITextView) {
+    func textViewDidBeginEditing(_ textView: UITextView) {
         textView.text = ""
     }
     
-    func textViewDidChange(textView: UITextView) {
+    func textViewDidChange(_ textView: UITextView) {
         //
         textViewDidChangeAction(textView)
         
     }
     
-    func textViewShouldEndEditing(textView: UITextView) -> Bool {
+    func textViewShouldEndEditing(_ textView: UITextView) -> Bool {
         return true
     }
     
-    func textViewDidEndEditing(textView: UITextView) {
+    func textViewDidEndEditing(_ textView: UITextView) {
         //if the text is not empty even when whitespace is taken away
         
-        var resultText = textView.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        var resultText = textView.text.trimmingCharacters(in: CharacterSet.whitespaces)
         if !resultText.isEmpty {
             //check length
             // if less than 7 characters then add http://
@@ -43,7 +43,7 @@ extension PinPostViewController: UITextViewDelegate {
                 let httpString = "http://"
                 //let httpsString = "https://"
                 //get the first 7 characters
-                let httpCheck = resultText.substringWithRange(Range<String.Index>(start: resultText.startIndex, end: resultText.startIndex.advancedBy(7)))
+                let httpCheck = resultText.substring(with: (resultText.startIndex ..< resultText.characters.index(resultText.startIndex, offsetBy: 7)))
                 //get the first 8 characters
                 //let httpsCheck = resultText.substringWithRange(Range<String.Index>(start: resultText.startIndex, end: resultText.startIndex.advancedBy(8)))
                 //if httpsString != httpsCheck || httpString != httpCheck {
@@ -53,7 +53,7 @@ extension PinPostViewController: UITextViewDelegate {
                     if resultText.characters.count > 7 {
                         let httpsString = "https://"
                         //get the first 8 characters
-                        let httpsCheck = resultText.substringWithRange(Range<String.Index>(start: resultText.startIndex, end: resultText.startIndex.advancedBy(8)))
+                        let httpsCheck = resultText.substring(with: (resultText.startIndex ..< resultText.characters.index(resultText.startIndex, offsetBy: 8)))
                         if httpsString != httpsCheck {
                             //https:// was not foundin the string, so give it http://
                             //text doesn't have http:// and is 7 characters long

@@ -11,7 +11,7 @@ import UIKit
 
 class LoginTextFieldDelegate: NSObject, UITextFieldDelegate {
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true;
     }

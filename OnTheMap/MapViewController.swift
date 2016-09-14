@@ -20,7 +20,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
     
     @IBOutlet weak var mapView: MKMapView!
     
-    var session: NSURLSession!
+    var session: URLSession!
     var annotations = [MKPointAnnotation]()
     
     var newStudentInfo : StudentInformation?
@@ -30,7 +30,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
     /******************************************************/
     //Set a pointer to the shared data model
     var StudentInformations: [StudentInformation]{
-        return (UIApplication.sharedApplication().delegate as! AppDelegate).StudentInformations
+        return (UIApplication.shared.delegate as! AppDelegate).StudentInformations
     }
     
 //    var UdacityUserInfo: UdacityUserInformation {
@@ -60,7 +60,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
        // self.tabBarController?.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: #selector(addPinButtonPressed))
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         //make an initial fetch for pins if there are none
@@ -84,17 +84,17 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
     // Here we create a view with a "right callout accessory view". You might choose to look into other
     // decoration alternatives. Notice the similarity between this method and the cellForRowAtIndexPath
     // method in TableViewDataSource.
-    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
         let reuseId = "pin"
         
-        var pinView = mapView.dequeueReusableAnnotationViewWithIdentifier(reuseId) as? MKPinAnnotationView
+        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
         
         if pinView == nil {
             pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
             pinView!.canShowCallout = true
-            pinView!.pinTintColor = UIColor.redColor()
-            pinView!.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure)
+            pinView!.pinTintColor = UIColor.red
+            pinView!.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
         }
         else {
             pinView!.annotation = annotation
@@ -107,11 +107,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
      This delegate method is implemented to respond to taps. It opens the system browser
      to the URL specified in the annotationViews subtitle property.
      */
-    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         if control == view.rightCalloutAccessoryView {
-            let app = UIApplication.sharedApplication()
+            let app = UIApplication.shared
             if let toOpen = view.annotation?.subtitle! {
-                app.openURL(NSURL(string: toOpen)!)
+                app.openURL(URL(string: toOpen)!)
             } else {
                 print("Failed to open view annotation")
             }
@@ -146,7 +146,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
         print("The Annotations array has " + String(annotations.count) + " members.")
     }
     
-    func studentInformationToAnnotation (studentInfo : StudentInformation) -> MKPointAnnotation {
+    func studentInformationToAnnotation (_ studentInfo : StudentInformation) -> MKPointAnnotation {
         
         // Notice that the float values are being used to create CLLocationDegree values.
         // This is a version of the Double type.
@@ -176,7 +176,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
      - Parameters:
          - doThis: A function, usually given as a closure
      */
-    func runFunctionThatUpdatesUI(doThis: () -> Void) -> Void {
+    func runFunctionThatUpdatesUI(_ doThis: @escaping () -> Void) -> Void {
         GCDBlackBox.performUIUpdatesOnMain {
             doThis()
         }
@@ -190,7 +190,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
         - skip: how many pins to skip when fetching
         - order: which data field to order the results
      */
-    func fetchPinsAndPlotPins(limit: Int?, skip: Int?, order: String?) {
+    func fetchPinsAndPlotPins(_ limit: Int?, skip: Int?, order: String?) {
         //TODO: Add overwrite option
         /*
          *  Should this overwrite or not?
@@ -226,7 +226,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
          - skip: how many pins to skip when fetching
          - order: which data field to order the results
      */
-    func fetchPins(limit: Int?, skip: Int?, order: String?, completionHandlerForFetchPins: () -> Void) {
+    func fetchPins(_ limit: Int?, skip: Int?, order: String?, completionHandlerForFetchPins: @escaping () -> Void) {
         GCDBlackBox.dataDownloadInBackground {
             ParseClient.sharedInstance.getStudentLocations(limit, skip: skip, order: order) { (success, errorString) in
                 //closure...
@@ -247,15 +247,15 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
          - `annotations`: An array of `MKPointAnnotation` objects
      
      */
-    func plotPins(annotations : [MKPointAnnotation]) {
+    func plotPins(_ annotations : [MKPointAnnotation]) {
         self.mapView.addAnnotations(annotations)
     }
     
-    func plotPin(annotation : MKPointAnnotation) {
+    func plotPin(_ annotation : MKPointAnnotation) {
         self.mapView.addAnnotation(annotation)
     }
     
-    func plotNewPinFromStudentInformation(newStudentInfo : StudentInformation) {
+    func plotNewPinFromStudentInformation(_ newStudentInfo : StudentInformation) {
         let annotation = self.studentInformationToAnnotation(newStudentInfo)
         plotPin(annotation)
         
@@ -275,12 +275,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
     /******************************************************/
     //MARK: - Testing  
     
-    private func parseTestMessage() {
-        let request = NSMutableURLRequest(URL: NSURL(string: "https://parse.udacity.com/parse/classes/StudentLocation")!)
+    fileprivate func parseTestMessage() {
+        let request = NSMutableURLRequest(url: URL(string: "https://parse.udacity.com/parse/classes/StudentLocation")!)
         request.addValue(Secrets.ParseAPIKey, forHTTPHeaderField: "X-Parse-Application-Id")
         request.addValue(Secrets.ParseRESTAPIKey, forHTTPHeaderField: "X-Parse-REST-API-Key")
-        let session = NSURLSession.sharedSession()
-        let task = session.dataTaskWithRequest(request) { data, response, error in
+        let session = URLSession.shared
+        let task = session.dataTask(with: request, completionHandler: { data, response, error in
             if error != nil { // Handle error...
                 print("Parse test failed")
                 return
@@ -288,7 +288,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
             //print(NSString(data: data!, encoding: NSUTF8StringEncoding))
             var testData: AnyObject!
             do {
-                testData = try NSJSONSerialization.JSONObjectWithData(data!, options: .AllowFragments)
+                testData = try JSONSerialization.jsonObject(with: data!, options: .allowFragments)
             } catch {
                 print("Failed to test Parse from MapView")
             }
@@ -300,7 +300,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
                 for info in resultsArray {
                     if let newInfo = info as? [String:AnyObject] {
                         if let test = StudentInformation(fromDataSet: newInfo){
-                            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+                            let appDelegate = UIApplication.shared.delegate as! AppDelegate
                             appDelegate.StudentInformations.append(test)
                             
                         }
@@ -311,7 +311,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
                 }
                 print("There are " + String(self.StudentInformations.count) + " Information Records stored.  MapView Test Complete.")
             }
-        }
+        }) 
         task.resume()
     }
 }

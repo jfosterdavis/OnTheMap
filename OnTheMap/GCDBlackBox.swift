@@ -11,26 +11,26 @@ import Foundation
 
 struct GCDBlackBox {
 
-    static func performUIUpdatesOnMain(updates: () -> Void) {
-        dispatch_async(dispatch_get_main_queue()) {
+    static func performUIUpdatesOnMain(_ updates: @escaping () -> Void) {
+        DispatchQueue.main.async {
             updates()
         }
         
         
     }
 
-    static let dataDownload = dispatch_queue_create("dataDownload", nil)
+    static let dataDownload = DispatchQueue(label: "dataDownload", attributes: [])
 
-   static func dataDownloadInBackground(function: () -> Void) {
-        dispatch_async(dataDownload) {
+   static func dataDownloadInBackground(_ function: @escaping () -> Void) {
+        dataDownload.async {
             function()
         }
     }
 
-    static let genericNetworkQueue = dispatch_queue_create("genericNetworkQueue", nil)
+    static let genericNetworkQueue = DispatchQueue(label: "genericNetworkQueue", attributes: [])
 
-    static func runNetworkFunctionInBackground(function: () -> Void) {
-        dispatch_async(genericNetworkQueue) {
+    static func runNetworkFunctionInBackground(_ function: @escaping () -> Void) {
+        genericNetworkQueue.async {
             function()
         }
     }

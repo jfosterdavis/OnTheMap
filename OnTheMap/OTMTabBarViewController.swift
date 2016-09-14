@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 protocol OTMTabBarControllerDelegate: class {
-    func plotNewPinFromStudentInformation(newStudentInfo : StudentInformation)
+    func plotNewPinFromStudentInformation(_ newStudentInfo : StudentInformation)
 }
 
 class OTMTabBarController: UITabBarController, PinPostViewControllerDelegate {
@@ -28,15 +28,15 @@ class OTMTabBarController: UITabBarController, PinPostViewControllerDelegate {
     //MARK: - Shared Model
     
     var UdacityUserInfo: UdacityUserInformation {
-        return (UIApplication.sharedApplication().delegate as! AppDelegate).UdacityUserInfo
+        return (UIApplication.shared.delegate as! AppDelegate).UdacityUserInfo
     }
     
     var NewStudentInfo: StudentInformation {
-        return (UIApplication.sharedApplication().delegate as! AppDelegate).NewStudentInfo
+        return (UIApplication.shared.delegate as! AppDelegate).NewStudentInfo
     }
     
     var StudentInformations: [StudentInformation]{
-        return (UIApplication.sharedApplication().delegate as! AppDelegate).StudentInformations
+        return (UIApplication.shared.delegate as! AppDelegate).StudentInformations
     }
     
     /******************************************************/
@@ -59,15 +59,15 @@ class OTMTabBarController: UITabBarController, PinPostViewControllerDelegate {
     //MARK: - Actions
     
     
-    @IBAction func addNewPinButtonPressed(sender: AnyObject) {
+    @IBAction func addNewPinButtonPressed(_ sender: AnyObject) {
         
-        let vc = storyboard?.instantiateViewControllerWithIdentifier("PinPostViewController") as! PinPostViewController
+        let vc = storyboard?.instantiateViewController(withIdentifier: "PinPostViewController") as! PinPostViewController
         vc.delegate = self
-        self.presentViewController(vc, animated: true, completion: nil)
+        self.present(vc, animated: true, completion: nil)
     }
     
     
-    @IBAction func logOutButtonPressed(sender: AnyObject) {
+    @IBAction func logOutButtonPressed(_ sender: AnyObject) {
     }
     
     /******************************************************/
@@ -115,7 +115,7 @@ class OTMTabBarController: UITabBarController, PinPostViewControllerDelegate {
     
     func updateUdacityModelFromNewUserInfo(){
         if let tempNewUserInfo = newUserInfo {
-            let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
             appDelegate.UdacityUserInfo = tempNewUserInfo
             print("Set the shared UdacityUserInfo model:")
             print(UdacityUserInfo)
@@ -125,7 +125,7 @@ class OTMTabBarController: UITabBarController, PinPostViewControllerDelegate {
         }
     }
     
-    func updateNavBarPromptName(name: String) {
+    func updateNavBarPromptName(_ name: String) {
         self.navigationItem.prompt = "Logged in as: " + name
     }
     
@@ -135,9 +135,9 @@ class OTMTabBarController: UITabBarController, PinPostViewControllerDelegate {
     /******************************************************/
     //MARK: - PinPostViewControllerDelegate
     
-    func newStudentInformationDataReady(newStudentInfo: StudentInformation) {
+    func newStudentInformationDataReady(_ newStudentInfo: StudentInformation) {
         setupNewStudentInfo()
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.NewStudentInfo = newStudentInfo
         
         appDelegate.NewStudentInfo.firstName = "Test First Name"
@@ -162,7 +162,7 @@ class OTMTabBarController: UITabBarController, PinPostViewControllerDelegate {
     //MARK: - Housekeeping
     
     func setupNewStudentInfo() {
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.NewStudentInfo = StudentInformation()
     }
 }

@@ -13,7 +13,7 @@ import MapKit
 //adapted from http://stackoverflow.com/questions/19343519/pass-data-back-to-previous-viewcontroller
 /// Used to send information back to the presenting view controller
 protocol PinPostViewControllerDelegate: class {
-    func newStudentInformationDataReady(newStudentInfo : StudentInformation)
+    func newStudentInformationDataReady(_ newStudentInfo : StudentInformation)
 }
 
 class PinPostViewController: UIViewController, MKMapViewDelegate {
@@ -61,8 +61,8 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
     /******************************************************/
     //MARK: - Error Checking
     
-    enum StudentInfoCreationError: ErrorType {
-        case MissingObject() //Missing an object needed to create
+    enum StudentInfoCreationError: Error {
+        case missingObject() //Missing an object needed to create
     }
     
     /******************************************************/
@@ -86,13 +86,13 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
         
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         self.subscribeToKeyboardNotifications()
     }
     
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
         self.unsubscribeFromKeyboardNotifications()
@@ -104,7 +104,7 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
     //MARK: - Action
     
     
-    @IBAction func searchAndTransition(sender: AnyObject){
+    @IBAction func searchAndTransition(_ sender: AnyObject){
         if let textToGeoCode = step1LocationInput.text {
             if !textToGeoCode.isEmpty {
                 geocodeForward(textToGeoCode)
@@ -117,15 +117,15 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
         }
     } //end searchAndTransition
     
-    @IBAction func searchNavButtonPressed(sender: AnyObject) {
+    @IBAction func searchNavButtonPressed(_ sender: AnyObject) {
         transitionToOtherStep()
     }
     
-    @IBAction func cancelNavButtonPressed(sender: AnyObject) {
-        dismissViewControllerAnimated(true, completion: nil)
+    @IBAction func cancelNavButtonPressed(_ sender: AnyObject) {
+        dismiss(animated: true, completion: nil)
     }
     
-    @IBAction func pinItButtonPressed(sender: BorderedButton!) {
+    @IBAction func pinItButtonPressed(_ sender: BorderedButton!) {
         print("Pin It button pressed")
         //make sure text view is done editing
         step2URLInput.endEditing(true)
@@ -150,7 +150,7 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
         
         self.delegate?.newStudentInformationDataReady(self.newStudentInfo!)
         
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
     
     
@@ -169,7 +169,7 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
          - CLPlacemark: if the geocode attempt returned a result
          - nil: if error or no geocode was found
      */
-    func geocodeForward(locationString: String) {
+    func geocodeForward(_ locationString: String) {
         let textToGeoCode = locationString
         let Geocoder = CLGeocoder()
         Geocoder.geocodeAddressString(textToGeoCode) { (placemarks, error) in
@@ -204,16 +204,16 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
     // Here we create a view with a "right callout accessory view". You might choose to look into other
     // decoration alternatives. Notice the similarity between this method and the cellForRowAtIndexPath
     // method in TableViewDataSource.
-    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
         let reuseId = "newPin"
         
-        var pinView = miniMapView.dequeueReusableAnnotationViewWithIdentifier(reuseId) as? MKPinAnnotationView
+        var pinView = miniMapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
         
         if pinView == nil {
             pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
             pinView!.canShowCallout = true
-            pinView!.pinTintColor = UIColor.redColor()
+            pinView!.pinTintColor = UIColor.red
             //pinView!.rightCalloutAccessoryView = UIButton(type: .DetailDisclosure)
         }
         else {
@@ -228,11 +228,11 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
      This delegate method is implemented to respond to taps. It opens the system browser
      to the URL specified in the annotationViews subtitle property.
      */
-    func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         if control == view.rightCalloutAccessoryView {
-            let app = UIApplication.sharedApplication()
+            let app = UIApplication.shared
             if let toOpen = view.annotation?.subtitle! {
-                app.openURL(NSURL(string: toOpen)!)
+                app.openURL(URL(string: toOpen)!)
             } else {
                 print("Failed to open view annotation")
             }
@@ -256,7 +256,7 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
      - Parameters:
          - annotation: A `MKPointAnnotation` object
      */
-    func plotPin(annotation : MKPointAnnotation) {
+    func plotPin(_ annotation : MKPointAnnotation) {
         self.miniMapView.addAnnotation(annotation)
     }
     
@@ -268,7 +268,7 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
      
      - Returns: `MKAnnotation` (a pin)
      */
-    func pinFromPlacemark(placemark : CLPlacemark) -> MKPointAnnotation {
+    func pinFromPlacemark(_ placemark : CLPlacemark) -> MKPointAnnotation {
         let aPin = MKPointAnnotation()
         
         //set lat and long
@@ -287,7 +287,7 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
      - Parameters:
          - pinToPlot: The pin to plot
      */
-    func pinSetAndPlot(pinToPlot : MKPointAnnotation) -> Void {
+    func pinSetAndPlot(_ pinToPlot : MKPointAnnotation) -> Void {
         //set the pin
         self.newPin = pinToPlot
         
@@ -312,7 +312,7 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
     /******************************************************/
     //MARK: - StudentInformation Object
     
-    func setNewStudentInfoURL(inputURL : String!) -> Bool {
+    func setNewStudentInfoURL(_ inputURL : String!) -> Bool {
         //print("setNewStudentInfoURL called")
         if self.newStudentInfo == nil {
             //the newStudentInfo is not initialized
@@ -324,7 +324,7 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
             
             //check for success because the struct has input validation
             if self.newStudentInfo!.mediaURL == inputURL! {
-                print("mediaURL set to: " + String(self.newStudentInfo!.mediaURL))
+                print("mediaURL set to: " + String(describing: self.newStudentInfo!.mediaURL))
                 return true
             } else {
                 print("failed to set URL")
@@ -343,7 +343,7 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
          - `true`: if successful
          - `false`: otherwise
      */
-    func setNewStudentInfoCoordinates(inputPin : MKPointAnnotation) -> Bool {
+    func setNewStudentInfoCoordinates(_ inputPin : MKPointAnnotation) -> Bool {
         if self.newStudentInfo == nil {
             print("Failed to set coordinates. self.newstudentinfo returned nil")
             //the newStudentInfo is not initialized
@@ -356,8 +356,8 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
             //check for success because the struct has input validation
             if self.newStudentInfo!.latitude == inputPin.coordinate.latitude &&
             self.newStudentInfo!.longitude == inputPin.coordinate.longitude {
-                print("Latitude set to: " + String(self.newStudentInfo!.latitude))
-                print("Longitude set to: " + String(self.newStudentInfo!.longitude))
+                print("Latitude set to: " + String(describing: self.newStudentInfo!.latitude))
+                print("Longitude set to: " + String(describing: self.newStudentInfo!.longitude))
                 return true
             } else {
                 print("Failed to set coordinates")
@@ -378,7 +378,7 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
          - `true`: if successful
          - `false`: otherwise
      */
-    func setNewStudentInfoMapString(inputMapString : String!) -> Bool {
+    func setNewStudentInfoMapString(_ inputMapString : String!) -> Bool {
         if self.newStudentInfo == nil {
             //the newStudentInfo is not initialized
             print("Failed to set MapString")
@@ -389,7 +389,7 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
             
             //check for success because the struct has input validation
             if self.newStudentInfo!.mapString == inputMapString  {
-                print("Mapstring set to: " + String(self.newStudentInfo!.mapString))
+                print("Mapstring set to: " + String(describing: self.newStudentInfo!.mapString))
                 return true
             } else {
                 print("Failed to set MapString")
@@ -420,16 +420,16 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
         - alertTitle: Title of the alert
         - alertMessage: Message of the alert
      */
-    func alertUser(alertTitle: String, alertMessage: String) -> Void {
+    func alertUser(_ alertTitle: String, alertMessage: String) -> Void {
         //create an alert controller
         let alertController = UIAlertController(title: alertTitle, message:
-            alertMessage, preferredStyle: UIAlertControllerStyle.Alert)
+            alertMessage, preferredStyle: UIAlertControllerStyle.alert)
         
         //add dismiss button
-        alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.Default,handler: nil))
+        alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
         
         //present the alert
-        self.presentViewController(alertController, animated: true, completion: nil)
+        self.present(alertController, animated: true, completion: nil)
     } // end of alertUser
     
     /**
@@ -438,19 +438,19 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
      - Parameters:
         - state: True is visible. False is invisible
      */
-    func makeSearchNavBarButtonVisible(state : Bool) -> Void {
+    func makeSearchNavBarButtonVisible(_ state : Bool) -> Void {
         if state {
             //make it visible
             self.navigationController?.navigationItem.leftBarButtonItem = searchNavButton
             
             //enable it
-            searchNavButton.enabled = true
+            searchNavButton.isEnabled = true
         } else {
             //make it invisible
             print("About to delete the searchNavButton")
             self.navigationController?.navigationItem.leftBarButtonItem = nil
             //disable
-            searchNavButton.enabled = false
+            searchNavButton.isEnabled = false
             
         }
     } // end of makeSearchNavBarButtonVisible
@@ -461,16 +461,16 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
      - Parameters:
          - state: True is enabled. False is disabled
      */
-    func makePinItButtonEnabled(state: Bool) -> Void {
+    func makePinItButtonEnabled(_ state: Bool) -> Void {
         print("Pin It button is being set to " + String(state))
-        self.pinItButton.enabled = state
+        self.pinItButton.isEnabled = state
     } // end of makePinItButtonEnabled
     
     ///Allows touches outside of text fields to end editing
     //adapted from http://www.codingexplorer.com/how-to-dismiss-uitextfields-keyboard-in-your-swift-app/
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         view.endEditing(true)
-        super.touchesBegan(touches, withEvent: event)
+        super.touchesBegan(touches, with: event)
     }
     
     func setupNewStudentInfo() {
@@ -482,10 +482,10 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
     /******************************************************/
     //MARK: - Text Actions
     
-    func textViewDidChangeAction(textView: UITextView) -> Void {
+    func textViewDidChangeAction(_ textView: UITextView) -> Void {
         //if the textview is not empty, then enable the Pin It button
         //also check for strings with only whitespace
-        let stringWithNoWhitespace = textView.text.stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
+        let stringWithNoWhitespace = textView.text.trimmingCharacters(in: CharacterSet.whitespaces)
         if !textView.text.isEmpty && !stringWithNoWhitespace.isEmpty{
             makePinItButtonEnabled(true)
         } else {
@@ -505,7 +505,7 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
         print("About to transition...")
         if self.step1View.alpha == 0 { //must be on step 2,
             //go to step 1
-            UIView.animateWithDuration(0.5, animations: {
+            UIView.animate(withDuration: 0.5, animations: {
                 self.step2View.alpha = 0
                 self.step1View.alpha = 1
             })
@@ -516,7 +516,7 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
             //set up a new StudentInformation object
             setupNewStudentInfo()
         } else { // must be on step 1, go to step 2
-            UIView.animateWithDuration(0.5, animations: {
+            UIView.animate(withDuration: 0.5, animations: {
                 self.step2View.alpha = 1
                 self.step1View.alpha = 0
             })
@@ -544,22 +544,22 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
     /******************************************************/
     //MARK: - Keyboard
     func subscribeToKeyboardNotifications() {
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(PinPostViewController.keyboardWillShow(_:)), name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(PinPostViewController.keyboardWillHide(_:)), name: UIKeyboardWillHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(PinPostViewController.keyboardWillShow(_:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(PinPostViewController.keyboardWillHide(_:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
     func unsubscribeFromKeyboardNotifications() {
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillShowNotification, object: nil)
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIKeyboardWillHideNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIKeyboardWillHide, object: nil)
     }
     
-    func getKeyboardHeight(notification: NSNotification) -> CGFloat {
-        let userInfo = notification.userInfo
+    func getKeyboardHeight(_ notification: Notification) -> CGFloat {
+        let userInfo = (notification as NSNotification).userInfo
         let keyboardSize = userInfo![UIKeyboardFrameEndUserInfoKey] as!NSValue
-        return keyboardSize.CGRectValue().height
+        return keyboardSize.cgRectValue.height
     }
     
-    func keyboardWillShow(notification: NSNotification) {
+    func keyboardWillShow(_ notification: Notification) {
         //check that the view is not already moved up for the keyboard.  if it isn't, then move the view if the keyboard would cover it.
         if view.frame.origin.y == 0 {
             // check that the first responder is below the keyboard
@@ -573,7 +573,7 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
         }
     } //end of keyboardWillShow
     
-    func keyboardWillHide(notification: NSNotification) {
+    func keyboardWillHide(_ notification: Notification) {
         view.frame.origin.y = 0
     }
     
@@ -582,7 +582,7 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
         for view in self.view.subviews {
             print ("Checking " + String(view.description))
             
-            if view.isFirstResponder() {
+            if view.isFirstResponder {
                 return view
             }
             
