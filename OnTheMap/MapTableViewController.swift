@@ -24,7 +24,7 @@ class MapTableViewController: UITableViewController {
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                
     }
         
     override func viewWillAppear(_ animated: Bool) {

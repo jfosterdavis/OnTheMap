@@ -11,7 +11,7 @@
         <scene sceneID="2cX-Pa-55d">
             <objects>
                 <navigationController storyboardIdentifier="OTMNavigationController" id="kU7-ZA-CTN" userLabel="OTM Navigation" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="tOf-JB-2gq">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="tOf-JB-2gq">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -94,9 +94,9 @@
             <objects>
                 <tableViewController storyboardIdentifier="MapTableViewController" id="1g4-tO-VQ6" customClass="MapTableViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="ww4-8g-0tG">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="StudentInformationCell" textLabel="gkp-bn-ie7" detailTextLabel="6au-0d-F6l" imageView="iwi-D5-DHt" style="IBUITableViewCellStyleSubtitle" id="oB9-qq-iWT">
                                 <rect key="frame" x="0.0" y="92" width="320" height="44"/>
@@ -132,6 +132,7 @@
                             <outlet property="delegate" destination="1g4-tO-VQ6" id="eiI-CF-6P2"/>
                         </connections>
                     </tableView>
+                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <tabBarItem key="tabBarItem" title="List" image="LocationListTabIcon" id="OGX-NI-KUJ"/>
                     <navigationItem key="navigationItem" id="GC8-Mi-TI6"/>
                 </tableViewController>
@@ -334,7 +335,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <nil key="simulatedBottomBarMetrics"/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" id="kGf-fJ-FKV">
+                    <tabBar key="tabBar" contentMode="scaleToFill" translucent="NO" id="kGf-fJ-FKV">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
@@ -359,7 +360,7 @@
                         <viewControllerLayoutGuide type="bottom" id="Lfj-rp-eCm"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="9n3-G9-9Vo">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="VFK-5a-kWJ"/>

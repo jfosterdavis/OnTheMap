@@ -103,7 +103,7 @@ class OTMTabBarController: UITabBarController, PinPostViewControllerDelegate {
                          *  <#description#>
                          */
                         
-                        print("OTMTabBarController failed to lot user out. (empty result set)")
+                        print("OTMTabBarController failed to log user out. (empty result set)")
                     }
                 }
             }
