@@ -347,5 +347,4 @@ struct StudentInformation {
         }
     }
 
-
 } //end of struct StudentInformation

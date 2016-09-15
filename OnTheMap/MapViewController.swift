@@ -71,7 +71,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
         if annotations.isEmpty {
             //check shared model
             if StudentInformations.isEmpty {
-                fetchPinsAndPlotPins(25, skip: 0, order: "createdAt")
+                fetchPinsAndPlotPins(25, skip: 0, order: "-\(ParseClient.JSONBodyKeys.StudentLocation.CreatedAt)")
             } else {
                 self.plotPinsFromSharedModel()
             }
@@ -104,7 +104,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
         if pinView == nil {
             pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
             pinView!.canShowCallout = true
-            pinView!.pinTintColor = UIColor.red
+            
+            //setting colors adapted from http://stackoverflow.com/questions/33532883/add-different-pin-color-with-mapkit-in-swift-2-1
+            let colorPointAnnotation = annotation as! ColorPointAnnotation
+            pinView!.pinTintColor = colorPointAnnotation.pinColor
+            
             pinView!.rightCalloutAccessoryView = UIButton(type: .detailDisclosure)
         }
         else {
@@ -166,11 +170,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
      */
     func createAnnotationsFromSharedModel () {
         //clear current annotations
-        self.annotations = [MKPointAnnotation]()
+        clearAnnotations()
         for StudentInformation in StudentInformations {
             let annotation = self.studentInformationToAnnotation(StudentInformation)
             self.annotations.append(annotation)
         }
+        
         print("The Annotations array has " + String(annotations.count) + " members.")
     }
     
@@ -188,11 +193,20 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
         let last = studentInfo.lastName!
         let mediaURL = studentInfo.mediaURL!
         
+        //if the user has a pin, make that pin blue. other red
+        var pinColor: UIColor
+        if studentInfo.uniqueKey! == UdacityClient.sharedInstance.userID! {
+            pinColor = UIColor.blue
+        } else {
+            pinColor = UIColor.red
+        }
+        
         // Here we create the annotation and set its coordiate, title, and subtitle properties
-        let annotation = MKPointAnnotation()
+        let annotation = ColorPointAnnotation(pinColor: pinColor)
         annotation.coordinate = coordinate
         annotation.title = "\(first) \(last)"
         annotation.subtitle = mediaURL
+        
         
         // Finally we place the annotation in an array of annotations.
         return annotation
@@ -292,6 +306,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
         //put this pin in shared model
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.StudentInformations.append(newStudentInfo)
+        //sort the model.
+//        appDelegate.StudentInformations.sort {
+//            $0.createdAt! < $1.createdAt!
+//        }
         //add pin to the map
         let annotation = self.studentInformationToAnnotation(newStudentInfo)
         plotPin(annotation)
@@ -350,5 +368,16 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
             }
         }
         task.resume()
+    }
+}
+
+//to allow custom colors for user pins
+//adapted from http://stackoverflow.com/questions/33532883/add-different-pin-color-with-mapkit-in-swift-2-1
+class ColorPointAnnotation: MKPointAnnotation {
+    var pinColor: UIColor
+    
+    init(pinColor: UIColor) {
+        self.pinColor = pinColor
+        super.init()
     }
 }

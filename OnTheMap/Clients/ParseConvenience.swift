@@ -167,6 +167,12 @@ extension ParseClient {
                                 let appDelegate = UIApplication.shared.delegate as! AppDelegate
                                 appDelegate.StudentInformations.append(newStudentInformationStruct)
                                 
+                                //sort the model.  
+                                //adapted from https://www.hackingwithswift.com/example-code/arrays/how-to-sort-an-array-using-sort
+                                appDelegate.StudentInformations.sort {
+                                    $0.createdAt! < $1.createdAt!
+                                }
+                                
                                 //this attempt was a success
                                 successCount += 1
                             } else { //if the attempt to init a new StudentInformation struct returns nil, it was not successful
