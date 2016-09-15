@@ -7,6 +7,7 @@
 //
 
 import Foundation
+
 fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
   case let (l?, r?):
@@ -37,7 +38,7 @@ fileprivate func <= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
 }
 
 /**
- Designed to hold Student Information from the Udacity Parse Server for On the Map
+ Designed to hold Student Information from the Udacity Parse Server for On the Map.  Called StudentLocation in API documentation
  
  - Parameters:
      - fromDataSet: (optional) a`[String:AnyObject]` containing key-value pairs that match `expectedKeys`
@@ -96,6 +97,12 @@ struct StudentInformation {
             }
         }
     }
+    
+    //http://userguide.icu-project.org/formatparse/datetime
+    let dateFormatter = DateFormatter()
+    let dateFormat = "y-MM-dd'T'HH:mm:ss.SSS'Z'"
+    //http://stackoverflow.com/questions/35539929/time-zone-in-swift-nsdate
+    let timeZone = TimeZone(abbreviation: "GMT")
     
     /********************************************/
     /******************* Error Checking Properties **************/
@@ -305,15 +312,9 @@ struct StudentInformation {
             throw StudentInformationAssignmentError.badInputValues(property: "longitude")
         }
         
-        //date formating from http://stackoverflow.com/questions/24777496/how-can-i-convert-string-date-to-nsdate
-        //http://userguide.icu-project.org/formatparse/datetime
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "y-MM-dd'T'HH:mm:ss.SSS'Z'"
-        //http://stackoverflow.com/questions/35539929/time-zone-in-swift-nsdate
-        dateFormatter.timeZone = TimeZone(abbreviation: "GMT")
         
         // createdAt
-        if let inboundObject = dateFormatter.date(from: (data["createdAt"] as? String)!) {
+        if let inboundObject = self.stringToDate(inboundString: (data["createdAt"] as? String)!) {
             //print("Processing object with createdAt: " + String(inboundObject))
             self.createdAt = inboundObject
         } else {
@@ -321,7 +322,7 @@ struct StudentInformation {
         }
         
         // updatedAt
-        if let inboundObject = dateFormatter.date(from: (data["updatedAt"] as? String)!) {
+        if let inboundObject = self.stringToDate(inboundString: (data["updatedAt"] as? String)!){
             //print("Processing object with updatedAt: " + String(inboundObject))
             self.updatedAt = inboundObject
         } else {
@@ -331,6 +332,20 @@ struct StudentInformation {
         //all values assigned successfully
         return true
     } //end of attemptToAssignValues
+    
+    func stringToDate(inboundString:String) -> Date? {
+        //date formating from http://stackoverflow.com/questions/24777496/how-can-i-convert-string-date-to-nsdate
+        self.dateFormatter.dateFormat = self.dateFormat
+        self.dateFormatter.timeZone = self.timeZone
+        
+        // createdAt
+        if let dateObject = self.dateFormatter.date(from: (inboundString)) {
+            //print("Processing object with createdAt: " + String(inboundObject))
+            return dateObject
+        } else {
+            return nil
+        }
+    }
 
 
 } //end of struct StudentInformation

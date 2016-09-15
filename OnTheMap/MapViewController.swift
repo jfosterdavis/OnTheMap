@@ -68,11 +68,15 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
         super.viewWillAppear(animated)
         
         //make an initial fetch for pins if there are none
-        if StudentInformations.isEmpty {
-            fetchPinsAndPlotPins(100, skip: 5, order: "-lastName")
+        if annotations.isEmpty {
+            //check shared model
+            if StudentInformations.isEmpty {
+                fetchPinsAndPlotPins(25, skip: 0, order: "createdAt")
+            } else {
+                self.plotPinsFromSharedModel()
+            }
         } else {
-            //otherwise replot the ones in memeory
-            self.plotPinsFromSharedModel()
+            //otherwise there should already be pins there
         }
         
     }
@@ -146,6 +150,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
     
     func setupNewStudentInfo() {
         self.newStudentInfo = StudentInformation()
+    }
+    
+    func clearAnnotations() {
+        self.annotations = [MKPointAnnotation]()
     }
     
     /******************************************************/
@@ -227,7 +235,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
      Plots pins from the shared model
      */
     func plotPinsFromSharedModel() {
-        print("plotPins() called")
+        print("plotPinsFromSharedModel() called")
         createAnnotationsFromSharedModel()
         plotPins(self.annotations)
         
@@ -281,10 +289,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
     //MARK: - OTMTabBarControllerLogOutDelegate
     
     func plotNewPinFromStudentInformation(_ newStudentInfo : StudentInformation) {
-        //put this pin in memory
+        //put this pin in shared model
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.StudentInformations.append(newStudentInfo)
-        
+        //add pin to the map
         let annotation = self.studentInformationToAnnotation(newStudentInfo)
         plotPin(annotation)
         

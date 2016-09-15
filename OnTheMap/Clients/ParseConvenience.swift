@@ -23,6 +23,85 @@ extension ParseClient {
      Step 2: Set the Session ID
     */
     
+    func postStudentLocation(_ postThisStudent : StudentInformation, completionHandlerForPostStudentLocation: @escaping (_ results: [String:String]?, _ errorString: String?) -> Void) {
+        
+        /* 1. Specify parameters, method (if has {key}), and HTTP body (if POST) */
+        let parameters : [String:AnyObject]? = nil
+        
+        let mutableMethod: String = ParseClient.Methods.StudentLocationPOST
+        //mutableMethod = subtituteKeyInMethod(mutableMethod, key: "", value: "")! //There are no keys in this method, this is a placeholder
+        
+        guard postThisStudent.uniqueKey != nil else {
+            print("Unique Key is not set. Aborting.")
+            return
+        }
+        
+        guard postThisStudent.firstName != nil else {
+            print("First Name is not set. Aborting.")
+            return
+        }
+        
+        guard postThisStudent.lastName != nil else {
+            print("Last Name is not set. Aborting.")
+            return
+        }
+        
+        guard postThisStudent.mapString != nil else {
+            print("mapString is not set. Aborting.")
+            return
+        }
+        
+        guard postThisStudent.mediaURL != nil else {
+            print("mediaURL is not set. Aborting.")
+            return
+        }
+        
+        guard postThisStudent.latitude != nil else {
+            print("latitude is not set. Aborting.")
+            return
+        }
+        
+        guard postThisStudent.longitude != nil else {
+            print("longitude is not set. Aborting.")
+            return
+        }
+        
+        let jsonBody = "{\"\(ParseClient.JSONBodyKeys.StudentLocation.UniqueKey)\": \"\(postThisStudent.uniqueKey!)\", \"\(ParseClient.JSONBodyKeys.StudentLocation.FirstName)\": \"\(postThisStudent.firstName!)\", \"\(ParseClient.JSONBodyKeys.StudentLocation.LastName)\": \"\(postThisStudent.lastName!)\", \"\(ParseClient.JSONBodyKeys.StudentLocation.MapString)\": \"\(postThisStudent.mapString!)\", \"\(ParseClient.JSONBodyKeys.StudentLocation.MediaURL)\": \"\(postThisStudent.mediaURL!)\", \"\(ParseClient.JSONBodyKeys.StudentLocation.Latitude)\": \(postThisStudent.latitude!), \"\(ParseClient.JSONBodyKeys.StudentLocation.Longitude)\": \(postThisStudent.longitude!)}"
+        print("\nAttempting to post a StudentLocation with the following parameters: ")
+        print(parameters)
+        print(jsonBody)
+        
+        /* 2. Make the request */
+        let _ = taskForPOSTMethod(mutableMethod, parameters: parameters, jsonBody: jsonBody) { (results, error) in
+            
+            /* 3. Send the desired value(s) to completion handler */
+            if let error = error {
+                print(error)
+                completionHandlerForPostStudentLocation(nil, "Failed to POST StudentLocation")
+            } else {
+                //json should have returned a A dictionary with a key of "results" that contains an array of dictionaries
+                //print("JSON response from getStudentLocations:")
+                //print(results)
+                
+                if let createdAtResult = results?[ParseClient.JSONResponseKeys.Results.CreatedAt] as? String {
+                    
+                    //we have the createdAt value
+                    if let objectIdResult = results?[ParseClient.JSONResponseKeys.Results.ObjectID] as? String {
+                        //we have the objectId value
+                        let postingResults = [ParseClient.JSONResponseKeys.Results.CreatedAt: createdAtResult, ParseClient.JSONResponseKeys.Results.ObjectID: objectIdResult]
+                        completionHandlerForPostStudentLocation(postingResults, nil)
+                    } else {
+                        print("\nDATA ERROR: Could not find \(ParseClient.JSONResponseKeys.Results.ObjectID) in \(results)")
+                        completionHandlerForPostStudentLocation(nil, "\nDATA ERROR: Failed to interpret data returned from Parse server (postStudentLocation).")
+                    }
+                } else {
+                    print("\nDATA ERROR: Could not find \(ParseClient.JSONResponseKeys.Results.CreatedAt) in \(results)")
+                    completionHandlerForPostStudentLocation(nil, "\nDATA ERROR: Failed to interpret data returned from Parse server (postStudentLocation).")
+                }
+            }
+        }
+    }
+    
     func getStudentLocations(_ limit : Int? = nil, skip: Int? = nil, order: String? = nil, completionHandlerForGetStudentLocations: @escaping (_ success: Bool, _ errorString: String?) -> Void) {
         
         /* 1. Specify parameters, method (if has {key}), and HTTP body (if POST) */

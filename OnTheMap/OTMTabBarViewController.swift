@@ -175,6 +175,55 @@ class OTMTabBarController: UITabBarController, PinPostViewControllerDelegate {
         }
     }
     
+    /******************************************************/
+    /******************* POSTing new pins to Parse **************/
+    /******************************************************/
+    //MARK: - POSTing new pins to Parse
+    
+    func postNewStudentInformationToParse(postThisStudent: StudentInformation, successfulCompletionHandler: (() -> Void)?) {
+        print("Attempting to post a studentLocation to Parse")
+        GCDBlackBox.runNetworkFunctionInBackground {
+            ParseClient.sharedInstance.postStudentLocation(postThisStudent) { (result, error) in
+                GCDBlackBox.performUIUpdatesOnMain {
+                    //self.stopActivityIndicator()
+                    if let result = result {
+                        //update the new student info
+                                                //update createdAt
+                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+                        
+                        if  let createdAtDate = self.NewStudentInfo.stringToDate(inboundString: result[ParseClient.JSONResponseKeys.Results.CreatedAt]!) {
+                            appDelegate.NewStudentInfo.createdAt = createdAtDate
+                            
+                            //update objectId
+                        appDelegate.NewStudentInfo.objectID = result[ParseClient.JSONResponseKeys.Results.ObjectID]
+                            
+                            //great success.  run the optional completion handler
+                            if let completion = successfulCompletionHandler {
+                                completion()
+                            }
+                        } else {
+                            print("Error, couldn't update newStudentInfo createdAt")
+                            //TODO: handle error
+                            /*
+                             *  <#description#>
+                             */
+                        }
+                        
+                        
+                        
+                    } else {
+                        //TODO: handle error
+                        /*
+                         *  <#description#>
+                         */
+                        
+                        print("OTMTabBarController failed to post a new studentLocation)")
+                        
+                    }
+                }
+            }
+        }
+    }
     
     /******************************************************/
     /******************* PinPostViewControllerDelegate **************/
@@ -186,11 +235,42 @@ class OTMTabBarController: UITabBarController, PinPostViewControllerDelegate {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.NewStudentInfo = newStudentInfo
         
-        appDelegate.NewStudentInfo.firstName = "Test First Name"
-        appDelegate.NewStudentInfo.lastName = "Test Last Name"
-        appDelegate.NewStudentInfo.uniqueKey = "Test User ID"
+        //first name
+        if let newFirstName = UdacityUserInfo.firstName {
+            appDelegate.NewStudentInfo.firstName = newFirstName
+        } else {
+            appDelegate.NewStudentInfo.firstName = "Unknown"
+        }
+        
+        //last name
+        if let newLastName = UdacityUserInfo.lastName {
+            appDelegate.NewStudentInfo.lastName = newLastName
+        } else {
+            appDelegate.NewStudentInfo.lastName = "Unknown"
+        }
+        
+        //unique key/account number/userID
+        if let newUniqueKey = UdacityUserInfo.userID {
+            appDelegate.NewStudentInfo.uniqueKey = newUniqueKey
+        } else {
+            appDelegate.NewStudentInfo.uniqueKey = "Unknown"
+        }
+        //created at
+        let date = Date()
+        appDelegate.NewStudentInfo.createdAt = date
+        
         print("Got new student info from PinPostViewController:")
         print(self.NewStudentInfo)
+        
+        postNewStudentInformationToParse(postThisStudent: appDelegate.NewStudentInfo, successfulCompletionHandler: finishNewStudentInformationDataReady)
+ 
+    }
+    
+    private func finishNewStudentInformationDataReady() {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        
+        //put this pin in the shared model
+        //appDelegate.StudentInformations.append(NewStudentInfo)
         
         //make the mapview the displayed tab
         // adapted from http://stackoverflow.com/questions/25325923/programatically-switching-between-tabs-within-swift
@@ -198,7 +278,6 @@ class OTMTabBarController: UITabBarController, PinPostViewControllerDelegate {
         
         //send this new StudentInfo to the mapview to plot it
         self.otmDelegate!.plotNewPinFromStudentInformation(self.NewStudentInfo)
-        
         
     }
     

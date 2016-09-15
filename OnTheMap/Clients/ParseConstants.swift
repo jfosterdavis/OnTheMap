@@ -33,6 +33,7 @@ extension ParseClient {
         //MARK: StudentLocation
         static let StudentLocationGET = "/StudentLocation"
         static let StudentLocationPUT = "/StudentLocation/{id}"
+        static let StudentLocationPOST = "/StudentLocation"
         
         // MARK: Authentication
         // none, because will authenticate with Udacity or FB, and a Session ID will be automatically applied to requests
