@@ -170,7 +170,7 @@ extension ParseClient {
                                 //sort the model.  
                                 //adapted from https://www.hackingwithswift.com/example-code/arrays/how-to-sort-an-array-using-sort
                                 appDelegate.StudentInformations.sort {
-                                    $0.createdAt! < $1.createdAt!
+                                    $0.createdAt! > $1.createdAt!
                                 }
                                 
                                 //this attempt was a success

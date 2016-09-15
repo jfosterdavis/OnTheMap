@@ -71,7 +71,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
         if annotations.isEmpty {
             //check shared model
             if StudentInformations.isEmpty {
-                fetchPinsAndPlotPins(25, skip: 0, order: "-\(ParseClient.JSONBodyKeys.StudentLocation.CreatedAt)")
+                fetchPinsAndPlotPins(100, skip: 0, order: "-\(ParseClient.JSONBodyKeys.StudentLocation.CreatedAt)")
             } else {
                 self.plotPinsFromSharedModel()
             }
@@ -307,9 +307,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.StudentInformations.append(newStudentInfo)
         //sort the model.
-//        appDelegate.StudentInformations.sort {
-//            $0.createdAt! < $1.createdAt!
-//        }
+        appDelegate.StudentInformations.sort {
+            $0.createdAt! > $1.createdAt!
+        }
         //add pin to the map
         let annotation = self.studentInformationToAnnotation(newStudentInfo)
         plotPin(annotation)

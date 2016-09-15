@@ -11,7 +11,7 @@
         <scene sceneID="2cX-Pa-55d">
             <objects>
                 <navigationController storyboardIdentifier="OTMNavigationController" id="kU7-ZA-CTN" userLabel="OTM Navigation" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="tOf-JB-2gq">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="tOf-JB-2gq">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -156,7 +156,10 @@
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LQr-hR-DMq">
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DWH-JJ-tCh">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Where do you wish you were today?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DWH-JJ-tCh">
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="265" id="Ixc-jV-TCE"/>
+                                                </constraints>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -164,11 +167,10 @@
                                         </subviews>
                                         <color key="backgroundColor" red="1" green="0.33634457400000001" blue="0.43557968689999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
-                                            <constraint firstItem="DWH-JJ-tCh" firstAttribute="leading" secondItem="LQr-hR-DMq" secondAttribute="leadingMargin" constant="20" id="7mK-Yg-dGn"/>
                                             <constraint firstItem="DWH-JJ-tCh" firstAttribute="top" secondItem="LQr-hR-DMq" secondAttribute="topMargin" constant="30" id="C0m-Jf-hUe"/>
-                                            <constraint firstItem="DWH-JJ-tCh" firstAttribute="centerX" secondItem="LQr-hR-DMq" secondAttribute="centerX" id="Sey-92-pIV"/>
-                                            <constraint firstAttribute="height" constant="199" id="UAJ-Ql-kVi"/>
-                                            <constraint firstAttribute="bottomMargin" secondItem="DWH-JJ-tCh" secondAttribute="bottom" constant="10" id="XeG-Zo-sZI"/>
+                                            <constraint firstItem="DWH-JJ-tCh" firstAttribute="centerX" secondItem="LQr-hR-DMq" secondAttribute="centerX" constant="7" id="Sey-92-pIV"/>
+                                            <constraint firstAttribute="height" constant="201" id="UAJ-Ql-kVi"/>
+                                            <constraint firstAttribute="bottomMargin" secondItem="DWH-JJ-tCh" secondAttribute="bottom" constant="12" id="XeG-Zo-sZI"/>
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bbj-ri-ssN">
@@ -184,7 +186,7 @@
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="214" id="q7c-o1-TMJ"/>
                                                 </constraints>
-                                                <state key="normal" title="Find and Map"/>
+                                                <state key="normal" title="Find it!"/>
                                                 <connections>
                                                     <action selector="searchAndTransition:" destination="oSM-bg-Awt" eventType="touchUpInside" id="JEC-Bm-tYF"/>
                                                 </connections>
@@ -206,9 +208,9 @@
                                 <constraints>
                                     <constraint firstItem="LQr-hR-DMq" firstAttribute="leading" secondItem="RgX-kH-2Zd" secondAttribute="leading" id="0DI-xL-1WO"/>
                                     <constraint firstAttribute="bottom" secondItem="bbj-ri-ssN" secondAttribute="bottom" id="3dp-Ht-LuB"/>
-                                    <constraint firstAttribute="trailing" secondItem="LQr-hR-DMq" secondAttribute="trailing" id="8Fd-RC-y5E"/>
+                                    <constraint firstAttribute="trailing" secondItem="LQr-hR-DMq" secondAttribute="trailing" constant="280" id="8Fd-RC-y5E"/>
                                     <constraint firstItem="LQr-hR-DMq" firstAttribute="top" secondItem="RgX-kH-2Zd" secondAttribute="top" id="NTr-0Z-zCn"/>
-                                    <constraint firstItem="bbj-ri-ssN" firstAttribute="top" secondItem="LQr-hR-DMq" secondAttribute="bottom" id="dRO-Ij-uNc"/>
+                                    <constraint firstItem="bbj-ri-ssN" firstAttribute="top" secondItem="LQr-hR-DMq" secondAttribute="bottom" constant="-2" id="dRO-Ij-uNc"/>
                                     <constraint firstItem="bbj-ri-ssN" firstAttribute="leading" secondItem="RgX-kH-2Zd" secondAttribute="leading" id="egw-Cu-Q7D"/>
                                 </constraints>
                             </view>

@@ -26,6 +26,9 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
     var newStudentInfo : StudentInformation?
     /// Delegate for passing data back to presenting viewcontroller
     weak var delegate : PinPostViewControllerDelegate? = nil
+    
+    /** Spinning wheel to show user that network activity is in progress */
+    var activityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.gray)
 
     
     
@@ -83,6 +86,11 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
         
         //set up a new StudentInformation object
         setupNewStudentInfo()
+        
+        activityIndicator.hidesWhenStopped = true
+        activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.gray
+        activityIndicator.center = self.view.center
+        view.addSubview(activityIndicator)
         
     }
     
@@ -153,6 +161,18 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
         self.dismiss(animated: true, completion: nil)
     }
     
+    /******************************************************/
+    /******************* Activity Indicator **************/
+    /******************************************************/
+    //MARK: - Activity Indicator
+    
+    func startActivityIndicator() {
+        activityIndicator.startAnimating()
+    }
+    
+    func stopActivityIndicator() {
+        activityIndicator.stopAnimating()
+    }
     
     /******************************************************/
     /******************* Geocode Functions **************/
@@ -170,9 +190,12 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
          - nil: if error or no geocode was found
      */
     func geocodeForward(_ locationString: String) {
+        startActivityIndicator()
+        
         let textToGeoCode = locationString
         let Geocoder = CLGeocoder()
         Geocoder.geocodeAddressString(textToGeoCode) { (placemarks, error) in
+            self.stopActivityIndicator()
             if let placemarks = placemarks {
                 print("Got the following placemarks")
                 for placemark in placemarks {
@@ -191,7 +214,7 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
                 //didn't get any placemarks
                 print("Error obtaining Placemark")
                 print(error)
-                //TODO: handle error
+                //TODO: Give user alert for error
             }
         }
     } // end geocodeForward
