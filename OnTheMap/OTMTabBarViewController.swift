@@ -240,10 +240,6 @@ class OTMTabBarController: UITabBarController, PinPostViewControllerDelegate {
     }
     
     private func finishNewStudentInformationDataReady() {
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        
-        //put this pin in the shared model
-        //appDelegate.StudentInformations.append(NewStudentInfo)
         
         //make the mapview the displayed tab
         // adapted from http://stackoverflow.com/questions/25325923/programatically-switching-between-tabs-within-swift

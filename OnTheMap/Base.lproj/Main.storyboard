@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -32,7 +33,7 @@
                         <viewControllerLayoutGuide type="bottom" id="S9J-A4-PE3"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="qOr-qN-1dY">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="G8w-BJ-bk1">
@@ -59,6 +60,7 @@
                             </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="MapTabIcon" translatesAutoresizingMaskIntoConstraints="NO" id="SCj-jC-8mX">
                                 <constraints>
+                                    <constraint firstAttribute="width" secondItem="SCj-jC-8mX" secondAttribute="height" multiplier="1:1" id="KzD-4Y-W5k"/>
                                     <constraint firstAttribute="height" constant="128" id="lgT-lg-DgC"/>
                                 </constraints>
                             </imageView>
@@ -66,13 +68,13 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="S9J-A4-PE3" firstAttribute="top" secondItem="Q84-kR-C5M" secondAttribute="bottom" constant="34" id="5vX-90-Bjd"/>
-                            <constraint firstItem="SCj-jC-8mX" firstAttribute="centerX" secondItem="qOr-qN-1dY" secondAttribute="centerX" id="5wS-mg-EEx"/>
+                            <constraint firstItem="SCj-jC-8mX" firstAttribute="centerX" secondItem="qOr-qN-1dY" secondAttribute="centerX" id="6HW-GH-Ov9"/>
                             <constraint firstItem="VSa-Fp-rCL" firstAttribute="top" secondItem="G8w-BJ-bk1" secondAttribute="bottom" constant="113" id="B8m-a2-Hm2"/>
                             <constraint firstItem="VSa-Fp-rCL" firstAttribute="leading" secondItem="qOr-qN-1dY" secondAttribute="leadingMargin" id="DOv-pK-3kp"/>
                             <constraint firstItem="G8w-BJ-bk1" firstAttribute="top" secondItem="prD-Zi-kgp" secondAttribute="bottom" constant="20" id="Dsn-sJ-2Mj"/>
                             <constraint firstItem="prD-Zi-kgp" firstAttribute="centerX" secondItem="qOr-qN-1dY" secondAttribute="centerX" id="IKM-R3-ApG"/>
                             <constraint firstItem="Q84-kR-C5M" firstAttribute="trailing" secondItem="qOr-qN-1dY" secondAttribute="trailingMargin" id="Mb6-fE-new"/>
-                            <constraint firstItem="SCj-jC-8mX" firstAttribute="top" secondItem="8br-ga-25d" secondAttribute="bottom" constant="41" id="NWO-hW-9Wf"/>
+                            <constraint firstItem="SCj-jC-8mX" firstAttribute="top" secondItem="8br-ga-25d" secondAttribute="bottom" constant="45" id="WwM-DK-n5o"/>
                             <constraint firstItem="prD-Zi-kgp" firstAttribute="leading" secondItem="qOr-qN-1dY" secondAttribute="leadingMargin" id="aVE-JL-XaB"/>
                             <constraint firstItem="VSa-Fp-rCL" firstAttribute="trailing" secondItem="qOr-qN-1dY" secondAttribute="trailingMargin" id="cHy-DR-iwN"/>
                             <constraint firstItem="Q84-kR-C5M" firstAttribute="top" secondItem="VSa-Fp-rCL" secondAttribute="bottom" constant="32" id="dAc-jO-Yjb"/>
@@ -97,15 +99,15 @@
             <objects>
                 <tableViewController storyboardIdentifier="MapTableViewController" id="1g4-tO-VQ6" customClass="MapTableViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="ww4-8g-0tG">
-                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
+                        <rect key="frame" x="0.0" y="64" width="375" height="554"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="StudentInformationCell" textLabel="gkp-bn-ie7" detailTextLabel="6au-0d-F6l" imageView="iwi-D5-DHt" style="IBUITableViewCellStyleSubtitle" id="oB9-qq-iWT">
-                                <rect key="frame" x="0.0" y="28" width="320" height="44"/>
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="oB9-qq-iWT" id="uRb-fL-CxU">
-                                    <frame key="frameInset" width="320" height="43"/>
+                                    <frame key="frameInset" width="375" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gkp-bn-ie7">
@@ -152,7 +154,7 @@
                         <viewControllerLayoutGuide type="bottom" id="OAC-AR-eed"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Fw1-Z9-0jX">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RgX-kH-2Zd">
@@ -365,7 +367,7 @@
                         <viewControllerLayoutGuide type="bottom" id="Lfj-rp-eCm"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="9n3-G9-9Vo">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="VFK-5a-kWJ"/>

@@ -215,6 +215,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
         let mediaURL = studentInfo.mediaURL!
         
         //if the user has a pin, make that pin blue. other red
+        //looks like this only works until a pin is dequed and reused
         var pinColor: UIColor
         if studentInfo.uniqueKey! == UdacityClient.sharedInstance.userID! {
             pinColor = UIColor.blue

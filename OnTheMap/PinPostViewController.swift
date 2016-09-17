@@ -366,11 +366,11 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
          - `true`: if successful
          - `false`: otherwise
      */
-    func setNewStudentInfoCoordinates(_ inputPin : MKPointAnnotation) -> Bool {
+    func setNewStudentInfoCoordinates(_ inputPin : MKPointAnnotation) -> Void {
         if self.newStudentInfo == nil {
             print("Failed to set coordinates. self.newstudentinfo returned nil")
             //the newStudentInfo is not initialized
-            return false
+            
         } else {
             //the newStudentInfo exists, set the value
             self.newStudentInfo!.latitude = inputPin.coordinate.latitude
@@ -381,11 +381,11 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
             self.newStudentInfo!.longitude == inputPin.coordinate.longitude {
                 print("Latitude set to: " + String(describing: self.newStudentInfo!.latitude))
                 print("Longitude set to: " + String(describing: self.newStudentInfo!.longitude))
-                return true
+                
             } else {
                 print("Failed to set coordinates")
                 print(inputPin)
-                return false
+                
             }
         }
     } // end of setNewStudentInfoCoordinates
@@ -401,11 +401,11 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
          - `true`: if successful
          - `false`: otherwise
      */
-    func setNewStudentInfoMapString(_ inputMapString : String!) -> Bool {
+    func setNewStudentInfoMapString(_ inputMapString : String!) -> Void {
         if self.newStudentInfo == nil {
             //the newStudentInfo is not initialized
             print("Failed to set MapString")
-            return false
+            
         } else {
             //the newStudentInfo exists, set the value
             self.newStudentInfo!.mapString = inputMapString
@@ -413,10 +413,10 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
             //check for success because the struct has input validation
             if self.newStudentInfo!.mapString == inputMapString  {
                 print("Mapstring set to: " + String(describing: self.newStudentInfo!.mapString))
-                return true
+                
             } else {
                 print("Failed to set MapString")
-                return false
+               
             }
         }
     } // end of setNewStudentInfoMapString
