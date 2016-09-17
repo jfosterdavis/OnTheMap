@@ -23,7 +23,7 @@ extension ParseClient {
      Step 2: Set the Session ID
     */
     
-    func postStudentLocation(_ postThisStudent : StudentInformation, completionHandlerForPostStudentLocation: @escaping (_ results: [String:String]?, _ errorString: String?) -> Void) {
+    func postStudentLocation(_ postThisStudent : StudentInformation, completionHandlerForPostStudentLocation: @escaping (_ results: [String:String]?, _ error: NSError?) -> Void) {
         
         /* 1. Specify parameters, method (if has {key}), and HTTP body (if POST) */
         let parameters : [String:AnyObject]? = nil
@@ -77,7 +77,7 @@ extension ParseClient {
             /* 3. Send the desired value(s) to completion handler */
             if let error = error {
                 print(error)
-                completionHandlerForPostStudentLocation(nil, "Failed to POST StudentLocation")
+                completionHandlerForPostStudentLocation(nil, error)
             } else {
                 //json should have returned a A dictionary with a key of "results" that contains an array of dictionaries
                 //print("JSON response from getStudentLocations:")
@@ -92,11 +92,11 @@ extension ParseClient {
                         completionHandlerForPostStudentLocation(postingResults, nil)
                     } else {
                         print("\nDATA ERROR: Could not find \(ParseClient.JSONResponseKeys.Results.ObjectID) in \(results)")
-                        completionHandlerForPostStudentLocation(nil, "\nDATA ERROR: Failed to interpret data returned from Parse server (postStudentLocation).")
+                        completionHandlerForPostStudentLocation(nil, NSError(domain: "getUserData parsing", code: 5, userInfo: [NSLocalizedDescriptionKey: "Failed to interpret data returned from Parse server (postStudentLocation)."]))
                     }
                 } else {
                     print("\nDATA ERROR: Could not find \(ParseClient.JSONResponseKeys.Results.CreatedAt) in \(results)")
-                    completionHandlerForPostStudentLocation(nil, "\nDATA ERROR: Failed to interpret data returned from Parse server (postStudentLocation).")
+                    completionHandlerForPostStudentLocation(nil, NSError(domain: "getUserData parsing", code: 5, userInfo: [NSLocalizedDescriptionKey: "Failed to interpret data returned from Parse server (postStudentLocation)."]))
                 }
             }
         }

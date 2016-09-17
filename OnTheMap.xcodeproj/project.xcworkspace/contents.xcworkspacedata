@@ -2,6 +2,6 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "self:TheMovieManager.xcodeproj">
+      location = "self:/Users/Snake/Library/Mobile Documents/com~apple~CloudDocs/Programming/iOS/On The Map/OnTheMap.xcodeproj">
    </FileRef>
 </Workspace>

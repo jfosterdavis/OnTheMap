@@ -23,8 +23,6 @@ extension ParseClient {
         static let ApiHost = "parse.udacity.com"
         static let ApiPath = "/parse/classes"
         
-        //No Authorization URL is needed for this client.
-        //static let AuthorizationURL : String = "https://www.themoviedb.org/authenticate/"
     }
     
     // MARK: Methods

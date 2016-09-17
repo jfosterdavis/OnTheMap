@@ -9,6 +9,8 @@
 import Foundation
 import UIKit
 
+typealias voidFunction = () -> Void
+
 struct ErrorHandler {
     
     /// gives the user an alert. adapted from http://www.ioscreator.com/tutorials/display-an-alert-view-in-ios8-with-swift
@@ -19,6 +21,27 @@ struct ErrorHandler {
         
         //add dismiss button
         alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+        
+        //present the alert
+        sender.present(alertController, animated: true, completion: nil)
+    } // end of alertUser
+    
+    static func alertUser(_ sender: UIViewController, alertTitle: String, alertMessage: String, completion: voidFunction?) -> Void {
+        //create an alert controller
+        let alertController = UIAlertController(title: alertTitle, message:
+            alertMessage, preferredStyle: UIAlertControllerStyle.alert)
+        
+        if let c = completion {
+            //add dismiss button
+            alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: { (action: UIAlertAction!) in
+                c()
+            }))
+        } else {
+            //add dismiss button
+            alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
+        }
+        
+        
         
         //present the alert
         sender.present(alertController, animated: true, completion: nil)

@@ -79,31 +79,16 @@ class OTMTabBarController: UITabBarController, PinPostViewControllerDelegate {
                 GCDBlackBox.performUIUpdatesOnMain {
                     //self.stopActivityIndicator()
                     if result != nil {
-                        
-                        //reset nav bar prompt
-                        self.updateNavBarPromptName(nil)
-                        
-                        
-                        
-                        //dismiss back to log in screen
-                        self.dismiss(animated: true, completion: nil)
-                        
-                        //run view controller housekeeping
-                        for vc in self.otmLogOutDelegates {
-                            vc.userLoggedOut()
-                        }
-                        
-                        //cleared out the shared models
-                        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                        appDelegate.resetAllSharedModels()
+                        self.shutDown()
+
                         
                     } else {
-                        //TODO: handle error
-                        /*
-                         *  <#description#>
-                         */
+                        
                         
                         print("OTMTabBarController failed to log user out. (empty result set)")
+                                                
+                        self.displayError(NSError(domain: "logOutUser", code: 7, userInfo: [NSLocalizedDescriptionKey: "Unable to properly log you out with Udacity server. " + error!.localizedDescription + " Data for this session will be destroyed when you press Dismiss."]), completion: {self.shutDown()})
+                        
                     }
                 }
             }
@@ -132,19 +117,13 @@ class OTMTabBarController: UITabBarController, PinPostViewControllerDelegate {
                             self.updateUdacityModelFromNewUserInfo()
                         } else {
                             //something has gone wrong and we have a different user
-                            //TODO: handle error
-                            /*
-                             *  <#description#>
-                             */
+                            self.displayError(NSError(domain: "getUserData parsing", code: 5, userInfo: [NSLocalizedDescriptionKey: "User logged in is different than user data retreived!"]), completion: nil)
                             print("OTMTabBarController failed to retrieve and set newUserInfo (userID mismatch)")
                             self.newUserInfo = nil
                         }
                         
                     } else {
-                        //TODO: handle error
-                        /*
-                         *  <#description#>
-                         */
+                        self.displayError(error, completion: nil)
                         
                         print("OTMTabBarController failed to retrieve and set newUserInfo (empty result set)")
                         self.newUserInfo = nil
@@ -203,19 +182,13 @@ class OTMTabBarController: UITabBarController, PinPostViewControllerDelegate {
                             }
                         } else {
                             print("Error, couldn't update newStudentInfo createdAt")
-                            //TODO: handle error
-                            /*
-                             *  <#description#>
-                             */
+                            self.displayError(NSError(domain: "postNewStudentInformationToParse", code: 5, userInfo: [NSLocalizedDescriptionKey: "Unable to set the creation date of your new pin!"]), completion: nil)
                         }
                         
                         
                         
                     } else {
-                        //TODO: handle error
-                        /*
-                         *  <#description#>
-                         */
+                        self.displayError(NSError(domain: "postNewStudentInformationToParse", code: error!.code, userInfo: [NSLocalizedDescriptionKey: error!.localizedDescription + " The pin will not be posted."]), completion: nil)
                         
                         print("OTMTabBarController failed to post a new studentLocation)")
                         
@@ -289,5 +262,60 @@ class OTMTabBarController: UITabBarController, PinPostViewControllerDelegate {
     func setupNewStudentInfo() {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.NewStudentInfo = StudentInformation()
+    }
+    
+    fileprivate func displayError(_ error: NSError?, completion: voidFunction?) {
+        if let error = error {
+            var errorPrefix = ""
+            switch error.code {
+            case 1:
+                errorPrefix = "Unable to Connect"
+            case 2:
+                errorPrefix = "Bad Credentials"
+            case 3:
+                errorPrefix = "No Data from Server"
+            case 4:
+                errorPrefix = "Unexpected Data from Server"
+            case 5:
+                errorPrefix = "Application Error"
+            case 7:
+                errorPrefix = "Log Out Error"
+            case -1009:
+                errorPrefix = "No Internet Connection"
+            default:
+                errorPrefix = "Unknown Error"
+            }
+            
+            let errorString = error.userInfo[NSLocalizedDescriptionKey] as! String
+            
+            if completion == nil {
+                
+                ErrorHandler.alertUser(self, alertTitle: errorPrefix, alertMessage: errorString)
+                
+            } else {
+                
+                ErrorHandler.alertUser(self, alertTitle: errorPrefix, alertMessage: errorString, completion: completion)
+            }
+            
+        }
+    }
+    
+    func shutDown() ->  Void {
+        //reset nav bar prompt
+        self.updateNavBarPromptName(nil)
+        
+        
+        
+        //dismiss back to log in screen
+        self.dismiss(animated: true, completion: nil)
+        
+        //run view controller housekeeping
+        for vc in self.otmLogOutDelegates {
+            vc.userLoggedOut()
+        }
+        
+        //cleared out the shared models
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.resetAllSharedModels()
     }
 }

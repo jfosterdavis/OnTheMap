@@ -118,10 +118,10 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
                 geocodeForward(textToGeoCode)
             } else {
                 //text field was empty
-                ErrorHandler.alertUser(self, alertTitle: "Nothing to Search For", alertMessage: "Please enter the name of your location in the text box.")
+                displayError(NSError(domain: "searchAndTransition", code: 6, userInfo: [NSLocalizedDescriptionKey: "Please enter the name of your location in the text box."]))
             }
         } else {
-            ErrorHandler.alertUser(self, alertTitle: "Unknown Error", alertMessage: "Text box appears to not exist!")
+            displayError(NSError(domain: "searchAndTransition", code: 5, userInfo: [NSLocalizedDescriptionKey: "Text box appears to not exist!"]))
         }
     } //end searchAndTransition
     
@@ -214,7 +214,7 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
                 //didn't get any placemarks
                 print("Error obtaining Placemark")
                 print(error)
-                //TODO: Give user alert for error
+                self.displayError(NSError(domain: "geocodeForward", code: -1, userInfo: [NSLocalizedDescriptionKey: "Geocoding Failed."]))
             }
         }
     } // end geocodeForward
@@ -426,6 +426,32 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
     /******************************************************/
     //MARK: - Housekeeping
     
+    fileprivate func displayError(_ error: NSError?) {
+        if let error = error {
+            var errorPrefix = ""
+            switch error.code {
+            case 1:
+                errorPrefix = "Unable to Connect"
+            case 2:
+                errorPrefix = "Bad Credentials"
+            case 3:
+                errorPrefix = "No Data from Server"
+            case 4:
+                errorPrefix = "Unexpected Data from Server"
+            case 5:
+                errorPrefix = "Application Error"
+            case 6:
+                errorPrefix = "User Error"
+            default:
+                errorPrefix = "Unknown Error"
+            }
+            
+            let errorString = error.userInfo[NSLocalizedDescriptionKey] as! String
+            ErrorHandler.alertUser(self, alertTitle: errorPrefix, alertMessage: errorString)
+        }
+    }
+    
+    
     /**
      Recreates a fresh annotation for the `self.newPin` and sets it.
      
@@ -570,7 +596,7 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
         if view.frame.origin.y == 0 {
             // check that the first responder is below the keyboard
             print("frame origin is 0")
-            //for this, we are assuming that the only text field si the first responder
+            //for this, we are assuming that the only text field is the first responder
             view.frame.origin.y = -(getKeyboardHeight(notification))
 
         }
