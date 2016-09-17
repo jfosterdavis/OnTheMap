@@ -24,6 +24,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
     var annotations = [MKPointAnnotation]()
     
     var newStudentInfo : StudentInformation?
+    //button only for the color palette
+    var colorButton = BorderedButton()
     
     /******************************************************/
     /******************* Shared Model **************/
@@ -218,9 +220,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
         //looks like this only works until a pin is dequed and reused
         var pinColor: UIColor
         if studentInfo.uniqueKey! == UdacityClient.sharedInstance.userID! {
-            pinColor = UIColor.blue
+            pinColor = UIColor.black
         } else {
-            pinColor = UIColor.red
+            pinColor = colorButton.getRandoColor()
         }
         
         // Here we create the annotation and set its coordiate, title, and subtitle properties

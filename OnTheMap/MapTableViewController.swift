@@ -10,6 +10,9 @@ import Foundation
 import UIKit
 class MapTableViewController: UITableViewController {
     
+    //button only for the color palette
+    var colorButton = BorderedButton()
+    
     /******************************************************/
     /******************* Shared Model **************/
     /******************************************************/
@@ -55,21 +58,26 @@ class MapTableViewController: UITableViewController {
         // Set the name and image
         cell.textLabel?.text = (StudentInformation.firstName! as String) + " " + (StudentInformation.lastName! as String)
         cell.detailTextLabel?.text = (StudentInformation.mediaURL! as String)
-        //cell.imageView?.image = meme.memedImage
-        
-        // If the cell has a detail label, we will put the evil scheme in.
-        //if let detailTextLabel = cell.detailTextLabel {
-        //    detailTextLabel.text = "Scheme: \(villain.evilScheme)"
-        //}
+
+        //color it crazy
+        cell.imageView?.backgroundColor = colorButton.getRandoColor()
         
         return cell
     }
+    
     
     //When a user selects an item from the table
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         print("Row from table was selected")
         let app = UIApplication.shared
         let StudentInformation = self.StudentInformations[(indexPath as NSIndexPath).row]
+        
+        //color it crazy
+        let cell = tableView.cellForRow(at: indexPath)
+        cell?.backgroundColor = colorButton.getRandoColor()
+        cell?.textLabel?.backgroundColor = cell?.backgroundColor
+        cell?.detailTextLabel?.backgroundColor = cell?.backgroundColor
+        
         if let toOpen = StudentInformation.mediaURL {
             print("tring to open browser from table to go to " + toOpen)
             app.openURL(URL(string: toOpen)!)
