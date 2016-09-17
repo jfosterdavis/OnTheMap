@@ -102,7 +102,7 @@ extension ParseClient {
         }
     }
     
-    func getStudentLocations(_ limit : Int? = nil, skip: Int? = nil, order: String? = nil, completionHandlerForGetStudentLocations: @escaping (_ success: Bool, _ errorString: String?) -> Void) {
+    func getStudentLocations(_ limit : Int? = nil, skip: Int? = nil, order: String? = nil, completionHandlerForGetStudentLocations: @escaping (_ success: Bool, _ error: NSError?) -> Void) {
         
         /* 1. Specify parameters, method (if has {key}), and HTTP body (if POST) */
         var parameters : [String: String] = [String: String]()
@@ -140,7 +140,7 @@ extension ParseClient {
             /* 3. Send the desired value(s) to completion handler */
             if let error = error {
                 print(error)
-                completionHandlerForGetStudentLocations(false, "Login Failed (Session ID).")
+                completionHandlerForGetStudentLocations(false, error)
             } else {
                 //json should have returned a A dictionary with a key of "results" that contains an array of dictionaries
                 //print("JSON response from getStudentLocations:")
@@ -192,7 +192,7 @@ extension ParseClient {
                     completionHandlerForGetStudentLocations(true, nil)
                 } else {
                     print("\nDATA ERROR: Could not find \(ParseClient.JSONResponseKeys.Results.Results) in \(results)")
-                    completionHandlerForGetStudentLocations(false, "\nDATA ERROR: Failed to interpret data returned from Parse server (getStudentLocations).")
+                    completionHandlerForGetStudentLocations(false, NSError(domain: "getUserData parsing", code: 4, userInfo: [NSLocalizedDescriptionKey: "DATA ERROR: Failed to interpret data returned from Parse server (getStudentLocations)."]))
                 }
                 //report the results of this function to the log
                 print("\n")

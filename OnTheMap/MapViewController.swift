@@ -160,6 +160,27 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
         self.annotations = [MKPointAnnotation]()
     }
     
+    fileprivate func displayError(_ error: NSError?) {
+        if let error = error {
+            var errorPrefix = ""
+            switch error.code {
+            case 1:
+                errorPrefix = "Unable to Connect"
+            case 2:
+                errorPrefix = "Bad Credentials"
+            case 3:
+                errorPrefix = "No Data from Server"
+            case 4:
+                errorPrefix = "Unexpected Data from Server"
+            default:
+                errorPrefix = "Unknown Error"
+            }
+            
+            let errorString = error.userInfo[NSLocalizedDescriptionKey] as! String
+            ErrorHandler.alertUser(self, alertTitle: errorPrefix, alertMessage: errorString)
+        }
+    }
+    
     /******************************************************/
     /******************* Convenience Functions **************/
     /******************************************************/
@@ -270,9 +291,14 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
      */
     func fetchPins(_ limit: Int?, skip: Int?, order: String?, completionHandlerForFetchPins: @escaping () -> Void) {
         GCDBlackBox.dataDownloadInBackground {
-            ParseClient.sharedInstance.getStudentLocations(limit, skip: skip, order: order) { (success, errorString) in
-                //closure...
-                completionHandlerForFetchPins()
+            ParseClient.sharedInstance.getStudentLocations(limit, skip: skip, order: order) { (success, error) in
+                if success {
+                    //closure...
+                    completionHandlerForFetchPins()
+                } else {
+                    self.displayError(error)
+                }
+                
             }
         }
     }
