@@ -177,7 +177,7 @@ class LoginViewController: UIViewController {
         startActivityIndicator()
         
         GCDBlackBox.runNetworkFunctionInBackground {
-            UdacityClient.sharedInstance.authenticateWithViewController(self.usernameTextField.text!, password: self.passwordTextField.text!, hostViewController: self) { (success, errorString) in
+            UdacityClient.sharedInstance.authenticateWithViewController(self.usernameTextField.text!, password: self.passwordTextField.text!, hostViewController: self) { (success, error) in
                 GCDBlackBox.performUIUpdatesOnMain {
                     self.stopActivityIndicator()
                     if success {
@@ -186,10 +186,10 @@ class LoginViewController: UIViewController {
                         appDelegate.UdacityUserInfo.userID = UdacityClient.sharedInstance.userID!
                         
                         self.completeLogin()
-                        self.displayError("Login was successful!")
+                        //self.displayError("Login was successful!")
                         
                     } else {
-                        self.displayError(errorString)
+                        self.displayError(error)
                     }
                 }
             }
@@ -301,9 +301,24 @@ extension LoginViewController {
         }
     }
     
-    fileprivate func displayError(_ errorString: String?) {
-        if let errorString = errorString {
-            debugTextLabel.text = errorString
+    fileprivate func displayError(_ error: NSError?) {
+        if let error = error {
+            var errorPrefix = ""
+            switch error.code {
+            case 1:
+                errorPrefix = "Unable to Connect"
+            case 2:
+                errorPrefix = "Bad Username/Password"
+            case 3:
+                errorPrefix = "No Data from Server"
+            case 4:
+                errorPrefix = "Unexpected Data from Server"
+            default:
+                errorPrefix = "Unknown Error"
+            }
+            
+            let errorString = error.userInfo[NSLocalizedDescriptionKey] as! String
+            ErrorHandler.alertUser(self, alertTitle: errorPrefix, alertMessage: errorString)
         }
     }
     

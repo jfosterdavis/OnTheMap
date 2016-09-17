@@ -118,10 +118,10 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
                 geocodeForward(textToGeoCode)
             } else {
                 //text field was empty
-                alertUser("Nothing to Search For", alertMessage: "Please enter the name of your location in the text box.")
+                ErrorHandler.alertUser(self, alertTitle: "Nothing to Search For", alertMessage: "Please enter the name of your location in the text box.")
             }
         } else {
-            alertUser("Unknown Error", alertMessage: "Text box appears to not exist!")
+            ErrorHandler.alertUser(self, alertTitle: "Unknown Error", alertMessage: "Text box appears to not exist!")
         }
     } //end searchAndTransition
     
@@ -435,25 +435,7 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
         self.newPin = MKPointAnnotation()
         return self.newPin!
     } // end of cleanNewPin
-    
-    /**
-     gives the user an alert. adapted from http://www.ioscreator.com/tutorials/display-an-alert-view-in-ios8-with-swift
-     
-     - Parameters:
-        - alertTitle: Title of the alert
-        - alertMessage: Message of the alert
-     */
-    func alertUser(_ alertTitle: String, alertMessage: String) -> Void {
-        //create an alert controller
-        let alertController = UIAlertController(title: alertTitle, message:
-            alertMessage, preferredStyle: UIAlertControllerStyle.alert)
-        
-        //add dismiss button
-        alertController.addAction(UIAlertAction(title: "Dismiss", style: UIAlertActionStyle.default,handler: nil))
-        
-        //present the alert
-        self.present(alertController, animated: true, completion: nil)
-    } // end of alertUser
+
     
     /**
      makes the search barbutton visible or invisible

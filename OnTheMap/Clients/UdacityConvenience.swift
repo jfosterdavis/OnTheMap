@@ -179,9 +179,9 @@ extension UdacityClient {
     /******************************************************/
     //MARK: - Log in
     
-    func authenticateWithViewController(_ username: String, password : String, hostViewController: UIViewController, completionHandlerForAuth: @escaping (_ success: Bool, _ errorString: String?) -> Void) {
+    func authenticateWithViewController(_ username: String, password : String, hostViewController: UIViewController, completionHandlerForAuth: @escaping (_ success: Bool, _ error: NSError?) -> Void) {
         
-        self.getSessionID(username, password: password) { (success, sessionID, userID, errorString) in
+        self.getSessionID(username, password: password) { (success, sessionID, userID, error) in
             if success {
                 
                 // success! we have the sessionID!
@@ -191,12 +191,12 @@ extension UdacityClient {
                 print("User ID is: " + (userID)!)
                 completionHandlerForAuth(success, nil)
             } else {
-                completionHandlerForAuth(success, errorString)
+                completionHandlerForAuth(success, error)
             }
         }
     }
   
-    fileprivate func getSessionID(_ username : String, password: String, completionHandlerForSession: @escaping (_ success: Bool, _ sessionID: String?, _ userID: String?, _ errorString: String?) -> Void) {
+    fileprivate func getSessionID(_ username : String, password: String, completionHandlerForSession: @escaping (_ success: Bool, _ sessionID: String?, _ userID: String?, _ error: NSError?) -> Void) {
         
         /* 1. Specify parameters, method (if has {key}), and HTTP body (if POST) */
         // No parameters needed to get session ID
@@ -206,11 +206,17 @@ extension UdacityClient {
         print("Attempting to get Session ID with the following jsonBody: " + (jsonBody))
         /* 2. Make the request */
         let _ = taskForPOSTMethod(UdacityClient.Methods.AuthenticationSessionNew, parameters: nil, jsonBody: jsonBody) { (results, error) in
+            //error sender
+            func sendError(_ error: String) {
+                print(error)
+                let userInfo = [NSLocalizedDescriptionKey : error]
+                completionHandlerForSession(false, nil, nil, NSError(domain: "getSessionID", code: 4, userInfo: userInfo))
+            }
             
             /* 3. Send the desired value(s) to completion handler */
             if let error = error {
                 print(error)
-                completionHandlerForSession(false, nil, nil, "Login Failed (Session ID).")
+                completionHandlerForSession(false, nil, nil, error)
             } else {
                 //json should have returned a [[String:AnyObject]]
                 if let sessionResults = (results?[UdacityClient.JSONResponseKeys.Session.Session] as? [String:AnyObject]) {
@@ -223,20 +229,20 @@ extension UdacityClient {
                                 completionHandlerForSession(true, sessionID, userID, nil)
                             } else {
                                 print("Could not find \(UdacityClient.JSONResponseKeys.Account.Key) in \(results)")
-                                completionHandlerForSession(false, sessionID, nil, "Login Failed (Couldn't obtain User ID).")
+                                sendError("Login Failed (Couldn't obtain User ID).")
                             }
                         } else {
                             print("Could not find \(UdacityClient.JSONResponseKeys.Account.Account) in \(results)")
-                            completionHandlerForSession(false, sessionID, nil, "Login Failed (Couldn't obtain User ID).")
+                            sendError("Login Failed (Couldn't obtain User ID).")
                         }
                         
                     } else {
                         print("Could not find \(UdacityClient.JSONResponseKeys.Session.ID) in \(results)")
-                        completionHandlerForSession(false, nil, nil, "Login Failed (Session ID).")
+                        sendError("Login Failed (Couldn't obtain User ID).")
                     }
                 } else {
                     print("Could not find \(UdacityClient.JSONResponseKeys.Session.Session) in \(results)")
-                    completionHandlerForSession(false, nil, nil, "Login Failed (Session ID).")
+                    sendError("Login Failed (Couldn't obtain User ID).")
                 }
             }
         }

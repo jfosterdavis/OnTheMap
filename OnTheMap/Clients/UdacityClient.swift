@@ -159,27 +159,35 @@ class UdacityClient : NSObject {
         /* 4. Make the request */
         let task = session.dataTask(with: request as URLRequest) { (data, response, error) in
             
-            func sendError(_ error: String) {
+            func sendError(_ error: String, code: Int) {
                 print(error)
                 let userInfo = [NSLocalizedDescriptionKey : error]
-                completionHandlerForPOST(nil, NSError(domain: "taskForGETMethod", code: 1, userInfo: userInfo))
+                completionHandlerForPOST(nil, NSError(domain: "taskForGETMethod", code: code, userInfo: userInfo))
             }
             
             /* GUARD: Was there an error? */
             guard (error == nil) else {
-                sendError("There was an error with your request: \(error)")
+                sendError("There was an error with your request: \(error)", code: 1)
                 return
             }
             
             /* GUARD: Did we get a successful 2XX response? */
             guard let statusCode = (response as? HTTPURLResponse)?.statusCode , statusCode >= 200 && statusCode <= 299 else {
-                sendError("Your request returned a status code other than 2xx!")
+                switch (response as? HTTPURLResponse)!.statusCode {
+                case 400:
+                    sendError("You did not include a username and/or password. Status code \((response as? HTTPURLResponse)!.statusCode).", code: 2)
+                case 403:
+                    sendError("Your username and/or password is incorrect. Status code \((response as? HTTPURLResponse)!.statusCode).", code: 2)
+                default:
+                    sendError("Your request returned a status code other than 2xx! Status code \((response as? HTTPURLResponse)!.statusCode).", code: 2)
+                }
+                
                 return
             }
             
             /* GUARD: Was there any data returned? */
             guard let data = data else {
-                sendError("No data was returned by the request!")
+                sendError("No data was returned by the request!", code: 3)
                 return
             }
             
