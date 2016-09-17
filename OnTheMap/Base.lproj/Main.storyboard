@@ -12,7 +12,7 @@
         <scene sceneID="2cX-Pa-55d">
             <objects>
                 <navigationController storyboardIdentifier="OTMNavigationController" id="kU7-ZA-CTN" userLabel="OTM Navigation" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="tOf-JB-2gq">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="tOf-JB-2gq">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -97,7 +97,7 @@
         <!--List-->
         <scene sceneID="1Mt-Tn-zKI">
             <objects>
-                <tableViewController storyboardIdentifier="MapTableViewController" id="1g4-tO-VQ6" customClass="MapTableViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="MapTableViewController" automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="currentContext" id="1g4-tO-VQ6" customClass="MapTableViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="ww4-8g-0tG">
                         <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

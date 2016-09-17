@@ -61,8 +61,6 @@ class LoginViewController: UIViewController {
         //set the delegates
         self.usernameTextField.delegate = textFieldDelegate
         self.passwordTextField.delegate = textFieldDelegate
-        
-        configureBackground()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -70,6 +68,9 @@ class LoginViewController: UIViewController {
         
         //subscribe to keyboard notifications
         self.subscribeToKeyboardNotifications()
+        
+        //color crazy
+        configureBackground()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
