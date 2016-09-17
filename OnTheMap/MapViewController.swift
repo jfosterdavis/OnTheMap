@@ -35,9 +35,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
         return (UIApplication.shared.delegate as! AppDelegate).StudentInformations
     }
     
-//    var UdacityUserInfo: UdacityUserInformation {
-//        return (UIApplication.sharedApplication().delegate as! AppDelegate).UdacityUserInfo
-//    }
     
     /******************************************************/
     /******************* Life Cycle **************/
@@ -60,10 +57,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
             setupNewStudentInfo()
         }
         
-        
-        
-        //way to add this button adapted from http://stackoverflow.com/questions/31747470/button-in-navigation-bar-in-tab-bar-uiviewcontroller-not-showing
-       // self.tabBarController?.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .Add, target: self, action: #selector(addPinButtonPressed))
     }
     
     override func viewWillAppear(_ animated: Bool) {

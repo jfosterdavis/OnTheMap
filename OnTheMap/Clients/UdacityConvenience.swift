@@ -23,7 +23,6 @@ extension UdacityClient {
         Step 2: Set the Session ID
     */
     
-    
     /******************************************************/
     /******************* Log Out **************/
     /******************************************************/
@@ -200,8 +199,7 @@ extension UdacityClient {
         
         /* 1. Specify parameters, method (if has {key}), and HTTP body (if POST) */
         // No parameters needed to get session ID
-        //let parameters = [UdacityClient.ParameterKeys.RequestToken: requestToken!]
-        //let parameters = nil
+
         let jsonBody = "{\"\(UdacityClient.JSONBodyKeys.Udacity.Udacity)\": {\"\(UdacityClient.JSONBodyKeys.Udacity.Username)\": \"\(username)\", \"\(UdacityClient.JSONBodyKeys.Udacity.Password)\": \"\(password)\"}}"
         print("Attempting to get Session ID with the following jsonBody: " + (jsonBody))
         /* 2. Make the request */
