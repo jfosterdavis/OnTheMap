@@ -98,6 +98,10 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
         super.viewWillAppear(animated)
         
         self.subscribeToKeyboardNotifications()
+        
+        //keep the crazy colors coming
+        updateBackgrounds()
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -509,6 +513,13 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
         self.newStudentInfo = StudentInformation()
     }
     
+    func updateBackgrounds() {
+        self.step1PromptContainer.backgroundColor = findAndMapButton.getRandoColor()
+        self.pinLocationCreatorContainer.backgroundColor = findAndMapButton.getRandoColor()
+        self.step2PromptContainer.backgroundColor = pinItButton.getRandoColor()
+        self.step2URLInput.backgroundColor = self.step2PromptContainer.backgroundColor
+    }
+    
     /******************************************************/
     /******************* Text Actions **************/
     /******************************************************/
@@ -535,6 +546,7 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
      */
     func transitionToOtherStep() {
         print("About to transition...")
+        updateBackgrounds()
         if self.step1View.alpha == 0 { //must be on step 2,
             //go to step 1
             UIView.animate(withDuration: 0.5, animations: {
