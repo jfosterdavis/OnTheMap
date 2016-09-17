@@ -12,7 +12,7 @@
         <scene sceneID="2cX-Pa-55d">
             <objects>
                 <navigationController storyboardIdentifier="OTMNavigationController" id="kU7-ZA-CTN" userLabel="OTM Navigation" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="tOf-JB-2gq">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="tOf-JB-2gq">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -33,7 +33,7 @@
                         <viewControllerLayoutGuide type="bottom" id="S9J-A4-PE3"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="qOr-qN-1dY">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="natural" clearsOnBeginEditing="YES" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="G8w-BJ-bk1">
@@ -99,15 +99,15 @@
             <objects>
                 <tableViewController storyboardIdentifier="MapTableViewController" id="1g4-tO-VQ6" customClass="MapTableViewController" customModule="OnTheMap" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="ww4-8g-0tG">
-                        <rect key="frame" x="0.0" y="64" width="375" height="554"/>
+                        <rect key="frame" x="0.0" y="64" width="320" height="455"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="StudentInformationCell" textLabel="gkp-bn-ie7" detailTextLabel="6au-0d-F6l" imageView="iwi-D5-DHt" style="IBUITableViewCellStyleSubtitle" id="oB9-qq-iWT">
-                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <rect key="frame" x="0.0" y="28" width="320" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="oB9-qq-iWT" id="uRb-fL-CxU">
-                                    <frame key="frameInset" width="375" height="43"/>
+                                    <frame key="frameInset" width="320" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="gkp-bn-ie7">
@@ -154,19 +154,19 @@
                         <viewControllerLayoutGuide type="bottom" id="OAC-AR-eed"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Fw1-Z9-0jX">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RgX-kH-2Zd">
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LQr-hR-DMq">
                                         <subviews>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Where do you wish you were today?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DWH-JJ-tCh">
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Where do you wish you were studying today?" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DWH-JJ-tCh">
                                                 <constraints>
                                                     <constraint firstAttribute="width" constant="265" id="Ixc-jV-TCE"/>
                                                 </constraints>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="22"/>
+                                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                 <nil key="highlightedColor"/>
                                             </label>
                                         </subviews>
@@ -199,13 +199,13 @@
                                         </subviews>
                                         <color key="backgroundColor" red="0.41942376529999997" green="1" blue="0.37908768310000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
-                                            <constraint firstItem="S8D-aL-HzG" firstAttribute="centerX" secondItem="bbj-ri-ssN" secondAttribute="centerX" id="Lcr-on-NQO"/>
+                                            <constraint firstItem="TYr-4g-KGr" firstAttribute="leading" secondItem="bbj-ri-ssN" secondAttribute="leadingMargin" constant="45" id="4wa-nA-IJ6"/>
+                                            <constraint firstAttribute="trailingMargin" secondItem="TYr-4g-KGr" secondAttribute="trailing" constant="100" id="5oo-PA-TyF"/>
+                                            <constraint firstItem="S8D-aL-HzG" firstAttribute="centerX" secondItem="bbj-ri-ssN" secondAttribute="centerX" constant="-27.5" id="Lcr-on-NQO"/>
                                             <constraint firstItem="S8D-aL-HzG" firstAttribute="leading" secondItem="bbj-ri-ssN" secondAttribute="leading" constant="53" id="LxA-ZA-kZa"/>
                                             <constraint firstItem="TYr-4g-KGr" firstAttribute="top" secondItem="bbj-ri-ssN" secondAttribute="topMargin" constant="130" id="NW5-NI-8v6"/>
                                             <constraint firstAttribute="bottom" secondItem="S8D-aL-HzG" secondAttribute="bottom" constant="45" id="SGC-bI-SOv"/>
-                                            <constraint firstItem="TYr-4g-KGr" firstAttribute="centerX" secondItem="bbj-ri-ssN" secondAttribute="centerX" id="THN-ze-3Xm"/>
-                                            <constraint firstItem="S8D-aL-HzG" firstAttribute="centerX" secondItem="bbj-ri-ssN" secondAttribute="centerX" id="aSo-kj-8mF"/>
-                                            <constraint firstItem="TYr-4g-KGr" firstAttribute="leading" secondItem="bbj-ri-ssN" secondAttribute="leading" constant="48" id="gzC-ck-8pX"/>
+                                            <constraint firstItem="S8D-aL-HzG" firstAttribute="centerX" secondItem="bbj-ri-ssN" secondAttribute="centerX" constant="-27.5" id="aSo-kj-8mF"/>
                                         </constraints>
                                     </view>
                                 </subviews>
@@ -225,7 +225,7 @@
                                         <subviews>
                                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" text="Enter your URL" textAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Ske-tf-gpE">
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <fontDescription key="fontDescription" type="system" weight="thin" pointSize="20"/>
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="URL"/>
                                             </textView>
                                         </subviews>
@@ -323,7 +323,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vk7-NI-8JY" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3324.375" y="428.87323943661971"/>
+            <point key="canvasLocation" x="3322.5" y="427.81690140845069"/>
         </scene>
         <!--OTM Tab-->
         <scene sceneID="xkM-4i-sat">
@@ -367,10 +367,12 @@
                         <viewControllerLayoutGuide type="bottom" id="Lfj-rp-eCm"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="9n3-G9-9Vo">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="618"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="VFK-5a-kWJ"/>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="VFK-5a-kWJ">
+                                <frame key="frameInset" minY="64" width="768" height="911"/>
+                            </mapView>
                             <navigationBar contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="RfV-sO-aXJ">
                                 <frame key="frameInset" minY="20" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
