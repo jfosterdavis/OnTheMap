@@ -588,12 +588,9 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
         if view.frame.origin.y == 0 {
             // check that the first responder is below the keyboard
             print("frame origin is 0")
-            if let firstResponder = getFirstResponder() {
-                print("Got a first responder.  y value is ")
-                if firstResponder.frame.origin.y >  getKeyboardHeight(notification) {
-                    view.frame.origin.y = -(getKeyboardHeight(notification))
-                }
-            }
+            //for this, we are assuming that the only text field si the first responder
+            view.frame.origin.y = -(getKeyboardHeight(notification))
+
         }
     } //end of keyboardWillShow
     
@@ -601,17 +598,4 @@ class PinPostViewController: UIViewController, MKMapViewDelegate {
         view.frame.origin.y = 0
     }
     
-    func getFirstResponder() -> UIView? {
-        //this code adapted from http://stackoverflow.com/questions/12173802/trying-to-find-which-text-field-is-active-ios
-        for view in self.view.subviews {
-            print ("Checking " + String(view.description))
-            
-            if view.isFirstResponder {
-                return view
-            }
-            
-        }
-        //there is no first responder, return nil
-        return nil
-    }
 }

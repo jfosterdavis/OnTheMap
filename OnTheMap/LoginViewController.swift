@@ -140,6 +140,11 @@ class LoginViewController: UIViewController {
         
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+        super.touchesBegan(touches, with: event)
+    }
+    
     
     /******************************************************/
     /******************* Activity Indicator **************/
@@ -158,6 +163,15 @@ class LoginViewController: UIViewController {
     /******************* Actions **************/
     /******************************************************/
     //MARK: - Actions
+    
+    @IBAction func passwordTextFieldPrimaryActionTriggered(_ sender: AnyObject) {
+        print("Primary action of password field triggered")
+        loginPressed(sender)
+    }
+    @IBAction func passwordTextFieldEditingDidEnd(_ sender: AnyObject) {
+        print("passwordTextFieldEditingDidEnd triggered")
+        loginPressed(sender)
+    }
     
     @IBAction func loginPressed(_ sender: AnyObject) {
         startActivityIndicator()
@@ -237,9 +251,13 @@ class LoginViewController: UIViewController {
         //check that the view is not already moved up for the keyboard.  if it isn't, then move the view if the keyboard would cover it.     
         if view.frame.origin.y == 0 {
            // check that the first responder is below the keyboard
-            print("frame origin is 0")
+            //print("frame origin is 0")
             if let firstResponder = getFirstResponder() {
                 print("Got a first responder.  y value is ")
+                
+                print(firstResponder.frame.origin.y)
+                print(getKeyboardHeight(notification))
+                
                 if firstResponder.frame.origin.y >  getKeyboardHeight(notification) {
                     view.frame.origin.y = -(getKeyboardHeight(notification))
                 }
