@@ -14,15 +14,6 @@ import Foundation
 
 extension ParseClient {
     
-    // MARK: Authentication (GET) Methods
-    /*
-     Steps for Authentication...
-     www.udacity.com/api/session
-     
-     Step 1: Request a session ID
-     Step 2: Set the Session ID
-    */
-    
     func postStudentLocation(_ postThisStudent : StudentInformation, completionHandlerForPostStudentLocation: @escaping (_ results: [String:String]?, _ error: NSError?) -> Void) {
         
         /* 1. Specify parameters, method (if has {key}), and HTTP body (if POST) */
@@ -79,9 +70,6 @@ extension ParseClient {
                 print(error)
                 completionHandlerForPostStudentLocation(nil, error)
             } else {
-                //json should have returned a A dictionary with a key of "results" that contains an array of dictionaries
-                //print("JSON response from getStudentLocations:")
-                //print(results)
                 
                 if let createdAtResult = results?[ParseClient.JSONResponseKeys.Results.CreatedAt] as? String {
                     
@@ -127,10 +115,6 @@ extension ParseClient {
             passTheseParameters = parameters
         }
         
-        //var mutableMethod: String = ParseClient.Methods.StudentLocationGET
-        //mutableMethod = subtituteKeyInMethod(mutableMethod, key: "", value: "")! //There are no keys in this method
-        
-        //let jsonBody = "" //this request does not require anything in the HTTPBody
         print("\nAttempting to get Student Locations with the following parameters: ")
         print(parameters)
         
@@ -143,9 +127,7 @@ extension ParseClient {
                 completionHandlerForGetStudentLocations(false, error)
             } else {
                 //json should have returned a A dictionary with a key of "results" that contains an array of dictionaries
-                //print("JSON response from getStudentLocations:")
-                //print(results)
-                
+
                 //At the end of the following if pyramid we will try to create a new StudentInformation struct and assign it values from the JSON results
                 var tryCount : Int = 0 //track tries
                 var successCount : Int = 0 //keep track of successes
