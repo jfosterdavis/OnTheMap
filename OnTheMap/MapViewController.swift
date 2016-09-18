@@ -66,7 +66,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
         if annotations.isEmpty {
             //check shared model
             if StudentInformations.isEmpty {
-                fetchPinsAndPlotPins(100, skip: 0, order: "-\(ParseClient.JSONBodyKeys.StudentLocation.CreatedAt)")
+                fetchPinsAndPlotPins(100, skip: 0, order: "-\(ParseClient.JSONBodyKeys.StudentLocation.UpdatedAt)")
             } else {
                 self.plotPinsFromSharedModel()
             }
