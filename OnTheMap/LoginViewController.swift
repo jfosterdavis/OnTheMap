@@ -36,7 +36,7 @@ class LoginViewController: UIViewController {
     /******************* Shared Model **************/
     /******************************************************/
     var StudentInformations: [StudentInformation]{
-        return (UIApplication.shared.delegate as! AppDelegate).StudentInformations
+        return StudentInformationsModel.sharedInstance.StudentInformations
     }
     
     var UdacityUserInfo: UdacityUserInformation {

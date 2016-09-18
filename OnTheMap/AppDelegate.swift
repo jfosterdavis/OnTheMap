@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     /******************* The Shared Model **************/
     /******************************************************/
     //MARK: - The Shared Model
-    var StudentInformations = [StudentInformation]()
+    
     var UdacityUserInfo = UdacityUserInformation()
     var NewStudentInfo = StudentInformation()
     
@@ -30,10 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         return true
     }
-    
-    func resetStudentInformations() {
-        self.StudentInformations = [StudentInformation]()
-    }
+
     
     func resetUdacityUserInfo() {
         self.UdacityUserInfo = UdacityUserInformation()
@@ -44,7 +41,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func resetAllSharedModels() {
-        resetStudentInformations()
         resetUdacityUserInfo()
         resetNewStudentInfo()
     }

@@ -18,7 +18,7 @@ class MapTableViewController: UITableViewController {
     /******************************************************/
     //Set a pointer to the shared data model
     var StudentInformations: [StudentInformation]{
-        return (UIApplication.shared.delegate as! AppDelegate).StudentInformations
+        return StudentInformationsModel.sharedInstance.StudentInformations
     }
     
     /******************************************************/

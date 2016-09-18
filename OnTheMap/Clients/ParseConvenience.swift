@@ -146,12 +146,11 @@ extension ParseClient {
                             if let newStudentInformationStruct = StudentInformation(fromDataSet: locationDictionary){ //attempt to initialize a new StudentInformationStruct from the dictionary
                                 
                                 //We have a new StudentInformation struct, so save it to the shared model
-                                let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                                appDelegate.StudentInformations.append(newStudentInformationStruct)
+                                StudentInformationsModel.sharedInstance.StudentInformations.append(newStudentInformationStruct)
                                 
                                 //sort the model.  
                                 //adapted from https://www.hackingwithswift.com/example-code/arrays/how-to-sort-an-array-using-sort
-                                appDelegate.StudentInformations.sort {
+                                StudentInformationsModel.sharedInstance.StudentInformations.sort {
                                     $0.createdAt! > $1.createdAt!
                                 }
                                 

@@ -41,7 +41,7 @@ class OTMTabBarController: UITabBarController, PinPostViewControllerDelegate {
     }
     
     var StudentInformations: [StudentInformation]{
-        return (UIApplication.shared.delegate as! AppDelegate).StudentInformations
+        return StudentInformationsModel.sharedInstance.StudentInformations
     }
     
     /******************************************************/

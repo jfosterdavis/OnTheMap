@@ -32,7 +32,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
     /******************************************************/
     //Set a pointer to the shared data model
     var StudentInformations: [StudentInformation]{
-        return (UIApplication.shared.delegate as! AppDelegate).StudentInformations
+        return StudentInformationsModel.sharedInstance.StudentInformations
     }
     
     
@@ -326,10 +326,9 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
     
     func plotNewPinFromStudentInformation(_ newStudentInfo : StudentInformation) {
         //put this pin in shared model
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDelegate.StudentInformations.append(newStudentInfo)
+        StudentInformationsModel.sharedInstance.StudentInformations.append(newStudentInfo)
         //sort the model.
-        appDelegate.StudentInformations.sort {
+        StudentInformationsModel.sharedInstance.StudentInformations.sort {
             $0.createdAt! > $1.createdAt!
         }
         //add pin to the map
@@ -377,8 +376,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
                 for info in resultsArray {
                     if let newInfo = info as? [String:AnyObject] {
                         if let test = StudentInformation(fromDataSet: newInfo){
-                            let appDelegate = UIApplication.shared.delegate as! AppDelegate
-                            appDelegate.StudentInformations.append(test)
+                            StudentInformationsModel.sharedInstance.StudentInformations.append(test)
                             
                         }
                         print("\nHere is one new item from the array of objects:")

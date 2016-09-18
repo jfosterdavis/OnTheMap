@@ -27,6 +27,7 @@
 		F6B20E541D886DA000AD5924 /* UdacityUserInformationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B20E531D886DA000AD5924 /* UdacityUserInformationModel.swift */; };
 		F6B20E561D8872D900AD5924 /* OTMTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6B20E551D8872D900AD5924 /* OTMTabBarViewController.swift */; };
 		F6BAB2B51D8D0BBF000282CD /* ErrorHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6BAB2B41D8D0BBF000282CD /* ErrorHandler.swift */; };
+		F6BAB2B71D8E3D9F000282CD /* StudentInformationsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6BAB2B61D8E3D9F000282CD /* StudentInformationsModel.swift */; };
 		F6EF9FDE1D848E740094CA42 /* PinPostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6EF9FDD1D848E740094CA42 /* PinPostViewController.swift */; };
 		F6FFC3011D7E0B92009AC3A3 /* on the map assets in Resources */ = {isa = PBXBuildFile; fileRef = F6FFC3001D7E0B92009AC3A3 /* on the map assets */; };
 		F6FFC3031D7E0F6E009AC3A3 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FFC3021D7E0F6E009AC3A3 /* MapViewController.swift */; };
@@ -57,6 +58,7 @@
 		F6B20E531D886DA000AD5924 /* UdacityUserInformationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UdacityUserInformationModel.swift; sourceTree = "<group>"; };
 		F6B20E551D8872D900AD5924 /* OTMTabBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTMTabBarViewController.swift; sourceTree = "<group>"; };
 		F6BAB2B41D8D0BBF000282CD /* ErrorHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ErrorHandler.swift; sourceTree = "<group>"; };
+		F6BAB2B61D8E3D9F000282CD /* StudentInformationsModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentInformationsModel.swift; sourceTree = "<group>"; };
 		F6EF9FDD1D848E740094CA42 /* PinPostViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PinPostViewController.swift; sourceTree = "<group>"; };
 		F6FFC3001D7E0B92009AC3A3 /* on the map assets */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "on the map assets"; sourceTree = "<group>"; };
 		F6FFC3021D7E0F6E009AC3A3 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 			children = (
 				A9855BD71BEC430C00000031 /* Clients */,
 				F6FFC3041D7E14C9009AC3A3 /* StudentInformationModel.swift */,
+				F6BAB2B61D8E3D9F000282CD /* StudentInformationsModel.swift */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -276,6 +279,7 @@
 				F6EF9FDE1D848E740094CA42 /* PinPostViewController.swift in Sources */,
 				F68CAF121D7C694700907849 /* UdacityConstants.swift in Sources */,
 				F68CAF0C1D7C669E00907849 /* Secrets.swift in Sources */,
+				F6BAB2B71D8E3D9F000282CD /* StudentInformationsModel.swift in Sources */,
 				F6B20E521D85CF4F00AD5924 /* URLInputTextViewDelegate.swift in Sources */,
 				F68CAF161D7C694700907849 /* UdacityConvenience.swift in Sources */,
 				A9855BD61BEC42A200000031 /* GCDBlackBox.swift in Sources */,
