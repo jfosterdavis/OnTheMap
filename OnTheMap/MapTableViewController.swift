@@ -80,7 +80,11 @@ class MapTableViewController: UITableViewController {
         
         if let toOpen = StudentInformation.mediaURL {
             print("tring to open browser from table to go to " + toOpen)
-            app.openURL(URL(string: toOpen)!)
+            if let url = URL(string: toOpen) {
+                app.openURL(url)
+            } else {
+                print("Cannot open a blank URL")
+            }
         } else {
             print("Failed to open view annotation")
         }

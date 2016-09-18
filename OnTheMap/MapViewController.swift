@@ -121,7 +121,12 @@ class MapViewController: UIViewController, MKMapViewDelegate, OTMTabBarControlle
         if control == view.rightCalloutAccessoryView {
             let app = UIApplication.shared
             if let toOpen = view.annotation?.subtitle! {
-                app.openURL(URL(string: toOpen)!)
+                if let url = URL(string: toOpen) {
+                   app.openURL(url)
+                } else {
+                    print("Cannot open a blank URL")
+                }
+                
             } else {
                 print("Failed to open view annotation")
             }
